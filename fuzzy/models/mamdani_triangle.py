@@ -44,8 +44,8 @@ FS.add_rules([
 
 if __name__ == '__main__':
     import os
-    from fuzzy.visualization import *
     import pickle
+    from fuzzy.visualization import *
 
     save_path= '../output/mamdani_triangular'
 

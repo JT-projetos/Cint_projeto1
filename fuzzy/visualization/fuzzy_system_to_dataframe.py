@@ -1,5 +1,11 @@
+import numpy as np
 import pandas as pd
-from simpful import FuzzySystem, Triangular_MF
+from simpful import FuzzySystem, LinguisticVariable
+from simpful import Triangular_MF, Gaussian_MF
+
+
+def gaussian(x, mu, sig):
+    return 1./(np.sqrt(2.*np.pi)*sig)*np.exp(-np.power((x - mu)/sig, 2.)/2)
 
 
 def fuzzy_system_to_dataframe(FS: FuzzySystem) -> pd.DataFrame:
@@ -33,6 +39,21 @@ def fuzzy_system_to_dataframe(FS: FuzzySystem) -> pd.DataFrame:
 
                 vis['term'].append(fs._term)
                 vis['linguistic_var'].append(key)
+
+            # Fuzzy set is Gaussian
+            if isinstance(fs._funpointer, Gaussian_MF):
+                xmin, xmax = FS._lvs[key]._universe_of_discourse
+                #print(f"{xmax=} | {xmin=}")
+
+                x = np.linspace(xmin, xmax, 50)
+                y = gaussian(x, fs._funpointer._mu, fs._funpointer._sigma)
+
+                for x_i, y_i in zip(x, y):
+                    vis['x'].append(x_i)
+                    vis['y'].append(y_i)
+
+                    vis['term'].append(fs._term)
+                    vis['linguistic_var'].append(key)
 
     df = pd.DataFrame(vis)
     return df
