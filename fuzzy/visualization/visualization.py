@@ -49,7 +49,7 @@ def plot_memory_processor_clp(FS, save_path=None):
 
     fig = go.Figure(data=[go.Surface(x=P, y=M, z=CLP)])
     fig.update_layout(title='Fuzzy CLP Inference', autosize=False,
-                      width=800, height=800,
+                      width=800, height=600,
                       margin=dict(l=65, r=50, b=65, t=90)
                       )
     fig.update_scenes(xaxis_title_text='memory [%]',
