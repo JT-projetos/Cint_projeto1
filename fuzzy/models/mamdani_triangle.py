@@ -53,7 +53,7 @@ if __name__ == '__main__':
         os.makedirs(save_path)
 
     plot_inputs_outputs_fuzzy_system(FS, save_path)
-    plot_memory_processor_surface(FS, save_path)
+    plot_memory_processor_clp(FS, save_path)
 
     with open(f"{save_path}/model.pkl", "wb") as f:
         pickle.dump(FS, f)

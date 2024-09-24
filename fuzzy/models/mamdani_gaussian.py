@@ -30,19 +30,19 @@ L4 = FuzzySet(function=Gaussian_MF(mu=200,sigma=100), term="poor")
 FS.add_linguistic_variable("Latency", LinguisticVariable([L1,L2,L3, L4], universe_of_discourse=[0,300]))
 
 # CLP Variation (output)
-CLP3 = FuzzySet(function=Gaussian_MF(mu=--0.2,sigma=1), term="decrease")  # TODO add an overlap between Fuzzy sets
-CLP2 = FuzzySet(function=Gaussian_MF(mu=0,sigma=0.7), term="maintain")
-CLP1 = FuzzySet(function=Gaussian_MF(mu=0.2,sigma=1), term="increase")
+CLP3 = FuzzySet(function=Gaussian_MF(mu=-1,sigma=0.2), term="decrease")  # TODO add an overlap between Fuzzy sets
+CLP2 = FuzzySet(function=Gaussian_MF(mu=0,sigma=0.2), term="maintain")
+CLP1 = FuzzySet(function=Gaussian_MF(mu=1,sigma=0.2), term="increase")
 FS.add_linguistic_variable("CLP", LinguisticVariable([CLP1, CLP2, CLP3], universe_of_discourse=[-1,1]))
 
 FS.add_rules([
-    "IF (Latency IS poor) THEN (CLP IS increase)", #if the
-    "IF (MemoryUsage IS medium) AND (ProcessorLoad IS medium) THEN (CLP IS increase)",
-    "IF (MemoryUsage IS low) AND (ProcessorLoad IS medium) THEN (CLP IS increase)",
-    "IF (MemoryUsage IS medium) AND (ProcessorLoad IS low) THEN (CLP IS increase)",
+    #"IF (Latency IS poor) THEN (CLP IS increase)",
+    #"IF (MemoryUsage IS medium) AND (ProcessorLoad IS medium) THEN (CLP IS increase)",
+    #"IF (MemoryUsage IS low) AND (ProcessorLoad IS medium) THEN (CLP IS increase)",
+    #"IF (MemoryUsage IS medium) AND (ProcessorLoad IS low) THEN (CLP IS increase)",
     "IF (MemoryUsage IS low) AND (ProcessorLoad IS low) THEN (CLP IS increase)",
     "IF (MemoryUsage IS critical) OR (ProcessorLoad IS critical) THEN (CLP IS decrease)",
-    "IF (MemoryUsage IS high) OR (ProcessorLoad IS high) THEN (CLP IS maintain)"
+    #"IF (MemoryUsage IS high) OR (ProcessorLoad IS high) THEN (CLP IS maintain)",
 ])
 
 if __name__ == '__main__':
@@ -56,7 +56,7 @@ if __name__ == '__main__':
         os.makedirs(save_path)
 
     plot_inputs_outputs_fuzzy_system(FS, save_path)
-    plot_memory_processor_surface(FS, save_path)
+    plot_memory_processor_clp(FS, save_path)
 
     with open(f"{save_path}/model.pkl", "wb") as f:
         pickle.dump(FS, f)
