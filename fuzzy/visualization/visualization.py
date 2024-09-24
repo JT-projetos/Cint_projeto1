@@ -87,8 +87,6 @@ def plot_sample_data(file_path: str, save_path=None, filter_list: list = None):
         plt.show()
 
 
-
-
 if __name__ == '__main__':
     import pickle
 
@@ -98,7 +96,7 @@ if __name__ == '__main__':
     with open(f'../output/{model_name}/model.pkl', 'rb') as f:
         FS = pickle.load(f)
 
-    plot_inputs_outputs_fuzzy_system(FS)
-    plot_memory_processor_clp(FS)
-    plot_sample_data('fuzzy/input/CINTE24-25_Proj1_SampleData.csv', 'fuzzy/input/',
+    #plot_inputs_outputs_fuzzy_system(FS)
+    #plot_memory_processor_clp(FS)
+    plot_sample_data('../../input/CINTE24-25_Proj1_SampleData.csv', '../../input',
                      ['MemoryUsage', 'ProcessorLoad', 'Latency', 'CLPVariation'])
