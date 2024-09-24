@@ -1,3 +1,5 @@
 .idea
+
 /report/auxil
-/report/*.gz
+/report/out
+!report/out/main.pdf
