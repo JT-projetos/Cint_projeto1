@@ -3,11 +3,14 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 import plotly.graph_objs as go
+import plotly.express as px
 from tqdm import tqdm
 from fuzzy.visualization.fuzzy_system_to_dataframe import fuzzy_system_to_dataframe
 
 #from main import FS
 import os
+
+sns.set_style('darkgrid')
 
 
 def plot_inputs_outputs_fuzzy_system(FS, save_path=None):
@@ -68,6 +71,24 @@ def plot_memory_processor_clp(FS, save_path=None):
     fig.show()
 
 
+def plot_sample_data(file_path: str, save_path=None, filter_list: list = None):
+    df = pd.read_csv(file_path)
+    fig = px.line(df)
+    fig.show()
+
+    if save_path is not None:
+        if filter_list is None:
+            sns.lineplot(df)
+        else:
+            sns.lineplot(df[filter_list])
+        # remove / from path then remove file extension
+        file_name = file_path.split('/')[-1].split('.')[0]
+        plt.savefig(f'{save_path}/{file_name}.png', bbox_inches='tight')
+        plt.show()
+
+
+
+
 if __name__ == '__main__':
     import pickle
 
@@ -79,3 +100,5 @@ if __name__ == '__main__':
 
     plot_inputs_outputs_fuzzy_system(FS)
     plot_memory_processor_clp(FS)
+    plot_sample_data('fuzzy/input/CINTE24-25_Proj1_SampleData.csv', 'fuzzy/input/',
+                     ['MemoryUsage', 'ProcessorLoad', 'Latency', 'CLPVariation'])
