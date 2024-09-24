@@ -28,7 +28,7 @@ def plot_inputs_outputs_fuzzy_system(FS, save_path=None):
 
 
 # 3D Plot
-def plot_memory_processor_surface(FS, save_path=None):
+def plot_memory_processor_clp(FS, save_path=None):
     # Create a grid of values for Temperature and Frequency
     memory_values = np.linspace(0, 100, 50)
     processor_values = np.linspace(0, 100, 50)
@@ -78,4 +78,4 @@ if __name__ == '__main__':
         FS = pickle.load(f)
 
     plot_inputs_outputs_fuzzy_system(FS)
-    plot_memory_processor_surface(FS)
+    plot_memory_processor_clp(FS)
