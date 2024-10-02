@@ -15,6 +15,7 @@ models = {
     'mamdani_triangle_v2': FS3,
 }
 
+DO_ALL_TESTS = True
 
 def test_fuzzy_system(df, FS):
     results = []
@@ -46,7 +47,7 @@ if not os.path.exists('./output/eval_models'):
 df_test = pd.read_csv('../input/CINTE24-25_Proj1_SampleData.csv')
 
 
-if 'model_results.csv' not in os.listdir('./output/eval_models/'):
+if 'model_results.csv' not in os.listdir('./output/eval_models/') or DO_ALL_TESTS:
 
     model_results = {}
     for name, model in models.items():
@@ -71,3 +72,7 @@ for name in models.keys():
     #     scores[f'datapoint {i}'].append(point)
 
 scores.to_csv('./output/eval_models/model_scores.csv', index=False)
+
+if __name__ == '__main__':
+    from fuzzy.visualization import plot_model_scores
+    plot_model_scores('./output/eval_models/model_scores.csv')
