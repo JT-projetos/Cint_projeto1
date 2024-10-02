@@ -28,7 +28,7 @@ with open('./final_models/fs.pkl', 'rb') as f:
     FS = pickle.load(f)
 
 # Maybe in future create a predict function common to all FS that receives df
-for row in df.iterrows():  # FIXME get correct variable names
+for i, row in df.iterrows():  # FIXME get correct variable names
     FS.set_variable('MemoryUsage', row['MemoryUsage'])
     FS.set_variable('ProcessorLoad', row['ProcessorLoad'])
     FS.set_variable('InpNetThroughput', row['InpNetThroughput'])
