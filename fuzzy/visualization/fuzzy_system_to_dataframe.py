@@ -4,8 +4,8 @@ from simpful import FuzzySystem, LinguisticVariable
 from simpful import Triangular_MF, Gaussian_MF
 
 
-def gaussian(x, mu, sig):
-    return 1./(np.sqrt(2.*np.pi)*sig)*np.exp(-np.power((x - mu)/sig, 2.)/2)
+def gaussianmf(x, mu, sig):
+    return np.exp(-np.power((x - mu)/sig, 2.)/2)
 
 
 def fuzzy_system_to_dataframe(FS: FuzzySystem) -> pd.DataFrame:
@@ -67,8 +67,8 @@ def fuzzy_system_to_dataframe(FS: FuzzySystem) -> pd.DataFrame:
                 xmin, xmax = FS._lvs[key]._universe_of_discourse
                 #print(f"{xmax=} | {xmin=}")
 
-                x = np.linspace(xmin, xmax, 50)
-                y = gaussian(x, fs._funpointer._mu, fs._funpointer._sigma)
+                x = np.linspace(xmin, xmax, 150)
+                y = gaussianmf(x, fs._funpointer._mu, fs._funpointer._sigma)
 
                 for x_i, y_i in zip(x, y):
                     vis['x'].append(x_i)
