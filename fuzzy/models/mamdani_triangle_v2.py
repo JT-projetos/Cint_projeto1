@@ -12,6 +12,7 @@ FS = FuzzySystem()
 
 S1 = TriangleFuzzySet(0,0,0.8, term = "low")
 S3 = TriangleFuzzySet(0.5,0.7,0.9, term = "high")
+#S2 = TriangleFuzzySet(0.30,0.45,0.70, term = "moderate")
 S4 = TriangleFuzzySet(0.65,1,1, term = "critical")
 FS.add_linguistic_variable("SystemLoad", LinguisticVariable([S1,S3,S4], universe_of_discourse=[0,1]))
 
@@ -55,7 +56,7 @@ FS.add_linguistic_variable("CLP", LinguisticVariable([CLP1, CLP2, CLP4, CLP5], u
 FS.add_rules([
 
     "IF (SystemLoad IS critical) THEN (CLP IS decrease_significantly)",
-    "IF (SystemLoad IS high) THEN (CLP IS increase)",
+    "IF (SystemLoad IS high) THEN (CLP IS increase_significantly)",
     "IF (SystemLoad IS low) THEN (CLP IS increase_significantly)",
 
 ])
