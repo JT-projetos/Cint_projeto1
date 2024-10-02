@@ -3,3 +3,5 @@
 /report/auxil
 /report/out
 !report/out/main.pdf
+
+nn/model_logs

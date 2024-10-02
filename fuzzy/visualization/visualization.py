@@ -87,6 +87,41 @@ def plot_sample_data(file_path: str, save_path=None, filter_list: list = None):
         plt.show()
 
 
+def plot_memory_processor_clp_sample_data(file_path: str, save_path=None):
+
+    df = pd.read_csv(file_path)
+    M = df['MemoryUsage'].values
+    P = df['ProcessorLoad'].values
+    CLP = df['CLPVariation'].values
+    #M, P = np.meshgrid(memory_values, processor_values)
+    #CLP = np.zeros_like(M)
+
+    fig = px.scatter_3d(df, x='MemoryUsage', y='ProcessorLoad', z='CLPVariation')
+    # fig = go.Figure(data=[go.Surface(x=P, y=M, z=CLP)])
+    fig.update_layout(title='Fuzzy CLP Inference', autosize=False,
+                      #width=800, height=600,
+                      margin=dict(l=65, r=50, b=65, t=90)
+                      )
+    fig.update_scenes(xaxis_title_text='memory [%]',
+                      yaxis_title_text='processor [%]',
+                      zaxis_title_text='CLP [%]')
+
+    if save_path is not None:
+        fig.write_image(f"{save_path}/memory_processor_sctter_3d.png")
+
+    fig.show()
+
+
+def plot_model_scores(file_path: str):
+    df = pd.read_csv(file_path)
+    df['Datapoint'] = np.arange(1, 11)
+    df = pd.melt(df, id_vars='Datapoint', var_name='Model', value_name='Relative Error')
+    print(df)
+    ax = sns.barplot(data=df, x='Datapoint', y='Relative Error', hue='Model')
+    ax.set_ylabel('Relative Error [%]')
+    plt.show()
+
+
 if __name__ == '__main__':
     import pickle
 
@@ -98,5 +133,7 @@ if __name__ == '__main__':
 
     #plot_inputs_outputs_fuzzy_system(FS)
     #plot_memory_processor_clp(FS)
-    plot_sample_data('../../input/CINTE24-25_Proj1_SampleData.csv', '../../input',
-                     ['MemoryUsage', 'ProcessorLoad', 'Latency', 'CLPVariation'])
+    # plot_sample_data('../../input/CINTE24-25_Proj1_SampleData.csv', '../../input',
+    #                  ['MemoryUsage', 'ProcessorLoad', 'Latency', 'CLPVariation'])
+    #plot_memory_processor_clp_sample_data('../../input/CINTE24-25_Proj1_SampleData.csv', save_path='../../input/')
+    plot_model_scores('../output/eval_models/model_scores.csv')
