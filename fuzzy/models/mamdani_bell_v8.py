@@ -7,7 +7,7 @@ FS = FuzzySystem()
 # Memory Usage Avg [%]
 M1 = FuzzySet(function=Bell_MF(a=4, b=0.5, c=0), term="very_low")
 M2 = FuzzySet(function=Bell_MF(a=4, b=0.05, c=0.5), term="low")
-M3 = FuzzySet(function=Bell_MF(a=2, b=0.1, c=0.7), term="medium")
+M3 = FuzzySet(function=Bell_MF(a=2, b=0.1, c=0.65), term="medium")
 M4 = FuzzySet(function=Bell_MF(a=2, b=0.05, c=0.8), term="high")
 M5 = TriangleFuzzySet(0.8, 1, 1, term="very_high")
 
