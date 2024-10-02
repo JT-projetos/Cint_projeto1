@@ -1,26 +1,19 @@
 
-def create_data_loaders(df):
+def df_to_data_loader(df, target_column='CLPVariation'):
     import torch
     import torch.utils.data as data_utils
-    from sklearn.model_selection import train_test_split
 
     train, test = train_test_split(df, test_size=0.2)
 
     # Creating np arrays
-    train_target = train['CLPVariation'].values
-    train_features = train.drop('CLPVariation', axis='columns').values
-
-    test_target = test['CLPVariation'].values
-    test_features = test.drop('CLPVariation', axis='columns').values
+    data_target = df[target_column].values
+    data_features = df.drop(target_column, axis='columns').values
 
     # Passing to DataLoader
-    train_tensor = data_utils.TensorDataset(torch.Tensor(train_features), torch.Tensor(train_target))
-    train_loader = data_utils.DataLoader(train_tensor, batch_size=10, shuffle=True)
+    data_tensor = data_utils.TensorDataset(torch.Tensor(data_features), torch.Tensor(data_target))
+    data_loader = data_utils.DataLoader(data_tensor, batch_size=10, shuffle=True)
 
-    test_tensor = data_utils.TensorDataset(torch.Tensor(train_features), torch.Tensor(train_target))
-    test_loader = data_utils.DataLoader(test_tensor, batch_size=10, shuffle=True)
-
-    return train_loader, test_loader
+    return data_loader
 
 
 def train_one_epoch(model, optimizer, loss_fn, train_loader):
@@ -42,6 +35,18 @@ def train_one_epoch(model, optimizer, loss_fn, train_loader):
 
         # Adjust learning weights
         optimizer.step()
+
+
+def validate(model, val_loader):
+    model.eval()
+
+    for i, data in enumerate(val_loader):
+        # Every data instance is an input + label pair
+        inputs, labels = data
+
+        # Make predictions for this batch
+        outputs = model(inputs)
+        print("Validation: ")
 
 
 def test(model, test_loader):
