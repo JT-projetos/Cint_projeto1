@@ -46,7 +46,7 @@ def plot_memory_processor_clp(FS, save_path=None):
     for i in tqdm(range(M.shape[0])):
         for j in range(M.shape[1]):
             FS.set_variable("SystemLoad", M[i, j])
-            FS.set_variable("Througthput", P[i, j])
+            FS.set_variable("OutNetThroughput", P[i, j])
 
             CLP[i, j] = FS.inference()["CLP"]
 

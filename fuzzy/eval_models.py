@@ -6,10 +6,13 @@ import pandas as pd
 # import all models
 from fuzzy.models.mamdani_gaussian import FS as FS1
 from fuzzy.models.mamdani_triangle import FS as FS2
+from fuzzy.models.mamdani_triangle_v2 import FS as FS3
+
 
 models = {
-    'mamdani_gaussian': FS1,
-    'mamdani_triangle': FS2,
+    #'mamdani_gaussian': FS1,
+    #'mamdani_triangle': FS2,
+    'mamdani_triangle_v2': FS3,
 }
 
 
@@ -28,6 +31,10 @@ def test_fuzzy_system(df, FS):
         FS.set_variable('V_OutNetThroughput', row['V_OutNetThroughput'])
         FS.set_variable('V_OutBandwidth', row['V_OutBandwidth'])
         FS.set_variable('V_Latency', row['V_Latency'])
+
+        SystemLoad = max(row['MemoryUsage'], row['ProcessorLoad'])
+        FS.set_variable("SystemLoad", SystemLoad)
+
         results.append(FS.inference()['CLP'])
 
     return results
