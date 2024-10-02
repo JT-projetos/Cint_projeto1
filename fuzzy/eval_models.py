@@ -6,7 +6,7 @@ import pandas as pd
 # import all models
 # from fuzzy.models.mamdani_gaussian import FS as FS1
 # from fuzzy.models.mamdani_triangle import FS as FS2
-from fuzzy.models.mamdani_triangle_v2 import FS as FS3
+from fuzzy.models.mamdani_triangle_v2 import FS as FS12
 from fuzzy.models.mamdani_bell_v2 import FS as FS4
 from fuzzy.models.mamdani_bell_v5 import FS as FS5
 from fuzzy.models.mamdani_bell_v6 import FS as FS6
@@ -17,12 +17,12 @@ from fuzzy.models.mamdani_bell_v8 import FS as FS8
 models = {
     #'mamdani_gaussian': FS1,
     #'mamdani_triangle': FS2,
-    'mamdani_triangle_v2': FS3,
-    'mamdani_bell_v2': FS4,
-    'mamdani_bell_v5': FS5,
-    'mamdani_bell_v6': FS6,
-    'mamdani_bell_v7': FS7,
-    'mamdani_bell_v8': FS8,
+    'mamdani_triangle_v2': FS12,
+    #'mamdani_bell_v2': FS4,
+    #'mamdani_bell_v5': FS5,
+    #'mamdani_bell_v6': FS6,
+    #'mamdani_bell_v7': FS7,
+    #'mamdani_bell_v8': FS8,
 }
 
 DO_ALL_TESTS = True
