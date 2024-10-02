@@ -33,30 +33,30 @@ def plot_inputs_outputs_fuzzy_system(FS, save_path=None):
 # 3D Plot
 def plot_memory_processor_clp(FS, save_path=None):
     # Create a grid of values for Temperature and Frequency
-    memory_values = np.linspace(0, 100, 50)
-    processor_values = np.linspace(0, 100, 50)
+    load_values = np.linspace(0, 1, 50)
+    Througthput_values = np.linspace(0, 1, 50)
 
     # Create meshgrid for plotting
-    M, P = np.meshgrid(memory_values, processor_values)
+    M, P = np.meshgrid(load_values, Througthput_values)
     CLP = np.zeros_like(M)
 
     # Set Latency as a constant value
-    FS.set_variable("Latency", 20)
+    #FS.set_variable("Latency", 20)
 
     for i in tqdm(range(M.shape[0])):
         for j in range(M.shape[1]):
-            FS.set_variable("MemoryUsage", M[i, j])
-            FS.set_variable("ProcessorLoad", P[i, j])
+            FS.set_variable("SystemLoad", M[i, j])
+            FS.set_variable("Througthput", P[i, j])
 
             CLP[i, j] = FS.inference()["CLP"]
 
-    fig = go.Figure(data=[go.Surface(x=P, y=M, z=CLP)])
+    fig = go.Figure(data=[go.Surface(x=M, y=P, z=CLP)])
     fig.update_layout(title='Fuzzy CLP Inference', autosize=False,
                       width=800, height=600,
                       margin=dict(l=65, r=50, b=65, t=90)
                       )
-    fig.update_scenes(xaxis_title_text='memory [%]',
-                      yaxis_title_text='processor [%]',
+    fig.update_scenes(xaxis_title_text='SystemLoad [%]',
+                      yaxis_title_text='Througthput [%]',
                       zaxis_title_text='CLP [%]')
 
     if save_path is not None:
