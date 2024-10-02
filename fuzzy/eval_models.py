@@ -12,6 +12,7 @@ from fuzzy.models.mamdani_bell_v5 import FS as FS5
 from fuzzy.models.mamdani_bell_v6 import FS as FS6
 from fuzzy.models.mamdani_bell_v7 import FS as FS7
 from fuzzy.models.mamdani_bell_v8 import FS as FS8
+from fuzzy.models.mamdani_bell_v9 import FS as FS9
 
 
 models = {
@@ -22,7 +23,8 @@ models = {
     #'mamdani_bell_v5': FS5,
     #'mamdani_bell_v6': FS6,
     #'mamdani_bell_v7': FS7,
-    #'mamdani_bell_v8': FS8,
+    'mamdani_bell_v8': FS8,
+    'mamdani_bell_v9': FS9,
 }
 
 DO_ALL_TESTS = True
