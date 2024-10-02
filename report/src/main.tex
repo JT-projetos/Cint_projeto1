@@ -5,6 +5,10 @@
 % Packages
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{color}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{multirow}
+
 
 % set image file paths
 \graphicspath{ {./../../output/mamdani\_triangular/} }
@@ -35,6 +39,20 @@ all the membership functions and linguistic terms
 
 \section{Rules}
 rules
+
+\begin{table}[]
+\begin{tabular}{|
+>{\columncolor[HTML]{9698ED}}c l|cccc|}
+\hline
+\multicolumn{2}{|c|}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} }}                                & \multicolumn{4}{c|}{\cellcolor[HTML]{9698ED}Output Throughput}                                                        \\ \cline{3-6}
+\multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} CLP Variation}}} & \multicolumn{1}{l|}{low} & \multicolumn{1}{l|}{moderate} & \multicolumn{1}{l|}{high} & \multicolumn{1}{l|}{very high} \\ \hline
+\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & low             & \multicolumn{1}{c|}{IS}  & \multicolumn{1}{c|}{IS}       & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
+\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & moderate        & \multicolumn{1}{c|}{I}   & \multicolumn{1}{c|}{I}        & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
+\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & high            & \multicolumn{1}{c|}{M}   & \multicolumn{1}{c|}{M}        & \multicolumn{1}{c|}{D}    & D                              \\ \cline{2-6}
+\multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{9698ED}System Load}}        & critical        & \multicolumn{1}{c|}{DS}  & \multicolumn{1}{c|}{DS}       & \multicolumn{1}{c|}{DS}   & DS                             \\ \hline
+\end{tabular}
+\end{table}
+
 
 \section{Results}
 
