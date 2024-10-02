@@ -33,7 +33,7 @@ FS.add_rules([
     "IF (SystemLoad IS medium) THEN (CLP IS maintain)",
     "IF (SystemLoad IS high) THEN (CLP IS decrease)",
     "IF (SystemLoad IS very_low) THEN (CLP IS increase_significantly)",
-    "IF (SystemLoad IS very_high) OR (Latency IS high) THEN (CLP IS decrease_significantly)",
+    "IF (SystemLoad IS very_high) THEN (CLP IS decrease_significantly)",
     "IF (Latency IS high) AND ((SystemLoad IS very_low) OR (SystemLoad IS low) OR (SystemLoad IS medium)) THEN (CLP IS increse_significantly)",
     #"IF (Latency IS low) AND (SystemLoad IS medium) THEN (CLP IS significantly)",
 ])
