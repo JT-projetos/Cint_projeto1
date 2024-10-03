@@ -10,19 +10,28 @@ FS = FuzzySystem()
 #S4 = TriangleFuzzySet(0.75,1,1, term = "critical")
 #FS.add_linguistic_variable("SystemLoad", LinguisticVariable([S1,S2,S3,S4], universe_of_discourse=[0,1]))
 
+# System Load = Max (Memory Usage, Processor Load)
 S1 = TriangleFuzzySet(0,0,0.8, term = "low")
 S3 = TriangleFuzzySet(0.5,0.7,0.9, term = "high")
 #S2 = TriangleFuzzySet(0.30,0.45,0.70, term = "moderate")
 S4 = TriangleFuzzySet(0.65,1,1, term = "critical")
 FS.add_linguistic_variable("SystemLoad", LinguisticVariable([S1,S3,S4], universe_of_discourse=[0,1]))
 
+# latency
+L1 = TriangleFuzzySet(0,0,0.8, term = "low")
+L2 = TriangleFuzzySet(0.5,1,1, term = "high")
+#S2 = TriangleFuzzySet(0.30,0.45,0.70, term = "moderate")
+#L4 = TriangleFuzzySet(0.65,1,1, term = "critical")
+FS.add_linguistic_variable("Latency", LinguisticVariable([L1,L2], universe_of_discourse=[0,1]))
+
+
 
 # Output Throughput [bps]
-L1 = TriangleFuzzySet(0,0,0.4, term = "low")
-L2 = TriangleFuzzySet(0.2,0.45,0.70, term = "moderate")
-L3 = TriangleFuzzySet(0.60,0.75,0.9, term = "high")
-L4 = TriangleFuzzySet(0.75,1,1, term = "very_high")
-FS.add_linguistic_variable("OutNetThroughput", LinguisticVariable([L1,L2,L3, L4], universe_of_discourse=[0,1]))
+T1 = TriangleFuzzySet(0,0,0.4, term = "low")
+T2 = TriangleFuzzySet(0.2,0.45,0.70, term = "moderate")
+T3 = TriangleFuzzySet(0.60,0.75,0.9, term = "high")
+T4 = TriangleFuzzySet(0.75,1,1, term = "very_high")
+FS.add_linguistic_variable("OutNetThroughput", LinguisticVariable([T1,T2,T3, T4], universe_of_discourse=[0,1]))
 
 # CLP Variation (output)
 #CLP1 = TriangleFuzzySet(0.6,1,1,   term="increase_significantly")
@@ -56,7 +65,11 @@ FS.add_linguistic_variable("CLP", LinguisticVariable([CLP1, CLP2, CLP4, CLP5], u
 FS.add_rules([
 
     "IF (SystemLoad IS critical) THEN (CLP IS decrease_significantly)",
-    "IF (SystemLoad IS high) THEN (CLP IS increase_significantly)",
+
+    "IF (SystemLoad IS high) AND (Latency IS high) THEN (CLP IS increase_significantly)",
+
+    "IF (SystemLoad IS high) AND (Latency IS low) THEN (CLP IS decrease)",
+
     "IF (SystemLoad IS low) THEN (CLP IS increase_significantly)",
 
 ])
