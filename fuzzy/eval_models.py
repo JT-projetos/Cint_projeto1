@@ -16,6 +16,7 @@ from fuzzy.models.mamdani_triangle_v3 import FS as FS13
 from fuzzy.models.mamdani_bell_v9 import FS as FS9
 from fuzzy.models.mamdani_bell_v9a import FS as FS9a
 from fuzzy.models.mamdani_bell_v9b import FS as FS9b
+from fuzzy.models.mamdani_bell_v9c import FS as FS9c
 #from fuzzy.models.mamdani_bell_v10 import FS as FS10
 
 
@@ -32,6 +33,7 @@ models = {
     'mamdani_bell_v9': FS9,
     'mamdani_bell_v9a': FS9a,
     'mamdani_bell_v9b': FS9b,
+    'mamdani_bell_v9c': FS9c,
     #'mamdani_bell_v10': FS10,
 }
 
