@@ -43,7 +43,7 @@ if __name__ == '__main__':
     import pickle
     from fuzzy.visualization import *
 
-    save_path = '../output/mamdani_bell_v9'
+    save_path = '../output/mamdani_bell_v9b'
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)

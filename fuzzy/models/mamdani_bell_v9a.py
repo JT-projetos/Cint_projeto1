@@ -14,8 +14,8 @@ M5 = TriangleFuzzySet(0.8, 1, 1, term="very_high")
 FS.add_linguistic_variable("SystemLoad", LinguisticVariable([M1,M2,M3, M4, M5], universe_of_discourse=[0,1]))
 
 # Latency
-L1 = FuzzySet(function=Bell_MF(a=4, b=0.15, c=0.1), term="low")
-L2 = FuzzySet(function=Bell_MF(a=4, b=0.15, c=0.45), term="medium")
+L1 = FuzzySet(function=Bell_MF(a=4, b=0.15, c=0), term="low")
+L2 = FuzzySet(function=Bell_MF(a=4, b=0.15, c=0.3), term="medium")
 L3 = FuzzySet(function=Bell_MF(a=4, b=0.15, c=0.9), term="high")
 FS.add_linguistic_variable("Latency", LinguisticVariable([L1, L2, L3], universe_of_discourse=[0,1]))
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     import pickle
     from fuzzy.visualization import *
 
-    save_path = '../output/mamdani_bell_v9'
+    save_path = '../output/mamdani_bell_v9a'
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)

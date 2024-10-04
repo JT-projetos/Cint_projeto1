@@ -7,24 +7,32 @@ import pandas as pd
 # from fuzzy.models.mamdani_gaussian import FS as FS1
 # from fuzzy.models.mamdani_triangle import FS as FS2
 from fuzzy.models.mamdani_triangle_v2 import FS as FS12
-from fuzzy.models.mamdani_bell_v2 import FS as FS4
-from fuzzy.models.mamdani_bell_v5 import FS as FS5
-from fuzzy.models.mamdani_bell_v6 import FS as FS6
-from fuzzy.models.mamdani_bell_v7 import FS as FS7
-from fuzzy.models.mamdani_bell_v8 import FS as FS8
+from fuzzy.models.mamdani_triangle_v3 import FS as FS13
+#from fuzzy.models.mamdani_bell_v2 import FS as FS4
+#from fuzzy.models.mamdani_bell_v5 import FS as FS5
+#from fuzzy.models.mamdani_bell_v6 import FS as FS6
+#from fuzzy.models.mamdani_bell_v7 import FS as FS7
+#from fuzzy.models.mamdani_bell_v8 import FS as FS8
 from fuzzy.models.mamdani_bell_v9 import FS as FS9
+from fuzzy.models.mamdani_bell_v9a import FS as FS9a
+from fuzzy.models.mamdani_bell_v9b import FS as FS9b
+#from fuzzy.models.mamdani_bell_v10 import FS as FS10
 
 
 models = {
     #'mamdani_gaussian': FS1,
     #'mamdani_triangle': FS2,
-    'mamdani_triangle_v2': FS12,
+    #'mamdani_triangle_v2': FS12,
+    #'mamdani_triangle_v3': FS13,
     #'mamdani_bell_v2': FS4,
     #'mamdani_bell_v5': FS5,
     #'mamdani_bell_v6': FS6,
     #'mamdani_bell_v7': FS7,
-    'mamdani_bell_v8': FS8,
+    #'mamdani_bell_v8': FS8,
     'mamdani_bell_v9': FS9,
+    'mamdani_bell_v9a': FS9a,
+    'mamdani_bell_v9b': FS9b,
+    #'mamdani_bell_v10': FS10,
 }
 
 DO_ALL_TESTS = True
