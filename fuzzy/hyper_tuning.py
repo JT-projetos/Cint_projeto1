@@ -212,10 +212,11 @@ study = optuna.create_study(direction="minimize")
 
 try:
     # Optimize the objective function
-    study.optimize(objective, n_trials=10)
+    study.optimize(objective, n_trials=10, timeout=600)
 except KeyboardInterrupt:
     print("Stopping optimization")
 
+print("Number of finished trials: ", len(study.trials))
 print("Best hyperparameters:", study.best_params)
 print("Best value:", study.best_value)
 fig1 = vis.plot_optimization_history(study)
@@ -224,3 +225,8 @@ fig3 = vis.plot_slice(study)
 fig1.show()
 fig2.show()
 fig3.show()
+
+trial = study.best_trial
+print("  Params: ")
+for key, value in trial.params.items():
+    print("    {}: {}".format(key, value))
