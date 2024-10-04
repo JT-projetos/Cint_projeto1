@@ -56,8 +56,9 @@ FS.add_linguistic_variable("CLP", LinguisticVariable([CLP1, CLP2, CLP4, CLP5], u
 FS.add_rules([
 
     "IF (SystemLoad IS critical) THEN (CLP IS decrease_significantly)",
-    "IF (SystemLoad IS high) THEN (CLP IS increase_significantly)",
+    "IF (SystemLoad IS high) THEN (CLP IS decrease)",
     "IF (SystemLoad IS low) THEN (CLP IS increase_significantly)",
+
 
 ])
 
