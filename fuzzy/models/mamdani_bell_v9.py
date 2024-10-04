@@ -2,6 +2,9 @@ from simpful import FuzzySystem, LinguisticVariable, FuzzySet, TriangleFuzzySet
 from fuzzy.models.bell_mf import Bell_MF
 from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
 
+"""
+mamdani_bell_v9 MSE: 0.044729627583563955
+"""
 
 FS = FuzzySystemWrapper()
 
