@@ -63,17 +63,18 @@ else:
 #     f'datapoint {d}': [] for d in range(len(df_test))
 # }
 # scores['model'] = []
-MSE = pd.DataFrame()
+MSE = {}
 scores = pd.DataFrame()
 for name in models.keys():
     scores[name] = np.abs((df_test['CLPVariation'] - df[name]) / df_test['CLPVariation']) * 100
-    MSE[name] = ((df_test['CLPVariation'] - df[name])**2)/len(df_test['CLPVariation'])
+    MSE[name] = (((df_test['CLPVariation'] - df[name])**2)/len(df_test['CLPVariation'])).sum()
 
     # for i, point in enumerate(s):
     #     scores['model'].append(name)
     #     scores[f'datapoint {i}'].append(point)
 
-print(MSE)
+for name in models.keys():
+    print(f"{name} MSE: {MSE[name]}")
 
 scores.to_csv('./output/eval_models/model_scores.csv', index=False)
 
