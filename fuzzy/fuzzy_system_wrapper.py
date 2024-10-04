@@ -1,9 +1,10 @@
 from simpful import FuzzySystem
 import pandas as pd
+import numpy as np
 
 
 class FuzzySystemWrapper(FuzzySystem):
-    def predict(self, df: pd.DataFrame) -> float | list:
+    def predict(self, df: pd.DataFrame) -> np.array:
         fs_results = []
         # Maybe in future create a predict function common to all FS that receives df
         for i, row in df.iterrows():
@@ -23,4 +24,4 @@ class FuzzySystemWrapper(FuzzySystem):
             SystemLoad = max(row['MemoryUsage'], row['ProcessorLoad'])
             self.set_variable("SystemLoad", SystemLoad)
             fs_results.append(self.inference()['CLP'])
-        return fs_results
+        return np.array(fs_results)
