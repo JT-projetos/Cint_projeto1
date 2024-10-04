@@ -1,7 +1,8 @@
 from simpful import FuzzySystem, TriangleFuzzySet, AutoTriangle, LinguisticVariable
+from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
 
 
-FS = FuzzySystem()
+FS = FuzzySystemWrapper()
 
 # System Load = Max (Memory Usage, Processor Load)
 #S1 = TriangleFuzzySet(0,0,0.45, term = "low")

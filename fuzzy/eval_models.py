@@ -41,30 +41,6 @@ models = {
 
 DO_ALL_TESTS = True
 
-def test_fuzzy_system(df, FS):
-    results = []
-    for i, row in df.iterrows():  # FIXME get correct variable names
-        FS.set_variable('MemoryUsage', row['MemoryUsage'])
-        FS.set_variable('ProcessorLoad', row['ProcessorLoad'])
-        FS.set_variable('InpNetThroughput', row['InpNetThroughput'])
-        FS.set_variable('OutNetThroughput', row['OutNetThroughput'])
-        FS.set_variable('OutBandwidth', row['OutBandwidth'])
-        FS.set_variable('Latency', row['Latency'])
-        FS.set_variable('V_MemoryUsage', row['V_MemoryUsage'])
-        FS.set_variable('V_ProcessorLoad', row['V_ProcessorLoad'])
-        FS.set_variable('V_InpNetThroughput', row['V_InpNetThroughput'])
-        FS.set_variable('V_OutNetThroughput', row['V_OutNetThroughput'])
-        FS.set_variable('V_OutBandwidth', row['V_OutBandwidth'])
-        FS.set_variable('V_Latency', row['V_Latency'])
-
-        SystemLoad = max(row['MemoryUsage'], row['ProcessorLoad'])
-        FS.set_variable("SystemLoad", SystemLoad)
-
-        results.append(FS.inference()['CLP'])
-
-    return results
-
-
 if not os.path.exists('./output/eval_models'):
     os.mkdir('./output/eval_models')
 
@@ -75,7 +51,7 @@ if 'model_results.csv' not in os.listdir('./output/eval_models/') or DO_ALL_TEST
 
     model_results = {}
     for name, model in models.items():
-        model_results[name] = test_fuzzy_system(df_test, model)
+        model_results[name] = model.predict(df_test)
     df = pd.DataFrame(model_results)
     df['CLPVariation'] = df_test['CLPVariation']
     df.to_csv('./output/eval_models/model_results.csv', index=False)

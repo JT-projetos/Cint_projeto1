@@ -1,3 +1,4 @@
+import argparse
 import pandas as pd
 from nn.models.simple_lightning import Net
 import torch
@@ -22,26 +23,11 @@ required_columns = ('MemoryUsage', 'ProcessorLoad', 'InpNetThroughput', 'OutNetT
 if not all(e in required_columns for e in df.columns):
     raise RuntimeError('Required columns are missing')
 
-fs_results = []
 # load FS model
 with open('./final_models/fs.pkl', 'rb') as f:
     FS = pickle.load(f)
 
-# Maybe in future create a predict function common to all FS that receives df
-for i, row in df.iterrows():  # FIXME get correct variable names
-    FS.set_variable('MemoryUsage', row['MemoryUsage'])
-    FS.set_variable('ProcessorLoad', row['ProcessorLoad'])
-    FS.set_variable('InpNetThroughput', row['InpNetThroughput'])
-    FS.set_variable('OutNetThroughput', row['OutNetThroughput'])
-    FS.set_variable('OutBandwidth', row['OutBandwidth'])
-    FS.set_variable('Latency', row['Latency'])
-    FS.set_variable('V_MemoryUsage', row['V_MemoryUsage'])
-    FS.set_variable('V_ProcessorLoad', row['V_ProcessorLoad'])
-    FS.set_variable('V_InpNetThroughput', row['V_InpNetThroughput'])
-    FS.set_variable('V_OutNetThroughput', row['V_OutNetThroughput'])
-    FS.set_variable('V_OutBandwidth', row['V_OutBandwidth'])
-    FS.set_variable('V_Latency', row['V_Latency'])
-    fs_results.append(FS.inference()['CLP'])
+fs_results = FS.predict(df)
 
 del FS
 

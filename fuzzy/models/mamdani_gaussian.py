@@ -1,7 +1,8 @@
 from simpful import FuzzySystem, TriangleFuzzySet, AutoTriangle, LinguisticVariable, FuzzySet, Gaussian_MF
+from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
 
 
-FS = FuzzySystem()
+FS = FuzzySystemWrapper()
 
 
 # Memory Usage Avg [%]

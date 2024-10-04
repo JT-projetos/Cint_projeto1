@@ -1,6 +1,8 @@
 from simpful import FuzzySystem, TriangleFuzzySet, AutoTriangle, LinguisticVariable, FuzzySet, Gaussian_MF
+from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
 
-FS = FuzzySystem()
+
+FS = FuzzySystemWrapper()
 
 # System Load = Max (Memory Usage, Processor Load)
 S1 = FuzzySet(function=Gaussian_MF(mu=0,sigma=0.133), term="low")  # TODO add an overlap between Fuzzy sets

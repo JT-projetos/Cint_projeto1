@@ -1,5 +1,7 @@
 from simpful import FuzzySystem, LinguisticVariable, FuzzySet, TriangleFuzzySet
 from fuzzy.models.bell_mf import Bell_MF
+from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
+
 
 hparams = {
     'SystemLoad': {
@@ -97,8 +99,8 @@ def create_fuzzy_set_from_dict(var: dict) -> FuzzySet:
     return F
 
 
-def create_fuzzy_system(hparams: dict, rules=None) -> FuzzySystem:
-    FS = FuzzySystem()
+def create_fuzzy_system(hparams: dict, rules=None) -> FuzzySystemWrapper:
+    FS = FuzzySystemWrapper()
 
     for k in hparams.keys():
         lv = hparams[k]

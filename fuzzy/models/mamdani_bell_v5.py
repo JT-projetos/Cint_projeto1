@@ -1,7 +1,9 @@
 from simpful import FuzzySystem, LinguisticVariable, FuzzySet
 from fuzzy.models.bell_mf import Bell_MF
+from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
 
-FS = FuzzySystem()
+
+FS = FuzzySystemWrapper()
 
 
 # Memory Usage Avg [%]
