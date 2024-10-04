@@ -17,9 +17,26 @@ from fuzzy.models.mamdani_bell_v9 import FS as FS9
 from fuzzy.models.mamdani_bell_v9a import FS as FS9a
 from fuzzy.models.mamdani_bell_v9b import FS as FS9b
 from fuzzy.models.mamdani_bell_v9c import FS as FS9c
-from fuzzy.models.mamdani_hparams import FS as FShparams
+from fuzzy.models.mamdani_hparams import FS as FShparams, create_fuzzy_system
 #from fuzzy.models.mamdani_bell_v10 import FS as FS10
 
+import os
+import json
+
+from fuzzy.hparams_helper import convert_optuna_to_hparams
+
+
+def relative_error(y_true, y_pred):
+    return np.abs((y_true - y_pred) / y_true) * 100
+
+
+def mse(y_true, y_pred):
+    return ((y_true - y_pred)**2)/len(y_true)
+
+
+with open('./output/hparams_028.json', 'r') as f:
+    hparams = convert_optuna_to_hparams(json.load(f))
+    FSbest = create_fuzzy_system(hparams=hparams)
 
 models = {
     #'mamdani_gaussian': FS1,
@@ -35,8 +52,8 @@ models = {
     #'mamdani_bell_v9a': FS9a,
     #'mamdani_bell_v9b': FS9b,
     #'mamdani_bell_v9c': FS9c,
-    'mamdani_hparams': FShparams,
-    #'mamdani_bell_v10': FS10,
+    #'mamdani_hparams': FShparams,
+    'mamdani_best': FSbest,
 }
 
 DO_ALL_TESTS = True
@@ -66,7 +83,7 @@ else:
 MSE = {}
 scores = pd.DataFrame()
 for name in models.keys():
-    scores[name] = np.abs((df_test['CLPVariation'] - df[name]) / df_test['CLPVariation']) * 100
+    scores[name] = mse(y_true=df_test['CLPVariation'], y_pred=df[name])
     MSE[name] = (((df_test['CLPVariation'] - df[name])**2)/len(df_test['CLPVariation'])).sum()
 
     # for i, point in enumerate(s):
