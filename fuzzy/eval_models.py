@@ -73,17 +73,21 @@ else:
 #     f'datapoint {d}': [] for d in range(len(df_test))
 # }
 # scores['model'] = []
-
+MSE = pd.DataFrame()
 scores = pd.DataFrame()
 for name in models.keys():
     scores[name] = np.abs((df_test['CLPVariation'] - df[name]) / df_test['CLPVariation']) * 100
+    MSE[name] = ((df_test['CLPVariation'] - df[name])**2)/len(df_test['CLPVariation'])
 
     # for i, point in enumerate(s):
     #     scores['model'].append(name)
     #     scores[f'datapoint {i}'].append(point)
+
+print(MSE)
 
 scores.to_csv('./output/eval_models/model_scores.csv', index=False)
 
 if __name__ == '__main__':
     from fuzzy.visualization import plot_model_scores
     plot_model_scores('./output/eval_models/model_scores.csv')
+    
