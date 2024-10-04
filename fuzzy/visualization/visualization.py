@@ -46,7 +46,7 @@ def plot_memory_processor_clp(FS, save_path=None):
     for i in tqdm(range(M.shape[0])):
         for j in range(M.shape[1]):
             FS.set_variable("SystemLoad", M[i, j])
-            FS.set_variable("OutNetThroughput", P[i, j])
+            FS.set_variable("Latency", P[i, j])
 
             CLP[i, j] = FS.inference()["CLP"]
 
@@ -56,7 +56,7 @@ def plot_memory_processor_clp(FS, save_path=None):
                       margin=dict(l=65, r=50, b=65, t=90)
                       )
     fig.update_scenes(xaxis_title_text='SystemLoad [%]',
-                      yaxis_title_text='Througthput [%]',
+                      yaxis_title_text='Latency [%]',
                       zaxis_title_text='CLP [%]')
 
     if save_path is not None:
