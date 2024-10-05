@@ -10,6 +10,8 @@ import pandas as pd
 #from fuzzy.models.mamdani_bell_v6 import FS as FS6
 #from fuzzy.models.mamdani_bell_v7 import FS as FS7
 #from fuzzy.models.mamdani_bell_v8 import FS as FS8
+
+from fuzzy.models.mamdani_triangle_v2 import FS as FS12
 from fuzzy.models.mamdani_bell_v9 import FS as FS9
 from fuzzy.models.mamdani_hparams import create_fuzzy_system
 #from fuzzy.models.mamdani_bell_v10 import FS as FS10
@@ -33,7 +35,7 @@ with open('./output/hparams_007.json', 'r') as f:
 models = {
     #'mamdani_gaussian': FS1,
     #'mamdani_triangle': FS2,
-    #'mamdani_triangle_v2': FS12,
+    'mamdani_triangle_v2': FS12,
     #'mamdani_triangle_v3': FS13,
     #'mamdani_bell_v2': FS4,
     #'mamdani_bell_v5': FS5,
