@@ -1,4 +1,3 @@
-
 % Preamble
 \documentclass[11pt]{report}
 
@@ -9,9 +8,9 @@
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{multirow}
 \usepackage{float}
+\usepackage{booktabs}
 
 \usepackage[margin=2.5cm]{geometry}
-
 
 
 % set image file paths
@@ -26,6 +25,7 @@
 \maketitle
 \newpage
 
+
 \part{Fuzzy System}
 
 %% Texto ainda por melhorar!!
@@ -39,6 +39,7 @@ we did not want this restriction and decided for starting with a simple
 approach then later on adding difficulty when needed.
 (Early on we decided to try to make data-driven decisions with an iterative
 improving process)
+
 
 \section{First Iterations}
 
@@ -89,15 +90,15 @@ Finally, if any of these variables entered a "critical" state, the \textit{CLP} 
 \begin{table}[htbp]
     \centering
     \begin{tabular}{|
-    >{\columncolor[HTML]{FFFFFF}}c
-    >{\columncolor[HTML]{FFFFFF}}c |cccc|}
-    \hline
-    \multicolumn{2}{|c|}{\cellcolor[HTML]{FFFFFF}}                                         & \multicolumn{4}{c|}{\cellcolor[HTML]{FFFFFF}\textit{ProcessorLoad}}                                                                                                                                    \\ \cline{3-6}
-    \multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFFFFF}\textit{CLP}}}                    & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}low} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}medium} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}high} & \cellcolor[HTML]{FFFFFF}critical \\ \hline
-    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                              & low      & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                      & decrease                         \\ \cline{2-6}
-    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                              & medium   & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
-    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                              & high     & \multicolumn{1}{c|}{maintain}                    & \multicolumn{1}{c|}{maintain}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
-    \multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{FFFFFF}\textit{MemoryUsage}}} & critical & \multicolumn{1}{c|}{decrease}                    & \multicolumn{1}{c|}{decrease}                       & \multicolumn{1}{c|}{decrease}                     & decrease                         \\ \hline
+            >{\columncolor[HTML]{FFFFFF}}c
+            >{\columncolor[HTML]{FFFFFF}}c |cccc|}
+        \hline
+        \multicolumn{2}{|c|}{\cellcolor[HTML]{FFFFFF}} & \multicolumn{4}{c|}{\cellcolor[HTML]{FFFFFF}\textit{ProcessorLoad}} \\ \cline{3-6}
+        \multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFFFFF}\textit{CLP}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}low} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}medium} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}high} & \cellcolor[HTML]{FFFFFF}critical \\ \hline
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                                       & low      & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                      & decrease                         \\ \cline{2-6}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                                       & medium   & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                                       & high     & \multicolumn{1}{c|}{maintain}                    & \multicolumn{1}{c|}{maintain}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
+        \multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{FFFFFF}\textit{MemoryUsage}}} & critical & \multicolumn{1}{c|}{decrease}                    & \multicolumn{1}{c|}{decrease}                       & \multicolumn{1}{c|}{decrease}                     & decrease                         \\ \hline
     \end{tabular}
     \caption{Truth table}
     \label{truthtable}
@@ -110,20 +111,17 @@ To visualize the system's output, we generated 50 data points for \textit{Memory
 We then created an interactive 3D graph that showed the evolution of \textit{CLP} based on these two values.
 
 
-
-
 Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution.
 
 \begin{figure}[h]
-\centering
+    \centering
 %\includegraphics{path_to_gaussian_graph}
 %\caption{3D visualization of Gaussian membership functions}
 \end{figure}
 
-During the experimentation phase with different membership functions,the need for visualization became apparent.
+During the experimentation phase with different membership functions, the need for visualization became apparent.
 To facilitate this, we developed a helper script [fuzzy/visualization/fuzzy\_system\_to\_dataframe] that converts the
 FuzzySystem Python object into a dynamic dataframe, enabling easy plotting and analysis of the membership functions.
-
 
 
 \section{Generalized Bell}
@@ -162,34 +160,88 @@ The first results are shown in the figure bellow.
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/CLP.png}
 
 %%
+
+
 \section{Architecture}
 This should contain choice of architecture and why.
 
 \begin{table}[H]
-\begin{tabular}{|
->{\columncolor[HTML]{9698ED}}c l|cccc|}
-\hline
-\multicolumn{2}{|c|}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} }}                                & \multicolumn{4}{c|}{\cellcolor[HTML]{9698ED}Latency}                                                        \\ \cline{3-6}
-\multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} CLP Variation}}} & \multicolumn{1}{l|}{low} & \multicolumn{1}{l|}{moderate} & \multicolumn{1}{l|}{high} & \multicolumn{1}{l|}{very high} \\ \hline
-\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & low             & \multicolumn{1}{c|}{IS}  & \multicolumn{1}{c|}{IS}       & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
-\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & moderate        & \multicolumn{1}{c|}{I}   & \multicolumn{1}{c|}{I}        & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
-\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & high            & \multicolumn{1}{c|}{M}   & \multicolumn{1}{c|}{M}        & \multicolumn{1}{c|}{D}    & D                              \\ \cline{2-6}
-\multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{9698ED}System Load}}        & critical        & \multicolumn{1}{c|}{DS}  & \multicolumn{1}{c|}{DS}       & \multicolumn{1}{c|}{DS}   & DS                             \\ \hline
-\end{tabular}
+    \begin{tabular}{|
+            >{\columncolor[HTML]{9698ED}}c l|cccc|}
+        \hline
+        \multicolumn{2}{|c|}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} }} & \multicolumn{4}{c|}{\cellcolor[HTML]{9698ED}Latency} \\ \cline{3-6}
+        \multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} CLP Variation}}} & \multicolumn{1}{l|}{low} & \multicolumn{1}{l|}{moderate} & \multicolumn{1}{l|}{high} & \multicolumn{1}{l|}{very high} \\ \hline
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & low      & \multicolumn{1}{c|}{IS} & \multicolumn{1}{c|}{IS}       & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & moderate & \multicolumn{1}{c|}{I}  & \multicolumn{1}{c|}{I}        & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & high     & \multicolumn{1}{c|}{M}  & \multicolumn{1}{c|}{M}        & \multicolumn{1}{c|}{D}    & D                              \\ \cline{2-6}
+        \multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{9698ED}System Load}} & critical        & \multicolumn{1}{c|}{DS}  & \multicolumn{1}{c|}{DS}       & \multicolumn{1}{c|}{DS}   & DS                             \\ \hline
+    \end{tabular}
 \end{table}
 
 
 \section{Evaluate Models}
+Now that we had developed several models and established rules, a reliable and straightforward testing mechanism became necessary.
+To achieve this, we implemented the script \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
+which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
+Initially, the relative error metric, defined as:
 
+\[
+    \text{Relative Error} = \frac{|y_{\text{true}} - y_{\text{pred}}|}{y_{\text{true}}}
+\]
+
+was used for evaluation.
+However, this metric exhibited instability when $y_{\text{true}} \to 0$, as was the case for data point 6 in the sample.
+This issue is illustrated in the figure below, where the models \texttt{mamdani\_triangle\_v2}, \texttt{mamdani\_bell\_v9}, and \texttt{mamdani\_best} are compared.
+
+\begin{figure}[htpb]
+\includegraphics[width=\textwidth]{../images/eval_models/relative_error}
+\end{figure}
+
+To address this instability, we switched to the Mean Squared Error (MSE) metric, defined as:
+
+\[
+    \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_{\text{true}} - y_{\text{pred}})^2
+\]
+
+The results of this evaluation are presented below.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{../images/eval_models/mse}
+\end{figure}
+
+This evaluation process was instrumental in improving our models and identifying potential problem areas.
+For instance, the model consistently underestimated the CLP for data points 3 and 4, this is shown in the table below.
+\begin{table}
+    \centering
+    \caption{Sample data points 3 and 4}
+    \label{tab:}
+    \begin{tabular}{lrrrrrrrrrrrrr}
+        \toprule
+        & MemoryUsage & ProcessorLoad & InpNetThroughput & OutNetThroughput & OutBandwidth & Latency & V\_MemoryUsage & V\_ProcessorLoad & V\_InpNetThroughput & V\_OutNetThroughput & V\_OutBandwidth & V\_Latency & CLPVariation \\
+        \midrule
+        3 & 0.68        & 0.60          & 0.65             & 0.70             & 0.72         & 0.80    & 0.45          & 0.52            & 0.50               & 0.48               & 0.45           & 0.48      & 0.73         \\
+        4 & 0.50        & 0.50          & 0.50             & 0.50             & 0.50         & 0.50    & 0.50          & 0.50            & 0.50               & 0.50               & 0.50           & 0.50      & 0.50         \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+
+These observations suggested, in our view, that the model should account for high latency as a factor contributing to a lower \emph{CLP}.
+This iterative process led to the development of models like \texttt{mamdani\_triangle\_v2} and \texttt{mamdani\_bell\_v9}.
+Many more iterations were tested but not preserved.
+Some of the deprecated models can still be found in the \texttt{fuzzy/models/deprecated} folder, along with their outputs in \texttt{fuzzy/output/deprecated}.
+
+The best model, \texttt{mamdani\_best}, emerged as the result of extensive hyperparameter tuning, which is discussed in detail in the \emph{Hyperparameter Tuning} section.
 
 
 \section{Hyperparameter Tuning}
+
 
 \section{Conclusion}
 
 
 \part{Neural Networks}
-
 
 
 \end{document}
