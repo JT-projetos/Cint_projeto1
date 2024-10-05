@@ -42,12 +42,12 @@ models = {
     #'mamdani_bell_v6': FS6,
     #'mamdani_bell_v7': FS7,
     #'mamdani_bell_v8': FS8,
-    'mamdani_bell_v9': FS9,
+    #'mamdani_bell_v9': FS9,
     #'mamdani_bell_v9a': FS9a,
     #'mamdani_bell_v9b': FS9b,
     #'mamdani_bell_v9c': FS9c,
     #'mamdani_hparams': FShparams,
-    'mamdani_best': FSbest,
+    #'mamdani_best': FSbest,
 }
 
 DO_ALL_TESTS = True
