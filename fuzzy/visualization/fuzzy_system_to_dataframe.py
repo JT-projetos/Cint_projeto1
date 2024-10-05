@@ -87,7 +87,7 @@ def fuzzy_system_to_dataframe(FS: FuzzySystem) -> pd.DataFrame:
             if isinstance(fs._funpointer, Bell_MF):
                 xmin, xmax = FS._lvs[key]._universe_of_discourse
 
-                x = np.linspace(xmin, xmax, 50)
+                x = np.linspace(xmin, xmax, 300)
                 y = _bell(x, fs._funpointer.a, fs._funpointer.b, fs._funpointer.c)
 
                 for x_i, y_i in zip(x, y):
