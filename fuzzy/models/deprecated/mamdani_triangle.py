@@ -28,9 +28,9 @@ L4 = TriangleFuzzySet(0.60,0.85,1, term = "poor")
 FS.add_linguistic_variable("Latency", LinguisticVariable([L1,L2,L3, L4], universe_of_discourse=[0,1]))
 
 # CLP Variation (output)
-CLP3 = TriangleFuzzySet(-1,-0.5,0, term="decrease")
+CLP3 = TriangleFuzzySet(-1,-0.2,0, term="decrease")
 CLP2 = TriangleFuzzySet(-0.7,0,0.7,  term="maintain")
-CLP1 = TriangleFuzzySet(0,0.5,1,   term="increase")
+CLP1 = TriangleFuzzySet(0,0.2,1,   term="increase")
 FS.add_linguistic_variable("CLP", LinguisticVariable([CLP1, CLP2, CLP3], universe_of_discourse=[-1,1]))
 
 FS.add_rules([

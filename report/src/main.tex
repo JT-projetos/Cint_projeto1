@@ -1,3 +1,4 @@
+
 % Preamble
 \documentclass[11pt]{report}
 
@@ -49,14 +50,12 @@ improving process)
 
 \section{First Iterations}
 
-In the initial iteration, we selected the variables \textit{ProcessorLoad}, \textit{MemoryUsage}, and \textit{Latency} based on common sense.
+In the initial iteration, we selected the variables \textit{ProcessorLoad}, and \textit{MemoryUsage} based on which variables we though were more important.
 These variables were chosen as inputs, while \textit{CLP} was designated as the output.
-We opted for triangular membership functions, defining four levels for each input variable: (low, medium, high, critical) for \textit{ProcessorLoad} and \textit{MemoryUsage}, and (poor, fair, good, great) for \textit{Latency}.
+We opted for triangular membership functions, defining four levels for each input variable: (low, medium, high, critical).
 
-To start building the system, we decided to focus on just two variables: \textit{MemoryUsage} and \textit{ProcessorLoad}.
-We then defined the range of the membership functions associated with each term of the two linguistic variables.
-Considering that a device with more than 85\% processor load or memory usage is typically unable to perform its basic tasks,
-it became clear that this threshold would correspond to a specific term, which we labeled as ``critical''. The ranges for the other membership function terms were distributed between 0 and 1 based on what we deemed appropriate.
+We then defined the range of the membership functions associated with each term of the two linguistic variables, \textit{MemoryUsage} and \textit{ProcessorLoad}. Considering that a device with more than 85\% processor load or memory usage is typically unable to perform its basic tasks,
+it became clear that this threshold would correspond to a specific term, labeled as ``critical''. The ranges for the other membership function terms were distributed between 0 and 1 based on what we deemed appropriate.
 We also decided to keep the terms associated with \textit{CLP} straightforward, using only three terms: ``decrease'', ``increase'', and ``maintain''.
 The values for the membership functions of these terms were distributed between -1 and 1.
 
@@ -93,42 +92,95 @@ When one of them reached ``high'', the \textit{CLP} remained unchanged (this dec
 Finally, if any of these variables entered a ``critical'' state, the \textit{CLP} had to decrease.
 
 
-\begin{table}[htbp]
+\begin{table}[H][htbp]
     \centering
     \begin{tabular}{|
-            >{\columncolor[HTML]{FFFFFF}}c
-            >{\columncolor[HTML]{FFFFFF}}c |cccc|}
-        \hline
-        \multicolumn{2}{|c|}{\cellcolor[HTML]{FFFFFF}} & \multicolumn{4}{c|}{\cellcolor[HTML]{FFFFFF}\textit{ProcessorLoad}} \\ \cline{3-6}
-        \multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFFFFF}\textit{CLP}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}low} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}medium} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}high} & \cellcolor[HTML]{FFFFFF}critical \\ \hline
-        \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                                       & low      & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                      & decrease                         \\ \cline{2-6}
-        \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                                       & medium   & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
-        \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                                       & high     & \multicolumn{1}{c|}{maintain}                    & \multicolumn{1}{c|}{maintain}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
-        \multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{FFFFFF}\textit{MemoryUsage}}} & critical & \multicolumn{1}{c|}{decrease}                    & \multicolumn{1}{c|}{decrease}                       & \multicolumn{1}{c|}{decrease}                     & decrease                         \\ \hline
+    >{\columncolor[HTML]{9698ED}}c
+    >{\columncolor[HTML]{CBCEFB}}c |cccc|}
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor[HTML]{FFFC9E}}                                         & \multicolumn{4}{c|}{\cellcolor[HTML]{9698ED}ProcessorLoad}                                                                                                                                    \\ \cline{3-6}
+    \multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFFC9E}CPL}}                    & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}low} & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}medium} & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}high} & \cellcolor[HTML]{CBCEFB}critical \\ \hline
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & low      & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{mantain}                      & decrease                         \\ \cline{2-6}
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & medium   & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & high     & \multicolumn{1}{c|}{maintain}                    & \multicolumn{1}{c|}{maintain}                       & \multicolumn{1}{c|}{maintain}                     & Decrease                         \\ \cline{2-6}
+    \multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{9698ED}MemoryUsage}} & critical & \multicolumn{1}{c|}{Decrease}                    & \multicolumn{1}{c|}{Decrease}                       & \multicolumn{1}{c|}{Decrease}                     & Decrease                         \\ \hline
     \end{tabular}
     \caption{Truth table}
     \label{truthtable}
 \end{table}
 
-
-
+\vspace{10mm}
 
 To visualize the system's output, we generated 50 data points for \textit{MemoryUsage} and \textit{ProcessorLoad} ranging between 0 and 1.
-We then created an interactive 3D graph that showed the evolution of \textit{CLP} based on these two values.
+We then created an interactive 3D plot that showed the evolution of \textit{CLP} based on these two values, this can be seen in Figure\ref{fig:3d_triangular}.
+Upon reviewing the graph, we noticed that the variables \textit{ProcessorLoad} and \textit{MemoryUsage} exhibited very similar behavior because intuitively, when designing the system, we had structured the membership functions for each term in the same way for both variables, and the truth table was also symmetric.
+This indicates that the system should react in the same way to both variables and they could, in fact, be merged into a single variable without losing the system's effectiveness.
+By combining these two variables, we simplify the model while still accurately representing the system's behavior, as both variables seem to influence the \textit{CLP} in a nearly identical manner.
 
+
+\begin{figure}[H]
+    \centering
+\includegraphics[scale = 0.8]{../images/3d_triangular}
+\caption{Fuzzy CLP Inference}
+\label{fig:3d_triangular}
+\end{figure}
+
+\vspace{10mm}
+
+From the graph we also noticed that the \textit{CLP} only varies between -0.5 and 0.5, which is not the desired range; we aim for it to vary between -1 and 1.
+This limitation is due to the configurations of the membership functions for the terms "increase" and "decrease" of the \textit{CLP}.
+Additionally, two constant plateau regions are visible where the \textit{CLP} remains unchanged: when \textit{MemoryUsage} and \textit{ProcessorLoad} are between 0 and 0.6, and when they are between 0.7 and 0.85, which does not make sense in our context.
+Finally, in the area of the graph where \textit{CLP} is less than -0.2 and \textit{MemoryUsage}/\textit{ProcessorLoad} is greater than 0.6, there is a "hump" with no \textit{CLP} values, which is undesirable.
 
 Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution.
 
-\begin{figure}[h]
+
+Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution because they provide a smoother transition between membership grades.
+To make a direct comparison with the system we previously developed using triangular membership functions, we retained the same linguistic variables, the same terms for these variables, and the same rules as presented in Table~\ref{truthtable}.
+
+\begin{figure}[htbp]
     \centering
-%\includegraphics{path_to_gaussian_graph}
-%\caption{3D visualization of Gaussian membership functions}
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/guassian_MemoryUsage}
+        \caption{Memory Usage MF}
+        \label{fig:memory_usage_gaussian}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/guassian_CLP}
+        \caption{CLP Variation MF}
+        \label{fig:clp_gaussian}
+    \end{minipage}
 \end{figure}
 
-During the experimentation phase with different membership functions, the need for visualization became apparent.
+\vspace{10mm}
+
+The resulting 3D graph showing the variation of the \textit{CLP} with \textit{MemoryUsage} and \textit{ProcessorLoad} can be seen in Figure~\ref{fig:3d_gaussian}
+
+\begin{figure}[H]
+    \centering
+\includegraphics[scale = 0.8]{../images/3d_guassian}
+\caption{Fuzzy CLP Inference using Guassians as MF}
+\label{fig:3d_gaussian}
+\end{figure}
+
+\vspace{10mm}
+
+
+This time, the system achieved higher positive \textit{CLP} values, but it worsened on the negative \textit{CLP} values, only going down to -0.2.
+
+
+To achieve better results, we decided to add more terms to the linguistic variables, merge \textit{MemoryUsage} with \textit{ProcessorLoad} into a single variable, and experiment with different membership functions. By increasing the number of terms, we aim to capture more detailed nuances in the system's behavior, improving its responsiveness to variations in input. Additionally, merging the two load-related variables simplifies the model without losing critical information. The next sections will address these adjustments in detail, explaining the rationale behind these changes and the impact they have on the system's performance.
+
+
+During the experimentation phase with different membership functions,the need for visualization became apparent.
 To facilitate this, we developed a helper script [fuzzy/visualization/fuzzy\_system\_to\_dataframe] that converts the
 FuzzySystem Python object into a dynamic dataframe, enabling easy plotting and analysis of the membership functions.
 
+
+But this time, we combined the variables \textit{ProcessorLoad} and \textit{MemoryUsage} into a single variable: \textit{SystemLoad}, which is defined as the maximum value between these two variables. We chose the maximum value because it allows us to capture the most critical resource constraint affecting system performance. By focusing on the higher load, we ensure that the system reacts to the most demanding condition.
 
 \section{Generalized Bell}
 We decided to experiment with a more generic Membership function, so we
@@ -168,70 +220,36 @@ After some experimentation, we concluded (as foreseen theoretically) that the pa
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/CLP.png}
 
 %%
-
-
 \section{Architecture}
 This should contain choice of architecture and why.
 
-\begin{table}[H]
-    \begin{tabular}{|
-            >{\columncolor[HTML]{9698ED}}c l|cccc|}
-        \hline
-        \multicolumn{2}{|c|}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} }} & \multicolumn{4}{c|}{\cellcolor[HTML]{9698ED}Latency} \\ \cline{3-6}
-        \multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} CLP Variation}}} & \multicolumn{1}{l|}{low} & \multicolumn{1}{l|}{moderate} & \multicolumn{1}{l|}{high} & \multicolumn{1}{l|}{very high} \\ \hline
-        \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & low      & \multicolumn{1}{c|}{IS} & \multicolumn{1}{c|}{IS}       & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
-        \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & moderate & \multicolumn{1}{c|}{I}  & \multicolumn{1}{c|}{I}        & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
-        \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & high     & \multicolumn{1}{c|}{M}  & \multicolumn{1}{c|}{M}        & \multicolumn{1}{c|}{D}    & D                              \\ \cline{2-6}
-        \multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{9698ED}System Load}} & critical        & \multicolumn{1}{c|}{DS}  & \multicolumn{1}{c|}{DS}       & \multicolumn{1}{c|}{DS}   & DS                             \\ \hline
-    \end{tabular}
-\end{table}
+\section{Membership Functions}
+all the membership functions and linguistic terms
 
+\begin{figure}
 
-\section{Evaluate Models}
-Now that we had developed several models and established rules, a reliable and straightforward testing mechanism became necessary.
-To achieve this, we implemented the script \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
-which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
-Initially, the relative error metric, defined as:
-
-\[
-    \text{Relative Error} = \frac{|y_{\text{true}} - y_{\text{pred}}|}{y_{\text{true}}}
-\]
-
-was used for evaluation.
-However, this metric exhibited instability when $y_{\text{true}} \to 0$, as was the case for data point 6 in the sample.
-This issue is illustrated in the figure below, where the models \texttt{mamdani\_triangle\_v2}, \texttt{mamdani\_bell\_v9}, and \texttt{mamdani\_best} are compared.
-
-\begin{figure}[htpb]
-\includegraphics[width=\textwidth]{../images/eval_models/relative_error}
+%\includegraphics{CLP.png}
+%\begin{tabular}[ccc]
+%    \subfloat[caption]{\includegraphics[width=.3\textwidth]{CLP.png}} & % noqa
+%    \subfloat[caption]{\includegraphics[width=.3\textwidth]{CLP.png}} &
+%    \subfloat[caption]{\includegraphics[width=.3\textwidth]{CLP.png}} \\
+%\end{tabular}
 \end{figure}
 
-To address this instability, we switched to the Mean Squared Error (MSE) metric, defined as:
-
-\[
-    \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_{\text{true}} - y_{\text{pred}})^2
-\]
-
-The results of this evaluation are presented below.
-
-\begin{figure}[H]
-\includegraphics[width=\textwidth]{../images/eval_models/mse}
-\end{figure}
-
-This evaluation process was instrumental in improving our models and identifying potential problem areas.
-For instance, the model consistently underestimated the CLP for data points 3 and 4, this is shown in the table below.
+\section{Rules}
+rules
 
 \begin{table}[H]
-    \centering
-    \caption{Sample data points 3 and 4}
-    \label{tab:}
-    \begin{tabular}{lrrrrr}
-        \toprule
-        & MemoryUsage & ProcessorLoad & Latency & mamdani\_bell\_v2 & CLPVariation \\
-        \midrule
-        3 & 0.68        & 0.60          & 0.80    & 0.30              & 0.73         \\
-        4 & 0.50        & 0.50          & 0.50    & 0.66              & 0.50         \\
-        \bottomrule
-    \end{tabular}
+\begin{tabular}{|
+>{\columncolor[HTML]{9698ED}}c l|cccc|}
+\hline
+\multicolumn{2}{|c|}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} }}                                & \multicolumn{4}{c|}{\cellcolor[HTML]{9698ED}Latency}                                                        \\ \cline{3-6}
+\multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} CLP Variation}}} & \multicolumn{1}{l|}{low} & \multicolumn{1}{l|}{moderate} & \multicolumn{1}{l|}{high} & \multicolumn{1}{l|}{very high} \\ \hline
+\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & low             & \multicolumn{1}{c|}{IS}  & \multicolumn{1}{c|}{IS}       & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
+\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & moderate        & \multicolumn{1}{c|}{I}   & \multicolumn{1}{c|}{I}        & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
+\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & high            & \multicolumn{1}{c|}{M}   & \multicolumn{1}{c|}{M}        & \multicolumn{1}{c|}{D}    & D                              \\ \cline{2-6}
+\multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{9698ED}System Load}}        & critical        & \multicolumn{1}{c|}{DS}  & \multicolumn{1}{c|}{DS}       & \multicolumn{1}{c|}{DS}   & DS                             \\ \hline
+\end{tabular}
 \end{table}
 
 
