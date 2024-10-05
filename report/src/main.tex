@@ -16,10 +16,10 @@
 
 
 % set image file paths
-\graphicspath{ {../../fuzzy/output/mamdani\_bell\_v9/io\_graphs/} }
+%\graphicspath{ {../../fuzzy/output/mamdani\_bell\_v9/io\_graphs/} }
 
 
-\title{Funky Systems and Neural Networks}
+\title{Fuzzy Systems and Neural Networks}
 \author{Jéssica Consciência e Tiago Leite}
 
 
@@ -34,7 +34,7 @@ Firstly we started by deciding between which type of fuzzy system
 we should implement: Mamdani, Takagi-Sugeno or Tsukamoto. From the
 project statement we observe that the output \textit{CLPVariation}
 is not any clear function of the input, rulling out Takagi-Sugeno,
-also meaning that our output is a \bold{Fuzzy Set}. If we wish for
+also meaning that our output is a \textbf{Fuzzy Set}. If we wish for
 our output to be monotonic then the choice would be Tsukomoto, since
 we did not want this restriction and decided for starting with a simple
 approach then later on adding difficulty when needed.
@@ -50,8 +50,9 @@ We opted for triangular membership functions, defining four levels for each inpu
 To start building the system, we decided to focus on just two variables: \textit{MemoryUsage} and \textit{ProcessorLoad}.
 We then defined the range of the membership functions associated with each term of the two linguistic variables.
 Considering that a device with more than 85\% processor load or memory usage is typically unable to perform its basic tasks,
-it became clear that this threshold would correspond to a specific term, which we labeled as "critical". The ranges for the other membership function terms were distributed between 0 and 1 based on what we deemed appropriate.
-We also decided to keep the terms associated with \textit{CLP} straightforward, using only three terms: "decrease," "increase," and "maintain." The values for the membership functions of these terms were distributed between -1 and 1.
+it became clear that this threshold would correspond to a specific term, which we labeled as ``critical''. The ranges for the other membership function terms were distributed between 0 and 1 based on what we deemed appropriate.
+We also decided to keep the terms associated with \textit{CLP} straightforward, using only three terms: ``decrease'', ``increase'', and ``maintain''.
+The values for the membership functions of these terms were distributed between -1 and 1.
 
 The figures below illustrate the membership function graphs for these variables.
 
@@ -138,6 +139,32 @@ We decided to experiment with a more generic Membership function, so we
 extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
 The first results are shown in the figure bellow.
 
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/first_bell/MemoryUsage}
+        \caption{Memory Usage}
+        \label{fig:first_bell_processor_load}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/first_bell/ProcessorLoad}
+        \caption{Processor Load}
+        \label{fig:first_bell_memory_usage}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/first_bell/CLP}
+        \caption{CLP Variation}
+        \label{fig:first_bell_clp}
+    \end{minipage}
+\end{figure}
+
+
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/MemoryUsage.png}
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/ProcessorLoad.png}
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/CLP.png}
@@ -151,7 +178,7 @@ all the membership functions and linguistic terms
 
 \begin{figure}
 
-\includegraphics{CLP.png}
+%\includegraphics{CLP.png}
 %\begin{tabular}[ccc]
 %    \subfloat[caption]{\includegraphics[width=.3\textwidth]{CLP.png}} & % noqa
 %    \subfloat[caption]{\includegraphics[width=.3\textwidth]{CLP.png}} &
@@ -162,7 +189,7 @@ all the membership functions and linguistic terms
 \section{Rules}
 rules
 
-\begin{table}[H][]
+\begin{table}[H]
 \begin{tabular}{|
 >{\columncolor[HTML]{9698ED}}c l|cccc|}
 \hline
