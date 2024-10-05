@@ -35,18 +35,24 @@ def plot_memory_processor_clp(FS, save_path=None):
     # Create a grid of values for Temperature and Frequency
     load_values = np.linspace(0, 1, 50)
     Througthput_values = np.linspace(0, 1, 50)
+    MemoryUsage = np.linspace(0, 1, 50)
+    ProcessorLoad = np.linspace(0, 1, 50)
 
     # Create meshgrid for plotting
-    M, P = np.meshgrid(load_values, Througthput_values)
+    #M, P = np.meshgrid(load_values, Througthput_values)
+    #CLP = np.zeros_like(M)
+
+    # Create meshgrid for plotting
+    M, P = np.meshgrid(MemoryUsage, ProcessorLoad)
     CLP = np.zeros_like(M)
 
-    # Set Latency as a constant value
-    #FS.set_variable("Latency", 20)
+    #Set Latency as a constant value
+    FS.set_variable("Latency", 0.5)
 
     for i in tqdm(range(M.shape[0])):
         for j in range(M.shape[1]):
-            FS.set_variable("SystemLoad", M[i, j])
-            FS.set_variable("Latency", P[i, j])
+            FS.set_variable("MemoryUsage", M[i, j])
+            FS.set_variable("ProcessorLoad", P[i, j])
 
             CLP[i, j] = FS.inference()["CLP"]
 
@@ -55,8 +61,8 @@ def plot_memory_processor_clp(FS, save_path=None):
                       width=800, height=600,
                       margin=dict(l=65, r=50, b=65, t=90)
                       )
-    fig.update_scenes(xaxis_title_text='SystemLoad [%]',
-                      yaxis_title_text='Latency [%]',
+    fig.update_scenes(xaxis_title_text='MemoryUsage [%]',
+                      yaxis_title_text='ProcessorLoad [%]',
                       zaxis_title_text='CLP [%]')
 
     if save_path is not None:
