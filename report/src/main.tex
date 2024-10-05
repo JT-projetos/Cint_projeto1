@@ -128,9 +128,9 @@ By combining these two variables, we simplify the model while still accurately r
 \vspace{10mm}
 
 From the graph we also noticed that the \textit{CLP} only varies between -0.5 and 0.5, which is not the desired range; we aim for it to vary between -1 and 1.
-This limitation is due to the configurations of the membership functions for the terms "increase" and "decrease" of the \textit{CLP}.
+This limitation is due to the configurations of the membership functions for the terms ``increase'' and ``decrease'' of the \textit{CLP}.
 Additionally, two constant plateau regions are visible where the \textit{CLP} remains unchanged: when \textit{MemoryUsage} and \textit{ProcessorLoad} are between 0 and 0.6, and when they are between 0.7 and 0.85, which does not make sense in our context.
-Finally, in the area of the graph where \textit{CLP} is less than -0.2 and \textit{MemoryUsage}/\textit{ProcessorLoad} is greater than 0.6, there is a "hump" with no \textit{CLP} values, which is undesirable.
+Finally, in the area of the graph where \textit{CLP} is less than -0.2 and \textit{MemoryUsage}/\textit{ProcessorLoad} is greater than 0.6, there is a ``hump'' with no \textit{CLP} values, which is undesirable.
 
 Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution.
 
