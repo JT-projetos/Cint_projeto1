@@ -1,4 +1,3 @@
-import os
 import numpy as np
 import pandas as pd
 
@@ -6,24 +5,17 @@ import pandas as pd
 # import all models
 # from fuzzy.models.mamdani_gaussian import FS as FS1
 # from fuzzy.models.mamdani_triangle import FS as FS2
-from fuzzy.models.mamdani_triangle_v2 import FS as FS12
-from fuzzy.models.mamdani_triangle_v3 import FS as FS13
 #from fuzzy.models.mamdani_bell_v2 import FS as FS4
 #from fuzzy.models.mamdani_bell_v5 import FS as FS5
 #from fuzzy.models.mamdani_bell_v6 import FS as FS6
 #from fuzzy.models.mamdani_bell_v7 import FS as FS7
 #from fuzzy.models.mamdani_bell_v8 import FS as FS8
 from fuzzy.models.mamdani_bell_v9 import FS as FS9
-from fuzzy.models.mamdani_bell_v9a import FS as FS9a
-from fuzzy.models.mamdani_bell_v9b import FS as FS9b
-from fuzzy.models.mamdani_bell_v9c import FS as FS9c
-from fuzzy.models.mamdani_hparams import FS as FShparams, create_fuzzy_system
+from fuzzy.models.mamdani_hparams import create_fuzzy_system
 #from fuzzy.models.mamdani_bell_v10 import FS as FS10
 
 import os
 import json
-
-from fuzzy.hparams_helper import convert_optuna_to_hparams
 
 
 def relative_error(y_true, y_pred):
@@ -34,9 +26,9 @@ def mse(y_true, y_pred):
     return ((y_true - y_pred)**2)/len(y_true)
 
 
-with open('./output/hparams_028.json', 'r') as f:
-    hparams = convert_optuna_to_hparams(json.load(f))
-    FSbest = create_fuzzy_system(hparams=hparams)
+with open('./output/hparams_007.json', 'r') as f:
+    #hparams = convert_optuna_to_hparams(json.load(f))
+    FSbest = create_fuzzy_system(hparams=json.load(f))
 
 models = {
     #'mamdani_gaussian': FS1,
