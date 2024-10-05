@@ -105,24 +105,30 @@ Finally, if any of these variables entered a "critical" state, the \textit{CLP} 
 
 \end{table}
 
-
+\vspace{10mm}
 
 To visualize the system's output, we generated 50 data points for \textit{MemoryUsage} and \textit{ProcessorLoad} ranging between 0 and 1.
 We then created an interactive 3D graph that showed the evolution of \textit{CLP} based on these two values.
-This graph can be seen in Figure~\ref{fig:3d_triangular}.
+This graph can be seen in Figure\ref{fig:3d_triangular}.
 Upon reviewing the graph, we noticed that the variables \textit{ProcessorLoad} and \textit{MemoryUsage} exhibited very similar behavior.
 Intuitively, when designing the system, we had structured the membership functions for each term in the same way for both variables, and the truth table was also symmetric.
 This indicates that the system should react in the same way to both variables and they could, in fact, be merged into a single variable without losing the system's effectiveness.
 By combining these two variables, we simplify the model while still accurately representing the system's behavior, as both variables seem to influence the \textit{CLP} in a nearly identical manner.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
 \includegraphics[scale = 0.8]{../images/3d_triangular}
 \caption{Fuzzy CLP Inference}
 \label{fig:3d_triangular}
 \end{figure}
 
+\vspace{10mm}
+
+From the graph we also noticed that the \textit{CLP} only varies between -0.5 and 0.5, which is not the desired range; we aim for it to vary between -1 and 1.
+This limitation is due to the configurations of the membership functions for the terms "increase" and "decrease" of the \textit{CLP}.
+Additionally, two constant plateau regions are visible where the \textit{CLP} remains unchanged: when \textit{MemoryUsage} and \textit{ProcessorLoad} are between 0 and 0.6, and when they are between 0.7 and 0.85, which does not make sense in our context.
+Finally, in the area of the graph where \textit{CLP} is less than -0.2 and \textit{MemoryUsage}/\textit{ProcessorLoad} is greater than 0.6, there is a "hump" with no \textit{CLP} values, which is undesirable.
 
 
 Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution.
