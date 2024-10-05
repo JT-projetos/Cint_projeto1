@@ -4,7 +4,10 @@ from nn.models.simple_lightning import Net
 import torch
 import os
 import pickle
+from fuzzy.models.mamdani_best import FS
 
+
+SHOW_LATEX = True
 
 parser = argparse.ArgumentParser(
                     prog='TestMe -> Fuzzy & Neural Network CInt',
@@ -23,13 +26,10 @@ required_columns = ('MemoryUsage', 'ProcessorLoad', 'InpNetThroughput', 'OutNetT
 if not all(e in required_columns for e in df.columns):
     raise RuntimeError('Required columns are missing')
 
-# load FS model
-with open('./final_models/fs.pkl', 'rb') as f:
-    FS = pickle.load(f)
 
+# test FS model
 fs_results = FS.predict(df)
 
-del FS
 
 # load NN model
 model = Net.load_from_checkpoint("./final_models/nn.ckpt")
@@ -40,9 +40,16 @@ model.eval()
 # predict with the model
 nn_results = model(torch.Tensor(df.values)).detach().numpy()
 
+# TODO add NN Classification {increase, decrease, maintain}
+
+# TODO? add NN classification groundtruth
+
 # Output TestResult.csv file
 df = pd.DataFrame({
     'CLPVariation_FS': fs_results,
     'CLPVariation_NN': nn_results,
 })
 df.to_csv('TestResult.csv', index=False)
+print(df.head(10))
+if SHOW_LATEX:
+    print(df.to_latex(index=False, float_format='%.3f'))
