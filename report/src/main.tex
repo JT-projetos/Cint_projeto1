@@ -8,6 +8,8 @@
 \usepackage{color}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{multirow}
+\usepackage{float}
+
 
 \usepackage[margin=2.5cm]{geometry}
 
@@ -84,39 +86,46 @@ When one of them reached "high," the \textit{CLP} remained unchanged (this decis
 Finally, if any of these variables entered a "critical" state, the \textit{CLP} had to decrease.
 
 
-\begin{table}[htbp]
+\begin{table}[H][htbp]
     \centering
     \begin{tabular}{|
-    >{\columncolor[HTML]{FFFFFF}}c
-    >{\columncolor[HTML]{FFFFFF}}c |cccc|}
+    >{\columncolor[HTML]{9698ED}}c
+    >{\columncolor[HTML]{CBCEFB}}c |cccc|}
     \hline
-    \multicolumn{2}{|c|}{\cellcolor[HTML]{FFFFFF}}                                         & \multicolumn{4}{c|}{\cellcolor[HTML]{FFFFFF}\textit{ProcessorLoad}}                                                                                                                                    \\ \cline{3-6}
-    \multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFFFFF}\textit{CLP}}}                    & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}low} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}medium} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}high} & \cellcolor[HTML]{FFFFFF}critical \\ \hline
-    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                              & low      & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                      & decrease                         \\ \cline{2-6}
-    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                              & medium   & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
-    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                              & high     & \multicolumn{1}{c|}{maintain}                    & \multicolumn{1}{c|}{maintain}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
-    \multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{FFFFFF}\textit{MemoryUsage}}} & critical & \multicolumn{1}{c|}{decrease}                    & \multicolumn{1}{c|}{decrease}                       & \multicolumn{1}{c|}{decrease}                     & decrease                         \\ \hline
+    \multicolumn{2}{|c|}{\cellcolor[HTML]{FFFC9E}}                                         & \multicolumn{4}{c|}{\cellcolor[HTML]{9698ED}ProcessorLoad}                                                                                                                                    \\ \cline{3-6}
+    \multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFFC9E}CPL}}                    & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}low} & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}medium} & \multicolumn{1}{c|}{\cellcolor[HTML]{CBCEFB}high} & \cellcolor[HTML]{CBCEFB}critical \\ \hline
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & low      & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{mantain}                      & decrease                         \\ \cline{2-6}
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & medium   & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                              & high     & \multicolumn{1}{c|}{maintain}                    & \multicolumn{1}{c|}{maintain}                       & \multicolumn{1}{c|}{maintain}                     & Decrease                         \\ \cline{2-6}
+    \multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{9698ED}MemoryUsage}} & critical & \multicolumn{1}{c|}{Decrease}                    & \multicolumn{1}{c|}{Decrease}                       & \multicolumn{1}{c|}{Decrease}                     & Decrease                         \\ \hline
     \end{tabular}
     \caption{Truth table}
     \label{truthtable}
-\end{table}
 
+\end{table}
 
 
 
 To visualize the system's output, we generated 50 data points for \textit{MemoryUsage} and \textit{ProcessorLoad} ranging between 0 and 1.
 We then created an interactive 3D graph that showed the evolution of \textit{CLP} based on these two values.
+This graph can be seen in Figure~\ref{fig:3d_triangular}.
+Upon reviewing the graph, we noticed that the variables \textit{ProcessorLoad} and \textit{MemoryUsage} exhibited very similar behavior.
+Intuitively, when designing the system, we had structured the membership functions for each term in the same way for both variables, and the truth table was also symmetric.
+This indicates that the system should react in the same way to both variables and they could, in fact, be merged into a single variable without losing the system's effectiveness.
+By combining these two variables, we simplify the model while still accurately representing the system's behavior, as both variables seem to influence the \textit{CLP} in a nearly identical manner.
 
+
+\begin{figure}[h]
+    \centering
+\includegraphics[scale = 0.8]{../images/3d_triangular}
+\caption{Fuzzy CLP Inference}
+\label{fig:3d_triangular}
+\end{figure}
 
 
 
 Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution.
 
-\begin{figure}[h]
-\centering
-%\includegraphics{path_to_gaussian_graph}
-%\caption{3D visualization of Gaussian membership functions}
-\end{figure}
 
 During the experimentation phase with different membership functions,the need for visualization became apparent.
 To facilitate this, we developed a helper script [fuzzy/visualization/fuzzy\_system\_to\_dataframe] that converts the
@@ -153,7 +162,7 @@ all the membership functions and linguistic terms
 \section{Rules}
 rules
 
-\begin{table}[]
+\begin{table}[H][]
 \begin{tabular}{|
 >{\columncolor[HTML]{9698ED}}c l|cccc|}
 \hline
