@@ -63,7 +63,8 @@ if __name__ == '__main__':
     # -------------------
     # Step 2: Define data
     # -------------------
-    df = pd.read_csv('../../gen_input/.csv')
+    #df = pd.read_csv('../../gen_input/.csv')
+    df = pd.read_csv('../../input/CINTE24-25_Proj1_SampleData.csv')
 
     train, test = train_test_split(df, test_size=0.2)
     train, val = train_test_split(train, test_size=0.2)
@@ -75,10 +76,10 @@ if __name__ == '__main__':
     # -------------------
 
     logger = TensorBoardLogger('../model_logs', name='simple_model')
-    checkpoints = ModelCheckpoint(monitor='val_loss', mode='min')
-    early_stopping = EarlyStopping(monitor='val_loss', mode='min')
+    checkpoint = ModelCheckpoint(monitor='val_loss', mode='min', filename='simple-{epoch:02d}-{val_loss:.2f}')
+    early_stopping = EarlyStopping(monitor='val_loss', mode='min', patience=5)
 
     model = Net()
-    trainer = L.Trainer(max_epochs=100, logger=logger, callbacks=[checkpoints, early_stopping])
+    trainer = L.Trainer(max_epochs=300, logger=logger, callbacks=[checkpoint, early_stopping])
     trainer.fit(model, data_utils.DataLoader(train), data_utils.DataLoader(val))
     trainer.test(model, data_utils.DataLoader(test))
