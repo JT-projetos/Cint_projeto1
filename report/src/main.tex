@@ -17,7 +17,7 @@
 %\graphicspath{ {../../fuzzy/output/mamdani\_bell\_v9/io\_graphs/} }
 
 
-\title{Funky Systems and Neural Networks}
+\title{Fuzzy Systems and Neural Networks}
 \author{Jéssica Consciência e Tiago Leite}
 
 
@@ -104,6 +104,32 @@ FuzzySystem Python object into a dynamic dataframe, enabling easy plotting and a
 We decided to experiment with a more generic Membership function, so we
 extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
 The first results are shown in the figure bellow.
+
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/first_bell/MemoryUsage}
+        \caption{Memory Usage}
+        \label{fig:first_bell_processor_load}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/first_bell/ProcessorLoad}
+        \caption{Processor Load}
+        \label{fig:first_bell_memory_usage}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/first_bell/CLP}
+        \caption{CLP Variation}
+        \label{fig:first_bell_clp}
+    \end{minipage}
+\end{figure}
+
 
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/MemoryUsage.png}
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/ProcessorLoad.png}
