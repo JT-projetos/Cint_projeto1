@@ -6,10 +6,10 @@ FS = FuzzySystemWrapper()
 
 
 # Memory Usage Avg [%]
-M1 = FuzzySet(function=Gaussian_MF(mu=0,sigma=0.40), term="low")  # TODO add an overlap between Fuzzy sets
-M2 = FuzzySet(function=Gaussian_MF(mu=50,sigma=0.20), term="medium")
-M3 = FuzzySet(function=Gaussian_MF(mu=0.85,sigma=0.20), term="high")
-M4 = FuzzySet(function=Gaussian_MF(mu=1,sigma=0.15), term="critical")
+M1 = FuzzySet(function=Gaussian_MF(mu=0,sigma=0.30), term="low")  # TODO add an overlap between Fuzzy sets
+M2 = FuzzySet(function=Gaussian_MF(mu=0.50,sigma=0.15), term="medium")
+M3 = FuzzySet(function=Gaussian_MF(mu=0.75,sigma=0.15), term="high")
+M4 = FuzzySet(function=Gaussian_MF(mu=0.95,sigma=0.15), term="critical")
 FS.add_linguistic_variable("MemoryUsage", LinguisticVariable([M1,M2,M3,M4], universe_of_discourse=[0,1]))
 
 
@@ -37,13 +37,13 @@ CLP1 = FuzzySet(function=Gaussian_MF(mu=1,sigma=0.2), term="increase")
 FS.add_linguistic_variable("CLP", LinguisticVariable([CLP1, CLP2, CLP3], universe_of_discourse=[-1,1]))
 
 FS.add_rules([
-    #"IF (Latency IS poor) THEN (CLP IS increase)",
-    #"IF (MemoryUsage IS medium) AND (ProcessorLoad IS medium) THEN (CLP IS increase)",
-    #"IF (MemoryUsage IS low) AND (ProcessorLoad IS medium) THEN (CLP IS increase)",
-    #"IF (MemoryUsage IS medium) AND (ProcessorLoad IS low) THEN (CLP IS increase)",
+    "IF (Latency IS poor) THEN (CLP IS increase)",
+    "IF (MemoryUsage IS medium) AND (ProcessorLoad IS medium) THEN (CLP IS increase)",
+    "IF (MemoryUsage IS low) AND (ProcessorLoad IS medium) THEN (CLP IS increase)",
+    "IF (MemoryUsage IS medium) AND (ProcessorLoad IS low) THEN (CLP IS increase)",
     "IF (MemoryUsage IS low) AND (ProcessorLoad IS low) THEN (CLP IS increase)",
     "IF (MemoryUsage IS critical) OR (ProcessorLoad IS critical) THEN (CLP IS decrease)",
-    #"IF (MemoryUsage IS high) OR (ProcessorLoad IS high) THEN (CLP IS maintain)",
+    "IF (MemoryUsage IS high) OR (ProcessorLoad IS high) THEN (CLP IS maintain)",
 ])
 
 if __name__ == '__main__':
