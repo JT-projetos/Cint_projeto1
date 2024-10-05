@@ -1,7 +1,8 @@
 from simpful import FuzzySystem, TriangleFuzzySet, AutoTriangle, LinguisticVariable
+from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
 
 
-FS = FuzzySystem()
+FS = FuzzySystemWrapper()
 
 # Memory Usage Avg [%]
 M1 = TriangleFuzzySet(0,0,40, term = "low")  # TODO add an overlap between Fuzzy sets

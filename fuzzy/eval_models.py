@@ -1,4 +1,3 @@
-import os
 import numpy as np
 import pandas as pd
 
@@ -6,50 +5,52 @@ import pandas as pd
 # import all models
 # from fuzzy.models.mamdani_gaussian import FS as FS1
 # from fuzzy.models.mamdani_triangle import FS as FS2
-from fuzzy.models.mamdani_triangle_v2 import FS as FS12
-from fuzzy.models.mamdani_bell_v2 import FS as FS4
-from fuzzy.models.mamdani_bell_v5 import FS as FS5
-from fuzzy.models.mamdani_bell_v6 import FS as FS6
-from fuzzy.models.mamdani_bell_v7 import FS as FS7
-from fuzzy.models.mamdani_bell_v8 import FS as FS8
+#from fuzzy.models.mamdani_bell_v2 import FS as FS4
+#from fuzzy.models.mamdani_bell_v5 import FS as FS5
+#from fuzzy.models.mamdani_bell_v6 import FS as FS6
+#from fuzzy.models.mamdani_bell_v7 import FS as FS7
+#from fuzzy.models.mamdani_bell_v8 import FS as FS8
 
+from fuzzy.models.mamdani_triangle_v2 import FS as FS12
+from fuzzy.models.mamdani_bell_v9 import FS as FS9
+from fuzzy.models.mamdani_hparams import create_fuzzy_system
+#from fuzzy.models.mamdani_bell_v10 import FS as FS10
+
+import os
+import json
+
+
+def relative_error(y_true, y_pred):
+    return np.abs((y_true - y_pred) / y_true) * 100
+
+
+def mse(y_true, y_pred):
+    return ((y_true - y_pred)**2)/len(y_true)
+
+
+with open('./output/hparams_007.json', 'r') as f:
+    #hparams = convert_optuna_to_hparams(json.load(f))
+    FSbest = create_fuzzy_system(hparams=json.load(f))
 
 models = {
     #'mamdani_gaussian': FS1,
     #'mamdani_triangle': FS2,
     'mamdani_triangle_v2': FS12,
+    #'mamdani_triangle_v3': FS13,
     #'mamdani_bell_v2': FS4,
     #'mamdani_bell_v5': FS5,
     #'mamdani_bell_v6': FS6,
     #'mamdani_bell_v7': FS7,
     #'mamdani_bell_v8': FS8,
+    'mamdani_bell_v9': FS9,
+    #'mamdani_bell_v9a': FS9a,
+    #'mamdani_bell_v9b': FS9b,
+    #'mamdani_bell_v9c': FS9c,
+    #'mamdani_hparams': FShparams,
+    'mamdani_best': FSbest,
 }
 
 DO_ALL_TESTS = True
-
-def test_fuzzy_system(df, FS):
-    results = []
-    for i, row in df.iterrows():  # FIXME get correct variable names
-        FS.set_variable('MemoryUsage', row['MemoryUsage'])
-        FS.set_variable('ProcessorLoad', row['ProcessorLoad'])
-        FS.set_variable('InpNetThroughput', row['InpNetThroughput'])
-        FS.set_variable('OutNetThroughput', row['OutNetThroughput'])
-        FS.set_variable('OutBandwidth', row['OutBandwidth'])
-        FS.set_variable('Latency', row['Latency'])
-        FS.set_variable('V_MemoryUsage', row['V_MemoryUsage'])
-        FS.set_variable('V_ProcessorLoad', row['V_ProcessorLoad'])
-        FS.set_variable('V_InpNetThroughput', row['V_InpNetThroughput'])
-        FS.set_variable('V_OutNetThroughput', row['V_OutNetThroughput'])
-        FS.set_variable('V_OutBandwidth', row['V_OutBandwidth'])
-        FS.set_variable('V_Latency', row['V_Latency'])
-
-        SystemLoad = max(row['MemoryUsage'], row['ProcessorLoad'])
-        FS.set_variable("SystemLoad", SystemLoad)
-
-        results.append(FS.inference()['CLP'])
-
-    return results
-
 
 if not os.path.exists('./output/eval_models'):
     os.mkdir('./output/eval_models')
@@ -61,7 +62,7 @@ if 'model_results.csv' not in os.listdir('./output/eval_models/') or DO_ALL_TEST
 
     model_results = {}
     for name, model in models.items():
-        model_results[name] = test_fuzzy_system(df_test, model)
+        model_results[name] = model.predict(df_test)
     df = pd.DataFrame(model_results)
     df['CLPVariation'] = df_test['CLPVariation']
     df.to_csv('./output/eval_models/model_results.csv', index=False)
@@ -76,14 +77,15 @@ else:
 MSE = {}
 scores = pd.DataFrame()
 for name in models.keys():
-    scores[name] = np.abs((df_test['CLPVariation'] - df[name]) / df_test['CLPVariation']) * 100
+    scores[name] = mse(y_true=df_test['CLPVariation'], y_pred=df[name])
     MSE[name] = (((df_test['CLPVariation'] - df[name])**2)/len(df_test['CLPVariation'])).sum()
 
     # for i, point in enumerate(s):
     #     scores['model'].append(name)
     #     scores[f'datapoint {i}'].append(point)
 
-print(MSE)
+for name in models.keys():
+    print(f"{name} MSE: {MSE[name]}")
 
 scores.to_csv('./output/eval_models/model_scores.csv', index=False)
 

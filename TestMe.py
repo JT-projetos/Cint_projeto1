@@ -1,9 +1,13 @@
+import argparse
 import pandas as pd
 from nn.models.simple_lightning import Net
 import torch
 import os
 import pickle
+from fuzzy.models.mamdani_best import FS
 
+
+SHOW_LATEX = True
 
 parser = argparse.ArgumentParser(
                     prog='TestMe -> Fuzzy & Neural Network CInt',
@@ -22,28 +26,10 @@ required_columns = ('MemoryUsage', 'ProcessorLoad', 'InpNetThroughput', 'OutNetT
 if not all(e in required_columns for e in df.columns):
     raise RuntimeError('Required columns are missing')
 
-fs_results = []
-# load FS model
-with open('./final_models/fs.pkl', 'rb') as f:
-    FS = pickle.load(f)
 
-# Maybe in future create a predict function common to all FS that receives df
-for i, row in df.iterrows():  # FIXME get correct variable names
-    FS.set_variable('MemoryUsage', row['MemoryUsage'])
-    FS.set_variable('ProcessorLoad', row['ProcessorLoad'])
-    FS.set_variable('InpNetThroughput', row['InpNetThroughput'])
-    FS.set_variable('OutNetThroughput', row['OutNetThroughput'])
-    FS.set_variable('OutBandwidth', row['OutBandwidth'])
-    FS.set_variable('Latency', row['Latency'])
-    FS.set_variable('V_MemoryUsage', row['V_MemoryUsage'])
-    FS.set_variable('V_ProcessorLoad', row['V_ProcessorLoad'])
-    FS.set_variable('V_InpNetThroughput', row['V_InpNetThroughput'])
-    FS.set_variable('V_OutNetThroughput', row['V_OutNetThroughput'])
-    FS.set_variable('V_OutBandwidth', row['V_OutBandwidth'])
-    FS.set_variable('V_Latency', row['V_Latency'])
-    fs_results.append(FS.inference()['CLP'])
+# test FS model
+fs_results = FS.predict(df)
 
-del FS
 
 # load NN model
 model = Net.load_from_checkpoint("./final_models/nn.ckpt")
@@ -54,9 +40,16 @@ model.eval()
 # predict with the model
 nn_results = model(torch.Tensor(df.values)).detach().numpy()
 
+# TODO add NN Classification {increase, decrease, maintain}
+
+# TODO? add NN classification groundtruth
+
 # Output TestResult.csv file
 df = pd.DataFrame({
     'CLPVariation_FS': fs_results,
     'CLPVariation_NN': nn_results,
 })
 df.to_csv('TestResult.csv', index=False)
+print(df.head(10))
+if SHOW_LATEX:
+    print(df.to_latex(index=False, float_format='%.3f'))
