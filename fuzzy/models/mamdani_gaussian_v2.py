@@ -5,7 +5,7 @@ from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
 FS = FuzzySystemWrapper()
 
 # System Load = Max (Memory Usage, Processor Load)
-S1 = FuzzySet(function=Gaussian_MF(mu=0,sigma=0.133), term="low")  # TODO add an overlap between Fuzzy sets
+S1 = FuzzySet(function=Gaussian_MF(mu=0,sigma=0.133), term="low")
 S2 = FuzzySet(function=Gaussian_MF(mu=0.5,sigma=0.06), term="moderate")
 S3 = FuzzySet(function=Gaussian_MF(mu=0.7,sigma=0.06), term="high")
 S4 = FuzzySet(function=Gaussian_MF(mu=0.85,sigma=0.1), term="critical")
@@ -13,7 +13,7 @@ S4 = FuzzySet(function=Gaussian_MF(mu=0.85,sigma=0.1), term="critical")
 FS.add_linguistic_variable("SystemLoad", LinguisticVariable([S1,S2,S3,S4], universe_of_discourse=[0,1]))
 
 # Output Throughput [bps]
-L1 = FuzzySet(function=Gaussian_MF(mu=0,sigma=0.1), term="low")  # TODO add an overlap between Fuzzy sets
+L1 = FuzzySet(function=Gaussian_MF(mu=0,sigma=0.1), term="low")
 L2 = FuzzySet(function=Gaussian_MF(mu=0.5,sigma=0.06), term="moderate")
 L3 = FuzzySet(function=Gaussian_MF(mu=0.7,sigma=0.06), term="high")
 L4 = FuzzySet(function=Gaussian_MF(mu=0.8,sigma=0.1), term="very_high")
@@ -21,7 +21,7 @@ L4 = FuzzySet(function=Gaussian_MF(mu=0.8,sigma=0.1), term="very_high")
 FS.add_linguistic_variable("Througthput", LinguisticVariable([L1,L2,L3, L4], universe_of_discourse=[0,1]))
 
 # CLP Variation (output)
-CLP1 = FuzzySet(function=Gaussian_MF(mu=0.8,sigma=0.06), term="increase significantly")  # TODO add an overlap between Fuzzy sets
+CLP1 = FuzzySet(function=Gaussian_MF(mu=0.8,sigma=0.06), term="increase significantly")
 CLP2 = FuzzySet(function=Gaussian_MF(mu=0.3,sigma=0.166), term="increase")
 CLP3 = FuzzySet(function=Gaussian_MF(mu=0.0,sigma=0.1), term="maintain")
 CLP4 = FuzzySet(function=Gaussian_MF(mu=-0.3,sigma=0.166), term="decrease")
