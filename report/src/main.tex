@@ -78,6 +78,31 @@ The figures below illustrate the membership function graphs for these variables.
 \end{figure}
 
 
+To design the system's rules, we created a truth table, which can be found below in Table~\ref{truthtable}.
+The logic behind the table was as follows: when both \textit{MemoryUsage} and \textit{ProcessorLoad} were either "low" or "medium," the \textit{CLP} would increase.
+When one of them reached "high," the \textit{CLP} remained unchanged (this decision was made to ensure that the node's processing capacity stayed above average).
+Finally, if any of these variables entered a "critical" state, the \textit{CLP} had to decrease.
+
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{|
+    >{\columncolor[HTML]{FFFFFF}}c
+    >{\columncolor[HTML]{FFFFFF}}c |cccc|}
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor[HTML]{FFFFFF}}                                         & \multicolumn{4}{c|}{\cellcolor[HTML]{FFFFFF}\textit{ProcessorLoad}}                                                                                                                                    \\ \cline{3-6}
+    \multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFFFFF}\textit{CLP}}}                    & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}low} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}medium} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}high} & \cellcolor[HTML]{FFFFFF}critical \\ \hline
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                              & low      & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                      & decrease                         \\ \cline{2-6}
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                              & medium   & \multicolumn{1}{c|}{increase}                    & \multicolumn{1}{c|}{increase}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}}                              & high     & \multicolumn{1}{c|}{maintain}                    & \multicolumn{1}{c|}{maintain}                       & \multicolumn{1}{c|}{maintain}                     & decrease                         \\ \cline{2-6}
+    \multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{FFFFFF}\textit{MemoryUsage}}} & critical & \multicolumn{1}{c|}{decrease}                    & \multicolumn{1}{c|}{decrease}                       & \multicolumn{1}{c|}{decrease}                     & decrease                         \\ \hline
+    \end{tabular}
+    \caption{Truth table}
+    \label{truthtable}
+\end{table}
+
+
+
 
 To visualize the system's output, we generated 50 data points for \textit{MemoryUsage} and \textit{ProcessorLoad} ranging between 0 and 1.
 We then created an interactive 3D graph that showed the evolution of \textit{CLP} based on these two values.
