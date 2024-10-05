@@ -11,7 +11,7 @@ import pandas as pd
 #from fuzzy.models.mamdani_bell_v7 import FS as FS7
 #from fuzzy.models.mamdani_bell_v8 import FS as FS8
 
-from fuzzy.models.mamdani_triangle_v2 import FS as FS12
+from fuzzy.models.deprecated.mamdani_triangle_v2 import FS as FS12
 from fuzzy.models.mamdani_bell_v9 import FS as FS9
 from fuzzy.models.mamdani_hparams import create_fuzzy_system
 #from fuzzy.models.mamdani_bell_v10 import FS as FS10
@@ -42,12 +42,12 @@ models = {
     #'mamdani_bell_v6': FS6,
     #'mamdani_bell_v7': FS7,
     #'mamdani_bell_v8': FS8,
-    #'mamdani_bell_v9': FS9,
+    'mamdani_bell_v9': FS9,
     #'mamdani_bell_v9a': FS9a,
     #'mamdani_bell_v9b': FS9b,
     #'mamdani_bell_v9c': FS9c,
     #'mamdani_hparams': FShparams,
-    #'mamdani_best': FSbest,
+    'mamdani_best': FSbest,
 }
 
 DO_ALL_TESTS = True
