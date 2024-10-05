@@ -11,7 +11,14 @@
 \usepackage{booktabs}
 
 \usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
 
+\usepackage[symbol]{footmisc}
+
+
+%% Custom commands
+\newcommand*\apos{\textsc{\char13}}
 
 % set image file paths
 %\graphicspath{ {../../fuzzy/output/mamdani\_bell\_v9/io\_graphs/} }
@@ -39,7 +46,6 @@ we did not want this restriction and decided for starting with a simple
 approach then later on adding difficulty when needed.
 (Early on we decided to try to make data-driven decisions with an iterative
 improving process)
-
 
 \section{First Iterations}
 
@@ -82,9 +88,9 @@ The figures below illustrate the membership function graphs for these variables.
 
 
 To design the system's rules, we created a truth table, which can be found below in Table~\ref{truthtable}.
-The logic behind the table was as follows: when both \textit{MemoryUsage} and \textit{ProcessorLoad} were either "low" or "medium," the \textit{CLP} would increase.
-When one of them reached "high," the \textit{CLP} remained unchanged (this decision was made to ensure that the node's processing capacity stayed above average).
-Finally, if any of these variables entered a "critical" state, the \textit{CLP} had to decrease.
+The logic behind the table was as follows: when both \textit{MemoryUsage} and \textit{ProcessorLoad} were either ``low'' or ``medium'', the \textit{CLP} would increase.
+When one of them reached ``high'', the \textit{CLP} remained unchanged (this decision was made to ensure that the node's processing capacity stayed above average).
+Finally, if any of these variables entered a ``critical'' state, the \textit{CLP} had to decrease.
 
 
 \begin{table}[htbp]
@@ -155,6 +161,8 @@ The first results are shown in the figure bellow.
 \end{figure}
 
 
+After some experimentation, we concluded (as foreseen theoretically) that the parameters $a$, $b$, and $c$ are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
+
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/MemoryUsage.png}
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/ProcessorLoad.png}
 %\includegraphics[width=0.5]{../../fuzzy/output/mamdani_bell/io_graphs/CLP.png}
@@ -211,16 +219,17 @@ The results of this evaluation are presented below.
 
 This evaluation process was instrumental in improving our models and identifying potential problem areas.
 For instance, the model consistently underestimated the CLP for data points 3 and 4, this is shown in the table below.
-\begin{table}
+
+\begin{table}[H]
     \centering
     \caption{Sample data points 3 and 4}
     \label{tab:}
-    \begin{tabular}{lrrrrrrrrrrrrr}
+    \begin{tabular}{lrrrrr}
         \toprule
-        & MemoryUsage & ProcessorLoad & InpNetThroughput & OutNetThroughput & OutBandwidth & Latency & V\_MemoryUsage & V\_ProcessorLoad & V\_InpNetThroughput & V\_OutNetThroughput & V\_OutBandwidth & V\_Latency & CLPVariation \\
+        & MemoryUsage & ProcessorLoad & Latency & mamdani\_bell\_v2 & CLPVariation \\
         \midrule
-        3 & 0.68        & 0.60          & 0.65             & 0.70             & 0.72         & 0.80    & 0.45          & 0.52            & 0.50               & 0.48               & 0.45           & 0.48      & 0.73         \\
-        4 & 0.50        & 0.50          & 0.50             & 0.50             & 0.50         & 0.50    & 0.50          & 0.50            & 0.50               & 0.50               & 0.50           & 0.50      & 0.50         \\
+        3 & 0.68        & 0.60          & 0.80    & 0.30              & 0.73         \\
+        4 & 0.50        & 0.50          & 0.50    & 0.66              & 0.50         \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -232,16 +241,46 @@ This iterative process led to the development of models like \texttt{mamdani\_tr
 Many more iterations were tested but not preserved.
 Some of the deprecated models can still be found in the \texttt{fuzzy/models/deprecated} folder, along with their outputs in \texttt{fuzzy/output/deprecated}.
 
-The best model, \texttt{mamdani\_best}, emerged as the result of extensive hyperparameter tuning, which is discussed in detail in the \emph{Hyperparameter Tuning} section.
+The best model, \texttt{mamdani\_best}, emerged as the result of extensive hyperparameter tuning, which is discussed in detail in the~\nameref{sec:hyper_tuning} section.
 
 
 \section{Hyperparameter Tuning}
+\label{sec:hyper_tuning}
+
+Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
+However, we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
+To automate this process, we took the following steps:
+
+\begin{itemize}
+    \item Create a \texttt{FuzzySystem} from a set of hyperparameters [\texttt{fuzzy/models/mamdani\_hparams.py}].
+    \item Define an objective function to minimize/maximize.
+          In our case, we used the total MSE of the 10 sample data points as the objective value to be minimized.
+    \item Sample several hyperparameter trials and find the best.
+          This was done with the help of the Python framework \texttt{optuna}, which uses Bayesian Optimization to find optimal hyperparameters.
+\end{itemize}
+
+A simpler approach would have been to use \texttt{RandomSearch} or \texttt{GridSearch} (possibly using \texttt{scikit-learn}).
+However, we chose to leverage \texttt{optuna}\apos s search algorithm, Tree Parzen Estimation (TPE).
+In a nutshell, TPE builds an internal model that makes ``educated'' guesses about which hyperparameters to test and continuously updates that model.
+The search is then performed in a tree-like manner, and \texttt{optuna} can handle both continuous and categorical data.
+
+After 3 hours of hyperparameter tuning, the \texttt{mamdani\_bell\_v9} model, comprising a total of 6228 trials, achieved a final total MSE of $0.00749$.
+This corresponds to a six-fold improvement over the manually obtained $MSE$ of $0.04473$.
+The best hyperparameters from this tuning process were saved as \texttt{hparams\_007.json}.
 
 
 \section{Conclusion}
 
 
 \part{Neural Networks}
+
+To build the neural network, we decided to use a simple architecture: 3 layers, 12 input nodes, 32 nodes in the hidden layer, and 1 output node.
+Since the output should be in the range \([-1, 1]\), we chose the \emph{Tanh} activation function, which produces values within this range.
+For the optimizer, we used Adam with a learning rate of $1 \times 10^{-3}$, leaving the rest of the parameters at their default values: $\epsilon = 1 \times 10^{-8}$, $\beta = (0.9, 0.999)$, and \texttt{weight\_decay} = 0.
+For the loss function, we chose MSE, allowing us to directly compare the results with those of the Fuzzy System.
+
+We implemented the neural network using the PyTorch framework alongside \texttt{pytorch\_lightning}.
+This made it easy to integrate TensorBoard for logging and visualization, apply Early Stopping to prevent unnecessary computation, and enable Model Checkpointing to save the best-performing model.
 
 
 \end{document}
