@@ -121,6 +121,10 @@ def plot_model_scores(file_path: str):
     ax.set_ylabel('Relative Error [%]')
     plt.show()
 
+def plot_mse_scores(df):
+    ax = sns.barplot(df)
+    plt.show()
+
 
 if __name__ == '__main__':
     import pickle
