@@ -5,3 +5,5 @@
 !report/out/main.pdf
 
 nn/model_logs
+
+TestResult.csv
