@@ -4,6 +4,7 @@ from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
 
 FS = FuzzySystemWrapper()
 
+"""mamdani_triangle_v4 MSE: 0.0073527861016230295"""
 
 # System Load = Max (Memory Usage, Processor Load)
 S1 = TriangleFuzzySet(0,0,0.5, term = "very_low")

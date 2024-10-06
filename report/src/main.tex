@@ -309,13 +309,25 @@ We can observe that when \textit{SystemLoad} is between 0.6 and 0.75, the \texti
 
 Finally, we introduced another variable: \textit{OutBandwidth}, as moving data to the cloud (when we reduce computation) is limited by the available bandwidth.
 Therefore, when the \textit{SystemLoad} was critical and it was necessary to reduce the \textit{CLP} to negative values, the amount by which the \textit{CLP} would decrease would depend on the available bandwidth: when bandwidth was high, the \textit{CLP} would decrease significantly ("decreased\_significantly"), and when bandwidth was medium or low, the \textit{CLP} would only decrease slightly ("decrease").
-In Figure~\cref{fig:bandwidth_triangular_v4}, the terms and membership functions of the variable \textit{OutBandwidth} are represented.
+In \cref{fig:bandwidth_triangular_v4}, the terms and membership functions of the variable \textit{OutBandwidth} are represented.
 
 \begin{figure}[H]
     \centering
 \includegraphics[scale = 0.6]{../images/triangular_v4_OutBandwidth}
 \caption{OutBandwidth MF}
 \label{fig:bandwidth_triangular_v4}
+\end{figure}
+
+
+We evaluated the system using the 10 data points provided, this model achieved the lowest Mean Squared Error (MSE) of 0.00735.
+In Figure~\ref{fig:MSE_triangle_v4.png}, a graph illustrates the contribution of each data point to the overall MSE. Notably, points 4, 6, 7, and 8 have the most significant contributions to the error; however, they remain below 0.0016.
+The system behaves as expected, increasing the \textit{CLP} when necessary and decreasing it at appropriate times, while taking into account the constraints of edge computing and the requirements for offloading processing to the cloud.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[scale = 0.55]{../images/MSE_triangle_v4}
+\caption{MSE of each point of experts dataset}
+\label{fig:MSE_triangle_v4.png}
 \end{figure}
 
 %During the experimentation phase with different membership functions,the need for visualization became apparent.

@@ -38,7 +38,7 @@ models = {
     #'mamdani_gaussian': FS1,
     #'mamdani_triangle': FS2,
     #'mamdani_triangle_v2': FS12,
-    'mamdani_triangle_v3': FS13,
+    #'mamdani_triangle_v3': FS13,
     'mamdani_triangle_v4': FS14,
     #'mamdani_bell_v2': FS4,
     #'mamdani_bell_v5': FS5,
