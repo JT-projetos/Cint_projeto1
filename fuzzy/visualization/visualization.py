@@ -12,7 +12,7 @@ import os
 
 sns.set_style('darkgrid')
 sns.set(font_scale=1.2)
-plt.figure(figsize=(8, 7), dpi=100)
+#plt.figure(figsize=(8, 7), dpi=100)
 
 def plot_inputs_outputs_fuzzy_system(FS, save_path=None):
     df = fuzzy_system_to_dataframe(FS)
