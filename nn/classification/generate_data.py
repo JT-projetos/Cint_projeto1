@@ -15,7 +15,7 @@ def classify(num) -> str:
 input_file = '../../gen_input/uniform100000.csv'
 output_file = '../../gen_input/uniform100000_class.csv'
 
-df = pd.read_csv(input_file, nrows=100)
+df = pd.read_csv(input_file, nrows=100000)
 
 df['fs_label'] = df['CLPVariation'].apply(classify)
 print(df[['CLPVariation', 'fs_label']].head())
