@@ -323,11 +323,7 @@ In Figure~\cref{fig:bandwidth_triangular_v4}, the terms and membership functions
 %FuzzySystem Python object into a dynamic dataframe, enabling easy plotting and analysis of the membership functions.
 
 
-\section{Evaluate Models}
-Now that we had developed several models and established rules, a reliable and straightforward testing mechanism became necessary.
-To achieve this, we implemented the script \newline \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
-which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
-Initially, the relative error metric, defined as:
+\section{Hyperparameter Tuning}
 
 Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
 However, we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
