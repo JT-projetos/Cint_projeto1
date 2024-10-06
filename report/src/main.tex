@@ -91,7 +91,7 @@ The figures below illustrate the membership function graphs for these variables.
 \end{figure}
 
 
-To design the system's rules, we created a truth table, which can be found below in~\vref{tab:truthtable}.
+To design the system's rules, we created a truth table, which can be found in~\vref{tab:truthtable}.
 The logic behind the table was as follows: when both \textit{MemoryUsage} and \textit{ProcessorLoad} were either ``low'' or ``medium'', the \textit{CLP} would increase.
 When one of them reached ``high'', the \textit{CLP} remained unchanged (this decision was made to ensure that the node's processing capacity stayed above average).
 Finally, if any of these variables entered a ``critical'' state, the \textit{CLP} had to decrease.
@@ -137,7 +137,6 @@ This limitation is due to the configurations of the membership functions for the
 Additionally, two constant plateau regions are visible where the \textit{CLP} remains unchanged: when \textit{MemoryUsage} and \textit{ProcessorLoad} are between 0 and 0.6, and when they are between 0.7 and 0.85, which does not make sense in our context.
 Finally, in the area of the graph where \textit{CLP} is less than -0.2 and \textit{MemoryUsage}/\textit{ProcessorLoad} is greater than 0.6, there is a ``hump'' with no \textit{CLP} values, which is undesirable.
 
-
 Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution because they provide a smoother transition between membership grades.
 To make a direct comparison with the system we previously developed using triangular membership functions, we retained the same linguistic variables, the same terms for these variables, and the same rules as presented in~\cref{tab:truthtable}.
 
@@ -182,7 +181,7 @@ Starting from the system with triangular membership functions presented in Secti
 First, we decided to combine the variables \textit{ProcessorLoad} and \textit{MemoryUsage} into a single variable: \textit{SystemLoad}, which is defined as the maximum value between these two variables. We chose the maximum value because it allows us to capture the most critical resource constraint affecting system performance. By focusing on the highest load, the system can respond to the most demanding condition, ensuring that performance is not compromised under heavy usage.
 
 
-We decided to assign the same terms we had initially used for the variables \textit{MemoryUsage}/\textit{ProcessorLoad} to the new variable \textit{SystemLoad}, namely: ``lo'', ``medium'',``high'', and ``critical.'' As for the output variable, \textit{CLP}, we decided to add two new terms: ``increase\_significantly'' and ``decrease\_significantly''.
+We decided to assign the same terms we had initially used for the variables \textit{MemoryUsage}/\textit{ProcessorLoad} to the new variable \textit{SystemLoad}, namely: ``low'', ``medium'',``high'', and ``critical.'' As for the output variable, \textit{CLP}, we decided to add two new terms: ``increase\_significantly'' and ``decrease\_significantly''.
 
 The values a, b, and c that define the triangles of the membership functions were chosen through an iterative process, where we adjusted some of the boundaries (both for the terms related to \textit{SystemLoad} and for the terms of \textit{CLP}) and observed the resulting defuzzified \textit{CLP}.
 We then evaluated whether the results made sense, given the system's requirements. For example, if the \textit{SystemLoad} input was 0.9, it would not make sense for the resulting \textit{CLP} to be 0.7. Based on this logic, we continued adjusting the limits of the membership functions iteratively.
