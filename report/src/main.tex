@@ -13,11 +13,11 @@
 
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{hyperref}
+\usepackage{varioref}
+\usepackage[capitalize]{cleveref}
 %\usepackage{nameref}
-%\usepackage{cleveref}
 
 \usepackage[symbol]{footmisc}
-\usepackage[capitalize]{cleveref}
 
 %% Custom commands
 \newcommand*\apos{\textsc{\char13}}
@@ -43,11 +43,9 @@ we should implement: Mamdani, Takagi-Sugeno or Tsukamoto.
 From the project statement we observe that the output \textit{CLPVariation}
 is not any clear function of the input, rulling out Takagi-Sugeno,
 also meaning that our output is a \textbf{Fuzzy Set}.
-If we wish for our output to be monotonic then the choice would be Tsukomoto, since
-we did not want this restriction and decided for starting with a simple
-approach then later on adding difficulty when needed.
-(Early on we decided to try to make data-driven decisions with an iterative
-improving process)
+If we wished for our output to be monotonic then the choice would be Tsukomoto, since
+we did not want this restriction and decided to start with a simple approach then later on add difficulty when needed.
+(Early on we decided to try to make data-driven decisions with an iterative improving process)
 
 \section{First Iterations}
 
@@ -375,7 +373,7 @@ To use the neural network as a classifier, we first defined the ground truth int
 
 Using these intervals, we labeled the training, validation, and test data for the neural network.
 Next, we labeled the data again using the same intervals but with the results predicted by the neural network.
-The confusion matrix heatmap showing these results is presented below.
+The confusion matrix heatmap showing these results is \vref{fig:confusion_matrix_heatmap}.
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{../images/classification/confusion_heatmap}
