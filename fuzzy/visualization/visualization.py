@@ -11,7 +11,8 @@ from fuzzy.visualization.fuzzy_system_to_dataframe import fuzzy_system_to_datafr
 import os
 
 sns.set_style('darkgrid')
-
+sns.set(font_scale=1.2)
+plt.figure(figsize=(8, 7), dpi=100)
 
 def plot_inputs_outputs_fuzzy_system(FS, save_path=None):
     df = fuzzy_system_to_dataframe(FS)
@@ -19,7 +20,7 @@ def plot_inputs_outputs_fuzzy_system(FS, save_path=None):
     lvs = df['linguistic_var'].unique()
     for lv in lvs:
         ax = sns.lineplot(df[df['linguistic_var'] == lv], x='x', y='y', hue='term')
-        ax.set_title(f"Linguistic Variable {lv}")
+        ax.set_title(f"Linguistic Variable {lv}", fontsize=14)
 
         if save_path is not None:
             if not os.path.exists(save_path + '/io_graphs/'):
@@ -131,7 +132,7 @@ def plot_model_scores(file_path_or_df: str | pd.DataFrame):
     df = pd.melt(df, id_vars='Datapoint', var_name='Model', value_name='Relative Error')
     #print(df)
     ax = sns.barplot(data=df, x='Datapoint', y='Relative Error', hue='Model')
-    ax.set_ylabel('Mean Squared Error [%]')
+    ax.set_ylabel('Mean Squared Error')
     plt.show()
 
 def plot_mse_scores(df):
