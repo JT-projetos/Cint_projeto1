@@ -49,6 +49,33 @@ we did not want this restriction and decided for starting with a simple
 approach then later on adding difficulty when needed.
 (Early on we decided to try to make data-driven decisions with an iterative
 improving process)
+
+\section{Evaluate Models}
+
+Before we begin defining different system structures with various linguistic variables, terms, and intervals, as well as membership functions, it is essential to establish metrics for evaluating these systems.
+By defining appropriate metrics, we can assess their performance objectively and determine which configurations yield the best results.
+
+To achieve this, we implemented the script \newline \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
+which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
+Initially, the relative error metric, defined as:
+
+\[
+    \text{Relative Error} = \frac{|y_{\text{true}} - y_{\text{pred}}|}{y_{\text{true}}}
+\]
+
+was used for evaluation.
+However, this metric exhibited instability when $y_{\text{true}} \to 0$, as was the case for data point 6 in the sample.
+
+%\begin{figure}[htpb]
+%\includegraphics[width=\textwidth]{../images/eval_models/relative_error}
+%\end{figure}
+
+To address this instability, we switched to the Mean Squared Error (MSE) metric, defined as:
+
+\[
+    \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_{\text{true}} - y_{\text{pred}})^2
+\]
+
 \section{Architecture}
 \subsection{First Iterations}
 \label{sec:first_iterations}
@@ -250,11 +277,12 @@ We can observe that when \textit{SystemLoad} is between 0.6 and 0.75, the \texti
 
 Finally, we introduced another variable: \textit{OutBandwidth}, as moving data to the cloud (when we reduce computation) is limited by the available bandwidth.
 Therefore, when the \textit{SystemLoad} was critical and it was necessary to reduce the \textit{CLP} to negative values, the amount by which the \textit{CLP} would decrease would depend on the available bandwidth: when bandwidth was high, the \textit{CLP} would decrease significantly ("decreased\_significantly"), and when bandwidth was medium or low, the \textit{CLP} would only decrease slightly ("decrease").
+In Figure~\cref{fig:bandwidth_triangular_v4}, the terms and membership functions of the variable \textit{OutBandwidth} are represented.
 
 \begin{figure}[H]
     \centering
-\includegraphics[scale = 0.6]{../images/3d_triangular_v4_latency}
-\caption{3D plot of CLP variation with Latency and SystemLoad}
+\includegraphics[scale = 0.6]{../images/triangular_v4_OutBandwidth}
+\caption{OutBandwidth MF}
 \label{fig:bandwidth_triangular_v4}
 \end{figure}
 
@@ -299,31 +327,32 @@ After some experimentation, we concluded (as foreseen theoretically) that the pa
 
 
 
-\section{Evaluate Models}
-Now that we had developed several models and established rules, a reliable and straightforward testing mechanism became necessary.
-To achieve this, we implemented the script \newline \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
-which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
-Initially, the relative error metric, defined as:
+\section{Hyperparameter Tuning}
+\label{sec:hyper_tuning}
 
-\[
-    \text{Relative Error} = \frac{|y_{\text{true}} - y_{\text{pred}}|}{y_{\text{true}}}
-\]
+Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
+However, we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
+To automate this process, we took the following steps:
 
-was used for evaluation.
-However, this metric exhibited instability when $y_{\text{true}} \to 0$, as was the case for data point 6 in the sample.
-This issue is illustrated in the figure below, where the models \texttt{mamdani\_triangle\_v2}, \texttt{mamdani\_bell\_v9}, and \texttt{mamdani\_best} are compared.
+\begin{itemize}
+    \item Create a \texttt{FuzzySystem} from a set of hyperparameters [\texttt{fuzzy/models/mamdani\_hparams.py}].
+    \item Define an objective function to minimize/maximize.
+          In our case, we used the total MSE of the 10 sample data points as the objective value to be minimized.
+    \item Sample several hyperparameter trials and find the best.
+          This was done with the help of the Python framework \texttt{optuna}, which uses Bayesian Optimization to find optimal hyperparameters.
+\end{itemize}
 
-\begin{figure}[htpb]
-\includegraphics[width=\textwidth]{../images/eval_models/relative_error}
-\end{figure}
+A simpler approach would have been to use \texttt{RandomSearch} or \texttt{GridSearch} (possibly using \texttt{scikit-learn}).
+However, we chose to leverage \texttt{optuna}\apos s search algorithm, Tree Parzen Estimation (TPE).
+In a nutshell, TPE builds an internal model that makes ``educated'' guesses about which hyperparameters to test and continuously updates that model.
+The search is then performed in a tree-like manner, and \texttt{optuna} can handle both continuous and categorical data.
 
-To address this instability, we switched to the Mean Squared Error (MSE) metric, defined as:
+After 3 hours of hyperparameter tuning, the \texttt{mamdani\_bell\_v9} model, comprising a total of 6228 trials, achieved a final total MSE of $0.00749$.
+This corresponds to a six-fold improvement over the manually obtained $MSE$ of $0.04473$.
+The best hyperparameters from this tuning process were saved as \texttt{hparams\_007.json}.
 
-\[
-    \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_{\text{true}} - y_{\text{pred}})^2
-\]
 
-The results of this evaluation are presented below.
+\section{Conclusion}
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{../images/eval_models/mse}
@@ -356,33 +385,6 @@ Some of the deprecated models can still be found in the \texttt{fuzzy/models/dep
 The best model, \texttt{mamdani\_best}, emerged as the result of extensive hyperparameter tuning, which is discussed in detail in the~\nameref{sec:hyper_tuning} section.
 
 
-
-\section{Hyperparameter Tuning}
-\label{sec:hyper_tuning}
-
-Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
-However, we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
-To automate this process, we took the following steps:
-
-\begin{itemize}
-    \item Create a \texttt{FuzzySystem} from a set of hyperparameters [\texttt{fuzzy/models/mamdani\_hparams.py}].
-    \item Define an objective function to minimize/maximize.
-          In our case, we used the total MSE of the 10 sample data points as the objective value to be minimized.
-    \item Sample several hyperparameter trials and find the best.
-          This was done with the help of the Python framework \texttt{optuna}, which uses Bayesian Optimization to find optimal hyperparameters.
-\end{itemize}
-
-A simpler approach would have been to use \texttt{RandomSearch} or \texttt{GridSearch} (possibly using \texttt{scikit-learn}).
-However, we chose to leverage \texttt{optuna}\apos s search algorithm, Tree Parzen Estimation (TPE).
-In a nutshell, TPE builds an internal model that makes ``educated'' guesses about which hyperparameters to test and continuously updates that model.
-The search is then performed in a tree-like manner, and \texttt{optuna} can handle both continuous and categorical data.
-
-After 3 hours of hyperparameter tuning, the \texttt{mamdani\_bell\_v9} model, comprising a total of 6228 trials, achieved a final total MSE of $0.00749$.
-This corresponds to a six-fold improvement over the manually obtained $MSE$ of $0.04473$.
-The best hyperparameters from this tuning process were saved as \texttt{hparams\_007.json}.
-
-
-\section{Conclusion}
 
 
 \part{Neural Networks}
