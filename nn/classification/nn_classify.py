@@ -4,23 +4,13 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 
 from nn.models.simple_lightning import Net
-from sklearn.metrics import classification_report, ConfusionMatrixDisplay, confusion_matrix
+from sklearn.metrics import confusion_matrix, precision_recall_fscore_support as score
 import os
 
-
-def classify(num) -> str:
-    """Classify as {'Decrease', 'Increase', 'Maintain'} based on NN output (CLP)"""
-    if -1 <= num <= 0.3:
-        return 'Decrease'
-    elif 0.3 < num <= 0.5:
-        return 'Maintain'
-    elif 0.5 < num <= 1:
-        return 'Increase'
-    else:
-        raise ValueError("CLPVariation should be [-1, 1]")
+from generate_data import classify
 
 
-DO_LABELS = False
+DO_LABELS = True
 
 input_file = '../../gen_input/uniform100000_class.csv'
 output_file = './uniform100000_class_performance.csv'
@@ -43,7 +33,7 @@ if not os.path.exists(output_file) or DO_LABELS:
     df.drop(list(required_columns), axis='columns', inplace=True)
 
     df['nn_results'] = nn_results
-    df['nn_label'] = df['CLPVariation'].apply(classify)
+    df['nn_label'] = df['nn_results'].apply(classify)
     #print(df[['fs_label', 'nn_label']].head())
 
     df[['fs_label', 'nn_label']].to_csv(output_file, index=False)
@@ -67,7 +57,20 @@ ax.set_ylabel("Fuzzy System Label", fontsize=14, labelpad=20)
 ax.yaxis.set_ticklabels(df['fs_label'].unique())
 
 # set plot title
-ax.set_title("Confusion Matrix for the Diabetes Detection Model", fontsize=14, pad=20)
+ax.set_title("Confusion Matrix for Neural Network Classification", fontsize=14, pad=20)
 plt.show()
 
-print(f"{classification_report(df['fs_label'], df['nn_label'])}")
+precision, recall, f1score, support = score(df['fs_label'], df['nn_label'])
+
+print('precision: {}'.format(precision))
+print('recall: {}'.format(recall))
+print('f1score: {}'.format(f1score))
+print('support: {}'.format(support))
+#print(f"{type(precision)}, {precision}")
+df = pd.DataFrame({
+    'precision': precision,
+    'recall': recall,
+    'f1-score': f1score,
+    'label': ['Decrease', 'Maintain', 'Increase']
+})
+print(df.to_latex(index=False, float_format='%.2f'))

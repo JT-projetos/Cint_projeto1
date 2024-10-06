@@ -2,6 +2,7 @@ import pandas as pd
 
 
 def classify(num) -> str:
+    """Classify as {'Decrease', 'Increase', 'Maintain'} based on NN output (CLP)"""
     if -1 <= num <= 0.3:
         return 'Decrease'
     elif 0.3 < num <= 0.5:
