@@ -32,25 +32,25 @@ def mse(y_true, y_pred):
 
 with open('./output/hparams_007.json', 'r') as f:
     #hparams = convert_optuna_to_hparams(json.load(f))
-    FSbest = create_fuzzy_system(hparams=json.load(f))
+    FShyper = create_fuzzy_system(hparams=json.load(f))
 
 models = {
     #'mamdani_gaussian': FS1,
     #'mamdani_triangle': FS2,
     #'mamdani_triangle_v2': FS12,
-    'mamdani_triangle_v3': FS13,
+    #'mamdani_triangle_v3': FS13,
+    #'mamdani_bell_v9': FS9,
+    'mamdani_hyper': FShyper,
     'mamdani_triangle_v4': FS14,
     #'mamdani_bell_v2': FS4,
     #'mamdani_bell_v5': FS5,
     #'mamdani_bell_v6': FS6,
     #'mamdani_bell_v7': FS7,
     #'mamdani_bell_v8': FS8,
-    #'mamdani_bell_v9': FS9,
     #'mamdani_bell_v9a': FS9a,
     #'mamdani_bell_v9b': FS9b,
     #'mamdani_bell_v9c': FS9c,
     #'mamdani_hparams': FShparams,
-    #'mamdani_best': FSbest,
 }
 
 DO_ALL_TESTS = True
