@@ -32,7 +32,7 @@ FS.add_linguistic_variable("OutBandwidth", LinguisticVariable([B1,B3, B4], unive
 
 # CLP Variation (output)
 CLP1 = TriangleFuzzySet(0.6,1,1,   term="increase_significantly")
-CLP2 = TriangleFuzzySet(0,0.5,0.9,   term="increase")
+CLP2 = TriangleFuzzySet(0.3,0.5,0.9,   term="increase")
 CLP3 = TriangleFuzzySet(-0.3,0,0.3,  term="maintain")
 CLP4 = TriangleFuzzySet(-0.7,-0.3,-0.2, term="decrease")
 CLP5 = TriangleFuzzySet(-1,-1,-0.6, term="decrease_significantly")
