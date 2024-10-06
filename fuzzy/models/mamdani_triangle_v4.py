@@ -41,11 +41,15 @@ FS.add_linguistic_variable("CLP", LinguisticVariable([CLP1, CLP2, CLP3, CLP4, CL
 
 FS.add_rules([
 
-    "IF (SystemLoad IS critical) AND (OutBandwidth IS high) THEN (CLP IS decrease_significantly)",
+    #"IF (SystemLoad IS critical) AND (OutBandwidth IS high) THEN (CLP IS decrease_significantly)",
 
-    "IF (SystemLoad IS critical) AND (OutBandwidth IS low) THEN (CLP IS decrease)",
+    "IF (SystemLoad IS critical)  THEN (CLP IS decrease_significantly)",
 
-    "IF (SystemLoad IS critical) AND (OutBandwidth IS medium) THEN (CLP IS decrease)",
+    #"IF (SystemLoad IS critical) AND (OutBandwidth IS low) THEN (CLP IS decrease)",
+
+
+    #"IF (SystemLoad IS critical) AND (OutBandwidth IS medium) THEN (CLP IS decrease)",
+
 
     "IF (SystemLoad IS high) AND (Latency IS high) THEN (CLP IS increase_significantly)",
 
@@ -70,7 +74,7 @@ if __name__ == '__main__':
         os.makedirs(save_path)
 
     plot_inputs_outputs_fuzzy_system(FS, save_path)
-    #plot_memory_processor_clp(FS, save_path)
+    plot_memory_processor_clp(FS, save_path)
 
     with open(f"{save_path}/model.pkl", "wb") as f:
         pickle.dump(FS, f)

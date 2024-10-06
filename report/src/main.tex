@@ -1,6 +1,6 @@
 
 % Preamble
-\documentclass[11pt]{report}
+\documentclass[titlepage]{article}
 
 % Packages
 \usepackage{amsmath}
@@ -18,6 +18,7 @@
 %\usepackage{nameref}
 
 \usepackage[symbol]{footmisc}
+
 
 %% Custom commands
 \newcommand*\apos{\textsc{\char13}}
@@ -42,12 +43,15 @@ Firstly we started by deciding between which type of fuzzy system
 we should implement: Mamdani, Takagi-Sugeno or Tsukamoto.
 From the project statement we observe that the output \textit{CLPVariation}
 is not any clear function of the input, rulling out Takagi-Sugeno,
-also meaning that our output is a \textbf{Fuzzy Set}.
-If we wished for our output to be monotonic then the choice would be Tsukomoto, since
-we did not want this restriction and decided to start with a simple approach then later on add difficulty when needed.
-(Early on we decided to try to make data-driven decisions with an iterative improving process)
-
-\section{First Iterations}
+also meaning that our output is a \textbf{Fuzzy Set}. If we wish for
+our output to be monotonic then the choice would be Tsukomoto, since
+we did not want this restriction and decided for starting with a simple
+approach then later on adding difficulty when needed.
+(Early on we decided to try to make data-driven decisions with an iterative
+improving process)
+\section{Architecture}
+\subsection{First Iterations}
+\label{sec:first_iterations}
 
 In the initial iteration, we selected the variables \textit{ProcessorLoad}, and \textit{MemoryUsage} based on which variables we though were more important.
 These variables were chosen as inputs, while \textit{CLP} was designated as the output.
@@ -133,8 +137,6 @@ This limitation is due to the configurations of the membership functions for the
 Additionally, two constant plateau regions are visible where the \textit{CLP} remains unchanged: when \textit{MemoryUsage} and \textit{ProcessorLoad} are between 0 and 0.6, and when they are between 0.7 and 0.85, which does not make sense in our context.
 Finally, in the area of the graph where \textit{CLP} is less than -0.2 and \textit{MemoryUsage}/\textit{ProcessorLoad} is greater than 0.6, there is a ``hump'' with no \textit{CLP} values, which is undesirable.
 
-Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution.
-
 
 Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution because they provide a smoother transition between membership grades.
 To make a direct comparison with the system we previously developed using triangular membership functions, we retained the same linguistic variables, the same terms for these variables, and the same rules as presented in~\cref{tab:truthtable}.
@@ -162,7 +164,7 @@ The resulting 3D graph showing the variation of the \textit{CLP} with \textit{Me
 
 \begin{figure}[H]
     \centering
-\includegraphics[scale = 0.8]{../images/3d_guassian}
+\includegraphics[scale = 0.7]{../images/3d_guassian}
 \caption{Fuzzy CLP Inference using Guassians as MF}
 \label{fig:3d_gaussian}
 \end{figure}
@@ -171,23 +173,75 @@ The resulting 3D graph showing the variation of the \textit{CLP} with \textit{Me
 
 
 This time, the system achieved higher positive \textit{CLP} values, but it worsened on the negative \textit{CLP} values, only going down to -0.2.
+To achieve better results, we decided to add more terms to the linguistic variables, merge \textit{MemoryUsage} with \textit{ProcessorLoad} into a single variable, and experiment with different membership functions. By increasing the number of terms, we aim to capture more detailed nuances in the system's behavior, improving its responsiveness to variations in input. Additionally, merging the two load-related variables simplifies the model without losing critical information. The next sections will address these adjustments in detail, explaining the rationale behind these changes and the impact they have on the system's performance.
+
+\subsection{Triangle Version Improved}
 
 
-To achieve better results, we decided to add more terms to the linguistic variables, merge \textit{MemoryUsage} with \textit{ProcessorLoad} into a single variable, and experiment with different membership functions.
-By increasing the number of terms, we aim to capture more detailed nuances in the system's behavior, improving its responsiveness to variations in input.
-Additionally, merging the two load-related variables simplifies the model without losing critical information.
-The next sections will address these adjustments in detail, explaining the rationale behind these changes and the impact they have on the system's performance.
+Starting from the system with triangular membership functions presented in Section~\ref{sec:first_iterations}, we iteratively built a new system. First, we decided to combine the variables \textit{ProcessorLoad} and \textit{MemoryUsage} into a single variable: \textit{SystemLoad}, which is defined as the maximum value between these two variables. We chose the maximum value because it allows us to capture the most critical resource constraint affecting system performance. By focusing on the highest load, the system can respond to the most demanding condition, ensuring that performance is not compromised under heavy usage.
 
 
-During the experimentation phase with different membership functions,the need for visualization became apparent.
-To facilitate this, we developed a helper script \newline
-[fuzzy/visualization/fuzzy\_system\_to\_dataframe] that converts the
-FuzzySystem Python object into a dynamic dataframe, enabling easy plotting and analysis of the membership functions.
+We decided to assign the same terms we had initially used for the variables \textit{MemoryUsage}/\textit{ProcessorLoad} to the new variable \textit{SystemLoad}, namely: "low", "medium", "high", and "critical." As for the output variable, \textit{CLP}, we decided to add two new terms: "increase\_significantly" and "decrease\_significantly."
+
+The values a, b, and c that define the triangles of the membership functions were chosen through an iterative process, where we adjusted some of the boundaries (both for the terms related to \textit{SystemLoad} and for the terms of \textit{CLP}) and observed the resulting defuzzified \textit{CLP}. We then evaluated whether the results made sense, given the system's requirements. For example, if the \textit{SystemLoad} input was 0.9, it would not make sense for the resulting \textit{CLP} to be 0.7. Based on this logic, we continued adjusting the limits of the membership functions iteratively.
+
+Later, when we gained access to expert data, this process became easier, as we had a ground truth to reference. This allowed us to test our system and evaluate it using more quantitative metrics. However, this process was quite exhaustive, as improving the error for one set of data sometimes worsened the results for others. Ultimately, we arrived at the following membership functions for each term of each variable.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/triangular_v4_SystemLoad}
+        \caption{SystemLoad MF`s}
+        \label{fig:systemload_triangular_v4}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/triangular_v4_CLP}
+        \caption{CLP Variation MF`s}
+        \label{fig:clp_triangular_v4}
+    \end{minipage}
+\end{figure}
+
+\vspace{5mm}
 
 
-But this time, we combined the variables \textit{ProcessorLoad} and \textit{MemoryUsage} into a single variable: \textit{SystemLoad}, which is defined as the maximum value between these two variables.
-We chose the maximum value because it allows us to capture the most critical resource constraint affecting system performance.
-By focusing on the higher load, we ensure that the system reacts to the most demanding condition.
+Initially, the system only considered a single variable, \textit{SystemLoad}. However, with the data provided to us, we realized that this variable alone was not sufficient to capture all the nuances of the real system. There were additional aspects we needed to address using other variables. As a result, we decided to introduce another linguistic variable: \textit{Latency}.
+
+We defined three terms for the linguistic variable \textit{Latency}: "low," "moderate," and "high." Similar to the approach used for \textit{SystemLoad}, the membership functions were established iteratively, using a trial-and-error process based on what we considered reasonable. The membership functions for \textit{Latency} are illustrated in \cref{fig:latency_triangular_v4}.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[scale = 0.6]{../images/triangular_v4_latency}
+\caption{Latency MF}
+\label{fig:latency_triangular_v4}
+\end{figure}
+
+%\vspace{5mm}
+
+
+The logic we followed when adding rules was based on the following statement: "high latency means that it’s better to process data locally," we determined that in cases where \textit{SystemLoad} is high, the \textit{CLP} could either be maintained at an increasing value or reduced to offload processing to the cloud. However, this decision heavily depends on latency: if latency is low, we can process the data in the cloud (which implies slightly lowering the \textit{CLP}), but if latency is high, it is preferable to continue processing locally on the node since the communication channel is experiencing significant delays.
+
+
+In the graph shown in \cref{fig:3d_latency_triangular_v4}, the variation of \textit{CLP} with \textit{SystemLoad} and \textit{Latency} is represented. We can observe that when \textit{SystemLoad} is between 0.6 and 0.75, the \textit{CLP} varies with \textit{Latency}: with low latency, the \textit{CLP} decreases, whereas with high latency, the \textit{CLP} increases.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[scale = 0.6]{../images/3d_triangular_v4_latency}
+\caption{3D plot of CLP variation with Latency and SystemLoad}
+\label{fig:3d_latency_triangular_v4}
+\end{figure}
+
+\vspace{8mm}
+
+
+
+%During the experimentation phase with different membership functions,the need for visualization became apparent.
+%To facilitate this, we developed a helper script [fuzzy/visualization/fuzzy\_system\_to\_dataframe] that converts the
+%FuzzySystem Python object into a dynamic dataframe, enabling easy plotting and analysis of the membership functions.
+
+
 
 \section{Generalized Bell}
 We decided to experiment with a more generic Membership function, so we
