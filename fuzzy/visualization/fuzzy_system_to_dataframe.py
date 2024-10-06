@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from simpful import FuzzySystem, LinguisticVariable
-from simpful import Triangular_MF, Gaussian_MF
+from simpful import Triangular_MF, Gaussian_MF, Trapezoidal_MF
 
 from fuzzy.models.bell_mf import Bell_MF
 
@@ -96,6 +96,59 @@ def fuzzy_system_to_dataframe(FS: FuzzySystem) -> pd.DataFrame:
 
                     vis['term'].append(fs._term)
                     vis['linguistic_var'].append(key)
+
+            # Fuzzy set is Generalized Bell
+            if isinstance(fs._funpointer, Trapezoidal_MF):
+                if fs._funpointer._a == fs._funpointer._b:
+
+                    vis['x'].append(fs._funpointer._a)
+                    vis['y'].append(1)
+
+                    vis['x'].append(fs._funpointer._c)
+                    vis['y'].append(1)
+
+                    vis['x'].append(fs._funpointer._d)
+                    vis['y'].append(0)
+
+                    for _ in range(3):
+                        vis['term'].append(fs._term)
+                        vis['linguistic_var'].append(key)
+
+                if fs._funpointer._c == fs._funpointer._d:
+
+                    vis['x'].append(fs._funpointer._a)
+                    vis['y'].append(0)
+
+                    vis['x'].append(fs._funpointer._b)
+                    vis['y'].append(1)
+
+                    vis['x'].append(fs._funpointer._c)
+                    vis['y'].append(1)
+
+
+                    for _ in range(3):
+                        vis['term'].append(fs._term)
+                        vis['linguistic_var'].append(key)
+
+                else:
+                    vis['x'].append(fs._funpointer._a)
+                    vis['y'].append(0)
+
+                    vis['x'].append(fs._funpointer._b)
+                    vis['y'].append(1)
+
+                    vis['x'].append(fs._funpointer._c)
+                    vis['y'].append(1)
+
+                    vis['x'].append(fs._funpointer._d)
+                    vis['y'].append(0)
+
+                    for _ in range(4):
+                        vis['term'].append(fs._term)
+                        vis['linguistic_var'].append(key)
+
+
+
 
     df = pd.DataFrame(vis)
     return df
