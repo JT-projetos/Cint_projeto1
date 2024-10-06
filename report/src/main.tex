@@ -253,6 +253,54 @@ rules
 \end{table}
 
 
+\section{Evaluate Models}
+Now that we had developed several models and established rules, a reliable and straightforward testing mechanism became necessary.
+To achieve this, we implemented the script \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
+which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
+Initially, the relative error metric, defined as:
+
+\[
+    \text{Relative Error} = \frac{|y_{\text{true}} - y_{\text{pred}}|}{y_{\text{true}}}
+\]
+
+was used for evaluation.
+However, this metric exhibited instability when $y_{\text{true}} \to 0$, as was the case for data point 6 in the sample.
+This issue is illustrated in the figure below, where the models \texttt{mamdani\_triangle\_v2}, \texttt{mamdani\_bell\_v9}, and \texttt{mamdani\_best} are compared.
+
+\begin{figure}[htpb]
+\includegraphics[width=\textwidth]{../images/eval_models/relative_error}
+\end{figure}
+
+To address this instability, we switched to the Mean Squared Error (MSE) metric, defined as:
+
+\[
+    \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_{\text{true}} - y_{\text{pred}})^2
+\]
+
+The results of this evaluation are presented below.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{../images/eval_models/mse}
+\end{figure}
+
+This evaluation process was instrumental in improving our models and identifying potential problem areas.
+For instance, the model consistently underestimated the CLP for data points 3 and 4, this is shown in the table below.
+
+\begin{table}[H]
+    \centering
+    \caption{Sample data points 3 and 4}
+    \label{tab:}
+    \begin{tabular}{lrrrrr}
+        \toprule
+        & MemoryUsage & ProcessorLoad & Latency & mamdani\_bell\_v2 & CLPVariation \\
+        \midrule
+        3 & 0.68        & 0.60          & 0.80    & 0.30              & 0.73         \\
+        4 & 0.50        & 0.50          & 0.50    & 0.66              & 0.50         \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
 
 These observations suggested, in our view, that the model should account for high latency as a factor contributing to a lower \emph{CLP}.
 This iterative process led to the development of models like \texttt{mamdani\_triangle\_v2} and \texttt{mamdani\_bell\_v9}.
@@ -260,6 +308,7 @@ Many more iterations were tested but not preserved.
 Some of the deprecated models can still be found in the \texttt{fuzzy/models/deprecated} folder, along with their outputs in \texttt{fuzzy/output/deprecated}.
 
 The best model, \texttt{mamdani\_best}, emerged as the result of extensive hyperparameter tuning, which is discussed in detail in the~\nameref{sec:hyper_tuning} section.
+
 
 
 \section{Hyperparameter Tuning}
