@@ -16,6 +16,7 @@
 \usepackage{cleveref}
 
 \usepackage[symbol]{footmisc}
+\usepackage{graphicx}
 
 
 %% Custom commands
@@ -365,6 +366,27 @@ We followed the rule of thumb that ``a model will often need ten times more data
 Our model has 449 trainable parameters and 12 input features, which means our training data should consist of more than $4610$ samples.
 We decided to generate a number of samples equal to an order of magnitude above 4610 rounded up, which results in 100,000 samples.
 
+\section{Classification}
+
+To use the neural network as a classifier, we first defined the ground truth intervals as \([-1, 0.3[\) for \emph{Decrease}, \([0.3, 0.5[\) for \emph{Maintain}, and \([0.5, 1]\) for \emph{Increase}, based on the CLP linguistic variable intervals as shown in the figure below.
+
+Using these intervals, we labeled the training, validation, and test data for the neural network.
+Next, we labeled the data again using the same intervals but with the results predicted by the neural network.
+The confusion matrix heatmap showing these results is presented below.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{../images/classification/confusion_heatmap}
+\caption{Confusion Matrix Heatmap}
+\end{figure}
+
+To gain a better understanding of the neural networks performance, we calculated the Precision, Recall, and F1-score, which are shown in the table below.
+
+\begin{table}[H]
+    \centering
+    \caption{}
+    \label{tab:}
+    \include{classification_scores_table}
+\end{table}
 
 
 \end{document}
