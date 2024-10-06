@@ -206,7 +206,7 @@ To achieve better results, we decided to add more terms to the linguistic variab
 We decided to experiment using a more generic Membership function, so we
 extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
 The Generalized Bell has parameters $a$, $b$ and $c$ that are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
-After extensive manual iteration the best performing model (\textbf{v9}) used the fuzzy sets in~\vref{fig:fuzzy_sets_bellv9}.
+After extensive manual iteration the best performing model (\textbf{v9}) has the following linguistic variables and terms illustrated in the following~\cref{fig:fuzzy_sets_bellv9}.
 
 \begin{figure}[htbp]
     \centering
@@ -233,7 +233,7 @@ After extensive manual iteration the best performing model (\textbf{v9}) used th
     \label{fig:fuzzy_sets_bellv9}
 \end{figure}
 
-This model obtained an $MSE=0.0447$ on the expert dataset.
+This model obtained an \emph{MSE}$=0.0447$ on the expert dataset.
 
 \subsection{Triangle Version Improved}
 
@@ -251,7 +251,7 @@ This allowed us to test our system and evaluate it using more quantitative metri
 However, this process was quite exhaustive, as improving the error for one set of data sometimes worsened the results for others.
 Ultimately, we arrived at the following membership functions for each term of each variable.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minipage}{0.45\textwidth}
         \centering
@@ -308,7 +308,7 @@ We can observe that when \textit{SystemLoad} is between 0.6 and 0.75, the \texti
 
 
 Finally, we introduced another variable: \textit{OutBandwidth}, as moving data to the cloud (when we reduce computation) is limited by the available bandwidth.
-Therefore, when the \textit{SystemLoad} was critical and it was necessary to reduce the \textit{CLP} to negative values, the amount by which the \textit{CLP} would decrease would depend on the available bandwidth: when bandwidth was high, the \textit{CLP} would decrease significantly ("decreased\_significantly"), and when bandwidth was medium or low, the \textit{CLP} would only decrease slightly ("decrease").
+Therefore, when the \textit{SystemLoad} was critical and it was necessary to reduce the \textit{CLP} to negative values, the amount by which the \textit{CLP} would decrease would depend on the available bandwidth: when bandwidth was high, the \textit{CLP} would decrease significantly (``decreased\_significantly''), and when bandwidth was medium or low, the \textit{CLP} would only decrease slightly (``decrease'').
 In Figure~\cref{fig:bandwidth_triangular_v4}, the terms and membership functions of the variable \textit{OutBandwidth} are represented.
 
 \begin{figure}[H]
@@ -324,6 +324,7 @@ In Figure~\cref{fig:bandwidth_triangular_v4}, the terms and membership functions
 
 
 \section{Hyperparameter Tuning}
+\label{sec:hyper_tuning}
 
 Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
 However, we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
@@ -349,10 +350,27 @@ The best hyperparameters from this tuning process were saved as \texttt{hparams\
 
 \section{Conclusion}
 
+Now we present a more precise examination of the best models: \texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4}.
+What follows is the evaluation using the MSE metric for the 10 sample data points, shown in the \vref{fig:mse_3best}.
+
 \begin{figure}[H]
-\includegraphics[width=\textwidth]{../images/eval_models/mse}
+\includegraphics[width=\textwidth]{../images/eval_models/mse_3best}
+\caption{MSE of the top 3 performing models (\texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4})}
+\label{fig:mse_3best}
 \end{figure}
 
+In the next \cref{fig:mse_2best}, we compare only the best two models.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{../images/eval_models/mse_2best}
+\caption{MSE of the top 2 performing models (\texttt{bell\_hyper}, and \texttt{trianglev4})}
+\label{fig:mse_2best}
+\end{figure}
+
+We can observe that they appear to score similarly, with the total score of \texttt{trianglev4} being slightly better than \texttt{bell\_hyper} ($0.735 < 0.749$).
+However, the membership functions are drastically different (see FIGURE for \texttt{bell\_hyper} and \cref{fig:systemload_triangular_v4,fig:clp_triangular_v4,fig:latency_triangular_v4} for \texttt{trianglev4}).
+The membership functions of \texttt{trianglev4} are much more understandable and interpretable, whereas those of \texttt{bell\_hyper} seem to be a result of overfitting.
+\\
 This evaluation process was instrumental in improving our models and identifying potential problem areas.
 For instance, the model consistently underestimated the CLP for data points 3 and 4, this is shown in the table below.
 
@@ -414,7 +432,7 @@ To use the neural network as a classifier, we first defined the ground truth int
 
 Using these intervals, we labeled the training, validation, and test data for the neural network.
 Next, we labeled the data again using the same intervals but with the results predicted by the neural network.
-The confusion matrix heatmap showing these results is \vref{fig:confusion_matrix_heatmap}.
+The confusion matrix heatmap showing these results is \cref{fig:confusion_matrix_heatmap}.
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{../images/classification/confusion_heatmap}
