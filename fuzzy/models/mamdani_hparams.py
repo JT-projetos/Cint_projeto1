@@ -1,4 +1,4 @@
-from simpful import FuzzySystem, LinguisticVariable, FuzzySet, TriangleFuzzySet
+from simpful import FuzzySystem, LinguisticVariable, FuzzySet, TriangleFuzzySet, Trapezoidal_MF
 from fuzzy.models.bell_mf import Bell_MF
 from fuzzy.fuzzy_system_wrapper import FuzzySystemWrapper
 
@@ -96,6 +96,10 @@ def create_fuzzy_set_from_dict(var: dict) -> FuzzySet:
             F = FuzzySet(function=Bell_MF(**var['params']), term=var['term'])
         case 'triangle_mf':
             F = TriangleFuzzySet(**var['params'], term=var['term'])
+
+        case 'trapezoid_mf':
+            F = FuzzySet(function=Trapezoidal_MF(**var['params']), term=var['term'])
+
         case _ as e:
             raise RuntimeError(f"The function {e} is not supported yet")
 
@@ -120,6 +124,26 @@ def create_fuzzy_system(hparams: dict, rules=None) -> FuzzySystemWrapper:
             "IF (SystemLoad IS very_high) THEN (CLP IS decrease_significantly)",
             "IF (Latency IS high) AND ((SystemLoad IS very_low) OR (SystemLoad IS low) OR (SystemLoad IS medium)) THEN (CLP IS increse_significantly)",
         ]
+
+        #rules = [
+#
+        #    "IF (SystemLoad IS critical) AND (OutBandwidth IS high) THEN (CLP IS decrease_significantly)",
+#
+        #    "IF (SystemLoad IS critical) AND (OutBandwidth IS low) THEN (CLP IS decrease)",
+#
+        #    "IF (SystemLoad IS critical) AND (OutBandwidth IS medium) THEN (CLP IS decrease)",
+#
+        #    "IF (SystemLoad IS high) AND (Latency IS high) THEN (CLP IS increase_significantly)",
+#
+        #    "IF (SystemLoad IS high) AND (Latency IS low) THEN (CLP IS maintain)",
+#
+        #    "IF (SystemLoad IS moderate) THEN (CLP IS increase)",
+#
+        #    "IF (SystemLoad IS low) THEN (CLP IS increase_significantly)",
+#
+        #    "IF (SystemLoad IS very_low) THEN (CLP IS increase_significantly)",
+#
+        #]
     FS.add_rules(rules)
 
     return FS
