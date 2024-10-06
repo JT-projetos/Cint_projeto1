@@ -249,8 +249,14 @@ We can observe that when \textit{SystemLoad} is between 0.6 and 0.75, the \texti
 
 
 Finally, we introduced another variable: \textit{OutBandwidth}, as moving data to the cloud (when we reduce computation) is limited by the available bandwidth.
-Therefore, we decided that when \textit{SystemLoad} was critical and it was necessary to reduce the \textit{CLP} to negative values, the amount by which the \textit{CLP} would decrease would depend on the available bandwidth: when bandwidth was high, the \textit{CLP} would decrease significantly ("decreased\_significantly"), and when bandwidth was medium or low, the \textit{CLP} would only decrease slightly ("decrease").
+Therefore, when the \textit{SystemLoad} was critical and it was necessary to reduce the \textit{CLP} to negative values, the amount by which the \textit{CLP} would decrease would depend on the available bandwidth: when bandwidth was high, the \textit{CLP} would decrease significantly ("decreased\_significantly"), and when bandwidth was medium or low, the \textit{CLP} would only decrease slightly ("decrease").
 
+\begin{figure}[H]
+    \centering
+\includegraphics[scale = 0.6]{../images/3d_triangular_v4_latency}
+\caption{3D plot of CLP variation with Latency and SystemLoad}
+\label{fig:bandwidth_triangular_v4}
+\end{figure}
 
 %During the experimentation phase with different membership functions,the need for visualization became apparent.
 %To facilitate this, we developed a helper script [fuzzy/visualization/fuzzy\_system\_to\_dataframe] that converts the
@@ -291,37 +297,6 @@ The first results are shown in the figure bellow.
 
 After some experimentation, we concluded (as foreseen theoretically) that the parameters $a$, $b$, and $c$ are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
 
-\section{Architecture}
-This should contain choice of architecture and why.
-
-\section{Membership Functions}
-all the membership functions and linguistic terms
-
-\begin{figure}
-
-%\includegraphics{CLP.png}
-%\begin{tabular}[ccc]
-%    \subfloat[caption]{\includegraphics[width=.3\textwidth]{CLP.png}} & % noqa
-%    \subfloat[caption]{\includegraphics[width=.3\textwidth]{CLP.png}} &
-%    \subfloat[caption]{\includegraphics[width=.3\textwidth]{CLP.png}} \\
-%\end{tabular}
-\end{figure}
-
-\section{Rules}
-rules
-
-\begin{table}[H]
-\begin{tabular}{|
->{\columncolor[HTML]{9698ED}}c l|cccc|}
-\hline
-\multicolumn{2}{|c|}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} }}                                & \multicolumn{4}{c|}{\cellcolor[HTML]{9698ED}Latency}                                                        \\ \cline{3-6}
-\multicolumn{2}{|c|}{\multirow{-2}{*}{\cellcolor[HTML]{FFCC67}{\color[HTML]{333333} CLP Variation}}} & \multicolumn{1}{l|}{low} & \multicolumn{1}{l|}{moderate} & \multicolumn{1}{l|}{high} & \multicolumn{1}{l|}{very high} \\ \hline
-\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & low             & \multicolumn{1}{c|}{IS}  & \multicolumn{1}{c|}{IS}       & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
-\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & moderate        & \multicolumn{1}{c|}{I}   & \multicolumn{1}{c|}{I}        & \multicolumn{1}{c|}{I}    & I                              \\ \cline{2-6}
-\multicolumn{1}{|c|}{\cellcolor[HTML]{9698ED}}                                     & high            & \multicolumn{1}{c|}{M}   & \multicolumn{1}{c|}{M}        & \multicolumn{1}{c|}{D}    & D                              \\ \cline{2-6}
-\multicolumn{1}{|c|}{\multirow{-4}{*}{\cellcolor[HTML]{9698ED}System Load}}        & critical        & \multicolumn{1}{c|}{DS}  & \multicolumn{1}{c|}{DS}       & \multicolumn{1}{c|}{DS}   & DS                             \\ \hline
-\end{tabular}
-\end{table}
 
 
 \section{Evaluate Models}
