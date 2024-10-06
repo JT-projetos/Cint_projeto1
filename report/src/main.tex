@@ -59,9 +59,9 @@ To achieve this, we implemented the script \newline \texttt{eval\_models.py} (\t
 which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
 Initially, the relative error metric, defined as:
 
-\[
+\begin{equation*}
     \text{Relative Error} = \frac{|y_{\text{true}} - y_{\text{pred}}|}{y_{\text{true}}}
-\]
+\end{equation*}
 
 was used for evaluation.
 However, this metric exhibited instability when $y_{\text{true}} \to 0$, as was the case for data point 6 in the sample.
@@ -72,9 +72,11 @@ However, this metric exhibited instability when $y_{\text{true}} \to 0$, as was 
 
 To address this instability, we switched to the Mean Squared Error (MSE) metric, defined as:
 
-\[
+\begin{equation}
     \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_{\text{true}} - y_{\text{pred}})^2
-\]
+    \label{eq:mse}
+\end{equation}
+
 
 \section{Architecture}
 \subsection{First Iterations}
