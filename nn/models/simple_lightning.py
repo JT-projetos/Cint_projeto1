@@ -79,8 +79,8 @@ if __name__ == '__main__':
     checkpoint = ModelCheckpoint(monitor='val_loss', mode='min', filename='simple-{epoch:02d}-{val_loss:.2f}')
     early_stopping = EarlyStopping(monitor='val_loss', mode='min', patience=5)
 
-    model = Net()
-    #model = Net.load_from_checkpoint('../model_logs/first_model/version_0/checkpoints/simple-epoch=85-val_loss=0.02.ckpt')
+    #model = Net()
+    model = Net.load_from_checkpoint('../model_logs/second_model/version_0/checkpoints/simple-epoch=168-val_loss=0.03.ckpt')
     trainer = L.Trainer(max_epochs=300, logger=logger, callbacks=[checkpoint, early_stopping])
     try:
         trainer.fit(model, data_utils.DataLoader(train), data_utils.DataLoader(val))
