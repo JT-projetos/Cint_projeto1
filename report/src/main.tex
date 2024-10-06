@@ -118,7 +118,7 @@ The figures below illustrate the membership function graphs for these variables.
 \end{figure}
 
 
-To design the system's rules, we created a truth table, which can be found below in~\vref{tab:truthtable}.
+To design the system's rules, we created a truth table, which can be found in~\vref{tab:truthtable}.
 The logic behind the table was as follows: when both \textit{MemoryUsage} and \textit{ProcessorLoad} were either ``low'' or ``medium'', the \textit{CLP} would increase.
 When one of them reached ``high'', the \textit{CLP} remained unchanged (this decision was made to ensure that the node's processing capacity stayed above average).
 Finally, if any of these variables entered a ``critical'' state, the \textit{CLP} had to decrease.
@@ -164,7 +164,6 @@ This limitation is due to the configurations of the membership functions for the
 Additionally, two constant plateau regions are visible where the \textit{CLP} remains unchanged: when \textit{MemoryUsage} and \textit{ProcessorLoad} are between 0 and 0.6, and when they are between 0.7 and 0.85, which does not make sense in our context.
 Finally, in the area of the graph where \textit{CLP} is less than -0.2 and \textit{MemoryUsage}/\textit{ProcessorLoad} is greater than 0.6, there is a ``hump'' with no \textit{CLP} values, which is undesirable.
 
-
 Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution because they provide a smoother transition between membership grades.
 To make a direct comparison with the system we previously developed using triangular membership functions, we retained the same linguistic variables, the same terms for these variables, and the same rules as presented in~\cref{tab:truthtable}.
 
@@ -202,14 +201,47 @@ The resulting 3D graph showing the variation of the \textit{CLP} with \textit{Me
 This time, the system achieved higher positive \textit{CLP} values, but it worsened on the negative \textit{CLP} values, only going down to -0.2.
 To achieve better results, we decided to add more terms to the linguistic variables, merge \textit{MemoryUsage} with \textit{ProcessorLoad} into a single variable, and experiment with different membership functions. By increasing the number of terms, we aim to capture more detailed nuances in the system's behavior, improving its responsiveness to variations in input. Additionally, merging the two load-related variables simplifies the model without losing critical information. The next sections will address these adjustments in detail, explaining the rationale behind these changes and the impact they have on the system's performance.
 
-\subsection{Triangle Version Improved}
 
+\subsection{Generalized Bell}
+We decided to experiment using a more generic Membership function, so we
+extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
+The Generalized Bell has parameters $a$, $b$ and $c$ that are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
+After extensive manual iteration the best performing model (\textbf{v9}) used the fuzzy sets in~\vref{fig:fuzzy_sets_bellv9}.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/bell_v9/SystemLoad}
+        \caption{SystemLoad}
+        \label{fig:bellv9_processor_load}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/bell_v9/Latency}
+        \caption{Latency}
+        \label{fig:bellv9_memory_usage}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/bell_v9/CLP}
+        \caption{CLP Variation}
+        \label{fig:bellv9_clp}
+    \end{minipage}
+    \label{fig:fuzzy_sets_bellv9}
+\end{figure}
+
+This model obtained an $MSE=0.0447$ on the expert dataset.
+
+\subsection{Triangle Version Improved}
 
 Starting from the system with triangular membership functions presented in Section~\ref{sec:first_iterations}, we iteratively built a new system.
 First, we decided to combine the variables \textit{ProcessorLoad} and \textit{MemoryUsage} into a single variable: \textit{SystemLoad}, which is defined as the maximum value between these two variables. We chose the maximum value because it allows us to capture the most critical resource constraint affecting system performance. By focusing on the highest load, the system can respond to the most demanding condition, ensuring that performance is not compromised under heavy usage.
 
 
-We decided to assign the same terms we had initially used for the variables \textit{MemoryUsage}/\textit{ProcessorLoad} to the new variable \textit{SystemLoad}, namely: ``lo'', ``medium'',``high'', and ``critical.'' As for the output variable, \textit{CLP}, we decided to add two new terms: ``increase\_significantly'' and ``decrease\_significantly''.
+We decided to assign the same terms we had initially used for the variables \textit{MemoryUsage}/\textit{ProcessorLoad} to the new variable \textit{SystemLoad}, namely: ``low'', ``medium'',``high'', and ``critical.'' As for the output variable, \textit{CLP}, we decided to add two new terms: ``increase\_significantly'' and ``decrease\_significantly''.
 
 The values a, b, and c that define the triangles of the membership functions were chosen through an iterative process, where we adjusted some of the boundaries (both for the terms related to \textit{SystemLoad} and for the terms of \textit{CLP}) and observed the resulting defuzzified \textit{CLP}.
 We then evaluated whether the results made sense, given the system's requirements. For example, if the \textit{SystemLoad} input was 0.9, it would not make sense for the resulting \textit{CLP} to be 0.7. Based on this logic, we continued adjusting the limits of the membership functions iteratively.
@@ -291,44 +323,11 @@ In Figure~\cref{fig:bandwidth_triangular_v4}, the terms and membership functions
 %FuzzySystem Python object into a dynamic dataframe, enabling easy plotting and analysis of the membership functions.
 
 
-
-\section{Generalized Bell}
-We decided to experiment with a more generic Membership function, so we
-extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
-The first results are shown in the figure bellow.
-
-
-\begin{figure}[htbp]
-    \centering
-    \begin{minipage}{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{../images/first_bell/MemoryUsage}
-        \caption{Memory Usage}
-        \label{fig:first_bell_processor_load}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{../images/first_bell/ProcessorLoad}
-        \caption{Processor Load}
-        \label{fig:first_bell_memory_usage}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{../images/first_bell/CLP}
-        \caption{CLP Variation}
-        \label{fig:first_bell_clp}
-    \end{minipage}
-\end{figure}
-
-
-After some experimentation, we concluded (as foreseen theoretically) that the parameters $a$, $b$, and $c$ are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
-
-
-
-\section{Hyperparameter Tuning}
-\label{sec:hyper_tuning}
+\section{Evaluate Models}
+Now that we had developed several models and established rules, a reliable and straightforward testing mechanism became necessary.
+To achieve this, we implemented the script \newline \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
+which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
+Initially, the relative error metric, defined as:
 
 Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
 However, we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
