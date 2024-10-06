@@ -1,4 +1,4 @@
-from fuzzy.models.mamdani_best import FS
+from fuzzy.models.mamdani_triangle_v4 import FS
 import numpy as np
 import pandas as pd
 
@@ -6,7 +6,7 @@ import pandas as pd
 
 sample_distribution = np.random.uniform
 
-N_SAMPLES = 100_000
+N_SAMPLES = 10_000
 df = pd.DataFrame({
     'MemoryUsage': sample_distribution(size=N_SAMPLES),
     'ProcessorLoad': sample_distribution(size=N_SAMPLES),
