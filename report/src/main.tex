@@ -174,8 +174,41 @@ The resulting 3D graph showing the variation of the \textit{CLP} with \textit{Me
 This time, the system achieved higher positive \textit{CLP} values, but it worsened on the negative \textit{CLP} values, only going down to -0.2.
 To achieve better results, we decided to add more terms to the linguistic variables, merge \textit{MemoryUsage} with \textit{ProcessorLoad} into a single variable, and experiment with different membership functions. By increasing the number of terms, we aim to capture more detailed nuances in the system's behavior, improving its responsiveness to variations in input. Additionally, merging the two load-related variables simplifies the model without losing critical information. The next sections will address these adjustments in detail, explaining the rationale behind these changes and the impact they have on the system's performance.
 
-\subsection{Triangle Version Improved}
 
+\subsection{Generalized Bell}
+We decided to experiment using a more generic Membership function, so we
+extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
+The Generalized Bell has parameters $a$, $b$ and $c$ that are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
+After extensive manual iteration the best performing model (\textbf{v9}) used the fuzzy sets in~\vref{fig:fuzzy_sets_bellv9}.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/bell_v9/SystemLoad}
+        \caption{SystemLoad}
+        \label{fig:bellv9_processor_load}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/bell_v9/Latency}
+        \caption{Latency}
+        \label{fig:bellv9_memory_usage}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../images/bell_v9/CLP}
+        \caption{CLP Variation}
+        \label{fig:bellv9_clp}
+    \end{minipage}
+    \label{fig:fuzzy_sets_bellv9}
+\end{figure}
+
+This model obtained an $MSE=0.0447$ on the expert dataset.
+
+\subsection{Triangle Version Improved}
 
 Starting from the system with triangular membership functions presented in Section~\ref{sec:first_iterations}, we iteratively built a new system.
 First, we decided to combine the variables \textit{ProcessorLoad} and \textit{MemoryUsage} into a single variable: \textit{SystemLoad}, which is defined as the maximum value between these two variables. We chose the maximum value because it allows us to capture the most critical resource constraint affecting system performance. By focusing on the highest load, the system can respond to the most demanding condition, ensuring that performance is not compromised under heavy usage.
@@ -260,42 +293,6 @@ Therefore, when the \textit{SystemLoad} was critical and it was necessary to red
 %During the experimentation phase with different membership functions,the need for visualization became apparent.
 %To facilitate this, we developed a helper script [fuzzy/visualization/fuzzy\_system\_to\_dataframe] that converts the
 %FuzzySystem Python object into a dynamic dataframe, enabling easy plotting and analysis of the membership functions.
-
-
-
-\section{Generalized Bell}
-We decided to experiment with a more generic Membership function, so we
-extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
-The first results are shown in the figure bellow.
-
-
-\begin{figure}[htbp]
-    \centering
-    \begin{minipage}{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{../images/first_bell/MemoryUsage}
-        \caption{Memory Usage}
-        \label{fig:first_bell_processor_load}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{../images/first_bell/ProcessorLoad}
-        \caption{Processor Load}
-        \label{fig:first_bell_memory_usage}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{../images/first_bell/CLP}
-        \caption{CLP Variation}
-        \label{fig:first_bell_clp}
-    \end{minipage}
-\end{figure}
-
-
-After some experimentation, we concluded (as foreseen theoretically) that the parameters $a$, $b$, and $c$ are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
-
 
 
 \section{Evaluate Models}
