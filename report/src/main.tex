@@ -230,8 +230,11 @@ In the graph shown in \cref{fig:3d_latency_triangular_v4}, the variation of \tex
 \label{fig:3d_latency_triangular_v4}
 \end{figure}
 
-\vspace{8mm}
+%\vspace{8mm}
 
+
+Finally, we introduced another variable: \textit{OutBandwidth}, as moving data to the cloud (when we reduce computation) is limited by the available bandwidth.
+Therefore, we decided that when \textit{SystemLoad} was critical and it was necessary to reduce the \textit{CLP} to negative values, the amount by which the \textit{CLP} would decrease would depend on the available bandwidth: when bandwidth was high, the \textit{CLP} would decrease significantly ("decreased\_significantly"), and when bandwidth was medium or low, the \textit{CLP} would only decrease slightly ("decrease").
 
 
 %During the experimentation phase with different membership functions,the need for visualization became apparent.
