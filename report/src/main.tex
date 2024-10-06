@@ -99,14 +99,14 @@ The figures below illustrate the membership function graphs for these variables.
         \centering
         \includegraphics[width=\textwidth]{../images/triangular_MemoryUsage}
         \caption{Memory Usage}
-        \label{fig:processor_load}
+        \label{fig:memory_usage}
     \end{minipage}
     \hfill
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{../images/triangular_ProcessorLoad}
         \caption{Processor Load}
-        \label{fig:memory_usage}
+        \label{fig:processor_load}
     \end{minipage}
     \hfill
     \begin{minipage}{0.32\textwidth}
@@ -354,7 +354,8 @@ Now we present a more precise examination of the best models: \texttt{bellv9}, \
 What follows is the evaluation using the MSE metric for the 10 sample data points, shown in the \vref{fig:mse_3best}.
 
 \begin{figure}[H]
-\includegraphics[width=\textwidth]{../images/eval_models/mse_3best}
+\centering
+\includegraphics[scale=0.5]{../images/eval_models/mse_3best}
 \caption{MSE of the top 3 performing models (\texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4})}
 \label{fig:mse_3best}
 \end{figure}
@@ -362,7 +363,8 @@ What follows is the evaluation using the MSE metric for the 10 sample data point
 In the next \cref{fig:mse_2best}, we compare only the best two models.
 
 \begin{figure}[H]
-\includegraphics[width=\textwidth]{../images/eval_models/mse_2best}
+\centering
+\includegraphics[scale=0.5]{../images/eval_models/mse_2best}
 \caption{MSE of the top 2 performing models (\texttt{bell\_hyper}, and \texttt{trianglev4})}
 \label{fig:mse_2best}
 \end{figure}
@@ -435,7 +437,8 @@ Next, we labeled the data again using the same intervals but with the results pr
 The confusion matrix heatmap showing these results is \cref{fig:confusion_matrix_heatmap}.
 
 \begin{figure}[H]
-\includegraphics[width=\textwidth]{../images/classification/confusion_heatmap}
+\centering
+\includegraphics[scale=0.5]{../images/classification/confusion_heatmap}
 \caption{Confusion Matrix Heatmap}
 \label{fig:confusion_matrix_heatmap}
 \end{figure}
