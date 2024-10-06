@@ -13,11 +13,10 @@
 
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{hyperref}
-\usepackage{cleveref}
+%\usepackage{nameref}
+%\usepackage{cleveref}
 
 \usepackage[symbol]{footmisc}
-\usepackage{graphicx}
-
 
 %% Custom commands
 \newcommand*\apos{\textsc{\char13}}
@@ -64,6 +63,7 @@ The figures below illustrate the membership function graphs for these variables.
 
 \begin{figure}[htbp]
     \centering
+    %! suppress = MissingImport
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{../images/triangular_MemoryUsage}
@@ -93,7 +93,7 @@ When one of them reached ``high'', the \textit{CLP} remained unchanged (this dec
 Finally, if any of these variables entered a ``critical'' state, the \textit{CLP} had to decrease.
 
 
-\begin{table}[H][htbp]
+\begin{table}[H]
     \centering
     \begin{tabular}{|
     >{\columncolor[HTML]{9698ED}}c
@@ -177,7 +177,8 @@ To achieve better results, we decided to add more terms to the linguistic variab
 
 
 During the experimentation phase with different membership functions,the need for visualization became apparent.
-To facilitate this, we developed a helper script [fuzzy/visualization/fuzzy\_system\_to\_dataframe] that converts the
+To facilitate this, we developed a helper script \newline
+[fuzzy/visualization/fuzzy\_system\_to\_dataframe] that converts the
 FuzzySystem Python object into a dynamic dataframe, enabling easy plotting and analysis of the membership functions.
 
 
@@ -290,7 +291,7 @@ For instance, the model consistently underestimated the CLP for data points 3 an
 \begin{table}[H]
     \centering
     \caption{Sample data points 3 and 4}
-    \label{tab:}
+    \label{tab:datapoints_3_4}
     \begin{tabular}{lrrrrr}
         \toprule
         & MemoryUsage & ProcessorLoad & Latency & mamdani\_bell\_v2 & CLPVariation \\
@@ -349,7 +350,7 @@ Since the output should be in the range \([-1, 1]\), we chose the \emph{Tanh} ac
 For the optimizer, we used Adam with a learning rate of $1 \times 10^{-3}$, leaving the rest of the parameters at their default values: $\epsilon = 1 \times 10^{-8}$, $\beta = (0.9, 0.999)$, and \texttt{weight\_decay} = 0.
 For the loss function, we chose MSE, allowing us to directly compare the results with those of the Fuzzy System.
 
-We implemented the neural network using the PyTorch framework alongside \texttt{pytorch\_lightning}.
+We implemented the neural network using the PyTorch framework alongside \newline \texttt{pytorch\_lightning}.
 This made it easy to integrate TensorBoard for logging and visualization, apply Early Stopping to prevent unnecessary computation, and enable Model Checkpointing to save the best-performing model.
 This code can be found in the \texttt{nn/models/simple\_lightning.py} file.
 
@@ -384,7 +385,7 @@ To gain a better understanding of the neural networks performance, we calculated
 \begin{table}[H]
     \centering
     \caption{}
-    \label{tab:}
+    \label{tab:classification_scores}
     \include{classification_scores_table}
 \end{table}
 
