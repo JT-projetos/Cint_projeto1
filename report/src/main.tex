@@ -311,7 +311,7 @@ rules
 
 \section{Evaluate Models}
 Now that we had developed several models and established rules, a reliable and straightforward testing mechanism became necessary.
-To achieve this, we implemented the script \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
+To achieve this, we implemented the script \newline \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
 which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
 Initially, the relative error metric, defined as:
 
@@ -359,7 +359,7 @@ For instance, the model consistently underestimated the CLP for data points 3 an
 
 
 These observations suggested, in our view, that the model should account for high latency as a factor contributing to a lower \emph{CLP}.
-This iterative process led to the development of models like \texttt{mamdani\_triangle\_v2} and \texttt{mamdani\_bell\_v9}.
+This iterative process led to the development of models like \texttt{mamdani\_triangle\_v2} and \texttt{mamdani\_bell\_v9}.\\
 Many more iterations were tested but not preserved.
 Some of the deprecated models can still be found in the \texttt{fuzzy/models/deprecated} folder, along with their outputs in \texttt{fuzzy/output/deprecated}.
 
