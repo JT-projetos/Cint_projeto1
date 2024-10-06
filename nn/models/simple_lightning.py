@@ -80,6 +80,10 @@ if __name__ == '__main__':
     early_stopping = EarlyStopping(monitor='val_loss', mode='min', patience=5)
 
     model = Net()
+    #model = Net.load_from_checkpoint('../model_logs/first_model/version_0/checkpoints/simple-epoch=85-val_loss=0.02.ckpt')
     trainer = L.Trainer(max_epochs=300, logger=logger, callbacks=[checkpoint, early_stopping])
-    trainer.fit(model, data_utils.DataLoader(train), data_utils.DataLoader(val))
+    try:
+        trainer.fit(model, data_utils.DataLoader(train), data_utils.DataLoader(val))
+    except KeyboardInterrupt:
+        pass
     trainer.test(model, data_utils.DataLoader(test))

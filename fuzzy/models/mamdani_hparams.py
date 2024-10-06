@@ -149,7 +149,6 @@ def create_fuzzy_system(hparams: dict, rules=None) -> FuzzySystemWrapper:
     return FS
 
 
-FS = create_fuzzy_system(hparams=hparams)
 
 if __name__ == '__main__':
     import os
@@ -157,6 +156,8 @@ if __name__ == '__main__':
     from fuzzy.visualization import *
 
     save_path = '../output/mamdani_bell_hparams'
+
+    FS = create_fuzzy_system(hparams=hparams)
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)

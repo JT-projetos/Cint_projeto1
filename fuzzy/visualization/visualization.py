@@ -118,8 +118,15 @@ def plot_memory_processor_clp_sample_data(file_path: str, save_path=None):
     fig.show()
 
 
-def plot_model_scores(file_path: str):
-    df = pd.read_csv(file_path)
+def plot_model_scores(file_path_or_df: str | pd.DataFrame):
+
+    if isinstance(file_path_or_df, str):
+        df = pd.read_csv(file_path_or_df)
+    elif isinstance(file_path_or_df, pd.DataFrame):
+        df = file_path_or_df.copy()
+    else:
+        raise TypeError("Only str or DataFrame types are supported")
+
     df['Datapoint'] = np.arange(1, 11)
     df = pd.melt(df, id_vars='Datapoint', var_name='Model', value_name='Relative Error')
     #print(df)
