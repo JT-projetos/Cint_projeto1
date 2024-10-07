@@ -13,14 +13,15 @@ def classify(num) -> str:
         raise ValueError("CLPVariation should be [-1, 1]")
 
 
-# input_file = '../../gen_input/bell_hyper_uniform100000.csv'
-# output_file = '../../gen_input/bell_hyper_uniform100000_class.csv'
-input_file = '../../gen_input/trianglev4_uniform10000.csv'
-output_file = '../../gen_input/trianglev4_uniform10000_class.csv'
+if __name__ == '__main__':
+    # input_file = '../../gen_input/bell_hyper_uniform100000.csv'
+    # output_file = '../../gen_input/bell_hyper_uniform100000_class.csv'
+    input_file = '../../gen_input/trianglev4_uniform10000.csv'
+    output_file = '../../gen_input/trianglev4_uniform10000_class.csv'
 
-df = pd.read_csv(input_file, nrows=100000)
+    df = pd.read_csv(input_file, nrows=100000)
 
-df['fs_label'] = df['CLPVariation'].apply(classify)
-print(df[['CLPVariation', 'fs_label']].head())
-df.to_csv(output_file, index=False)
-#for i, row in df.iterrows():
+    df['fs_label'] = df['CLPVariation'].apply(classify)
+    print(df[['CLPVariation', 'fs_label']].head())
+    df.to_csv(output_file, index=False)
+    #for i, row in df.iterrows():
