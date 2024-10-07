@@ -490,10 +490,15 @@ We followed the rule of thumb that ``a model will often need ten times more data
 Our model has 449 trainable parameters and 12 input features, which means our training data should consist of more than $4610$ samples.
 We decided to generate a number of samples equal to an order of magnitude above 4610 rounded up, which results in $10,000$ samples.
 
+\section{Regression}
+
+The trained Neural Network was trained for $172$ epochs, achieving a validation loss of $0.03$ and a test loss of $0.0279$. \\
+These results indicate that the Neural Network has not overfitted and is generalizing well.
+
 \section{Classification}
 
 To use the neural network as a classifier, we first defined the ground truth intervals as \([-1, -0.25]\) for \emph{Decrease}, \(]-0.25, 0.25[\) for \emph{Maintain}, and \(]0.25, 1]\) for \emph{Increase}, based on the CLP linguistic variable intervals from the model \texttt{triangle\_v4}.\\
-Then, using these intervals, we labeled the training, validation, and test data with the Fuzzy System and the Neural Network.
+Then, using these intervals, we labeled the training, validation, and test data.
 The classification results are shown in the following heatmap~(\cref{fig:confusion_matrix_heatmap}) and the Neural Network performance in the following~\cref{tab:classification_scores}.
 
 %Using these intervals of the model \texttt{triangle\_v4}, we labeled the training, validation, and test data for the neural network using .
@@ -540,24 +545,25 @@ because the sample data has a column with the ``True'' \emph{CLPVariation}.
     \centering
     \begin{tabular}{rrllrr}
         \toprule
-        CLPVariation FS & CLPVariation NN & CLP label FS & CLP label NN & MSE FS & MSE NN \\
+        CLPVariation FS & CLPVariation NN & FS label & NN label & MSE FS & MSE NN \\
         \midrule
-        0.790           & 0.744           & Increase     & Increase     & 0.000  & 0.001  \\
-        0.838           & 0.891           & Increase     & Increase     & 0.000  & 0.000  \\
-        0.748           & 0.623           & Increase     & Increase     & 0.000  & 0.003  \\
-        0.750           & 0.342           & Increase     & Increase     & 0.000  & 0.015  \\
-        0.518           & 0.646           & Increase     & Increase     & 0.000  & 0.002  \\
-        0.119           & 0.088           & Maintain     & Maintain     & 0.000  & 0.000  \\
-        -0.473          & -0.182          & Decrease     & Maintain     & 0.003  & 0.002  \\
-        -0.473          & -0.495          & Decrease     & Decrease     & 0.003  & 0.002  \\
-        -0.898          & -0.792          & Decrease     & Decrease     & 0.001  & 0.000  \\
-        -0.911          & -0.963          & Decrease     & Decrease     & 0.000  & 0.001  \\
+        0.790           & 0.744           & Increase & Increase & 0.000  & 0.001  \\
+        0.838           & 0.891           & Increase & Increase & 0.000  & 0.000  \\
+        0.748           & 0.623           & Increase & Increase & 0.000  & 0.003  \\
+        0.750           & 0.342           & Increase & Increase & 0.000  & 0.015  \\
+        0.518           & 0.646           & Increase & Increase & 0.000  & 0.002  \\
+        0.119           & 0.088           & Maintain & Maintain & 0.000  & 0.000  \\
+        -0.473          & -0.182          & Decrease & Maintain & 0.003  & 0.002  \\
+        -0.473          & -0.495          & Decrease & Decrease & 0.003  & 0.002  \\
+        -0.898          & -0.792          & Decrease & Decrease & 0.001  & 0.000  \\
+        -0.911          & -0.963          & Decrease & Decrease & 0.000  & 0.001  \\
         \bottomrule
     \end{tabular}
     \caption{Results Table}
     \label{tab:final_results}
 \end{table}
 
+\section{Regression Results}
 To aid in interpreting the \emph{MSE} results of the Fuzzy System (FS) and Neural Network (NN) predictions, the following \cref{fig:mse_fs_nn} is shown below.
 
 \begin{figure}[H]
@@ -567,6 +573,12 @@ To aid in interpreting the \emph{MSE} results of the Fuzzy System (FS) and Neura
     \label{fig:mse_fs_nn}
 \end{figure}
 
+We observe that the Fuzzy System (FS) generally performs better than the Neural Network (NN), as expected, since the FS was used to train the NN.
+The best possible outcome would be for the NN to perform exactly like the FS. \\
+If we ``normalize'' the NN MSE as such: $\overline{\text{MSE}}_{\text{NN}}=\text{MSE}_{\text{NN}} - \text{MSE}_{\text{FS}}$
+we obtain $\overline{MSE}_{\text{NN}}=0.02$ which is very close to the test loss obtained ($0.0279$).
+
+\section{Classification Results}
 To help interpret the classification results, the following~\nameref{fig:conf_matrix_final} and~\cref{tab:scores_final} presents the results and their precision, recall, and F1 score, respectively.
 
 \begin{figure}[H]
@@ -586,6 +598,7 @@ To help interpret the classification results, the following~\nameref{fig:conf_ma
         \end{table}
     \end{minipage}
 \end{figure}
+
 
 
 \end{document}
