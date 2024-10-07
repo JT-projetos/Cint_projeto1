@@ -492,19 +492,13 @@ We decided to generate a number of samples equal to an order of magnitude above 
 
 \section{Classification}
 
-To use the neural network as a classifier, we first defined the ground truth intervals as \([-1, -0.25]\) for \emph{Decrease}, \(]-0.25, 0.25[\) for \emph{Maintain}, and \(]0.25, 1]\) for \emph{Increase}, based on the CLP linguistic variable intervals as shown in~\cref{fig:triangle_v4_clp_repeated}.
+To use the neural network as a classifier, we first defined the ground truth intervals as \([-1, -0.25]\) for \emph{Decrease}, \(]-0.25, 0.25[\) for \emph{Maintain}, and \(]0.25, 1]\) for \emph{Increase}, based on the CLP linguistic variable intervals from the model \texttt{triangle\_v4}.\\
+Then, using these intervals, we labeled the training, validation, and test data with the Fuzzy System and the Neural Network.
+The classification results are shown in the following heatmap~(\cref{fig:confusion_matrix_heatmap}) and the Neural Network performance in the following~\cref{tab:classification_scores}.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.6]{../../fuzzy/output/mamdani_triangular_v4/io_graphs/CLP}
-    \caption{Linguistic Variable \emph{CLP} for model \texttt{triangle\_v4}}
-    \label{fig:triangle_v4_clp_repeated}
-\end{figure}
-
-
-Using these intervals, we labeled the training, validation, and test data for the neural network using the model \texttt{triangle\_v4}.
-Next, we labeled the data again using the same intervals but with the results predicted by the neural network.
-The confusion matrix heatmap showing these results is \cref{fig:confusion_matrix_heatmap}.
+%Using these intervals of the model \texttt{triangle\_v4}, we labeled the training, validation, and test data for the neural network using .
+%Next, we labeled the data again using the same intervals but with the results predicted by the neural network.
+%The confusion matrix heatmap showing these results is \cref{fig:confusion_matrix_heatmap}.
 
 \begin{figure}[H]
 \centering
@@ -525,16 +519,22 @@ The confusion matrix heatmap showing these results is \cref{fig:confusion_matrix
 
 \end{figure}
 
-To gain a better understanding of the neural networks performance, we calculated the Precision, Recall, and F1-score, which are shown in the table below.
+%To gain a better understanding of the neural networks performance, we calculated the Precision, Recall, and F1-score, which are shown in the table below.
 
 
 \newpage
 \part{Results}
 
-Utilizing the `TestMe.py` script on the sample data,the
-Fuzzy System Prediction, Neural Network Prediction, Fuzzy System Classification Label (NN ground truth), and Neural Network Classification Label
-are shown in the~\cref{tab:final_results}. \\
-Additionally, the Mean Squared Error (MSE) of the Fuzzy System and the Neural Network are provided.
+Utilizing the \texttt{TestMe.py} script on the sample data, results in the following data:
+\begin{itemize}
+    \item Fuzzy System Prediction
+    \item Neural Network Prediction
+    \item Fuzzy System Classification Label (NN ground truth)
+    \item Neural Network Classification Label
+\end{itemize}
+These are shown in the~\cref{tab:final_results}. \\
+Additionally, the Mean Squared Error (MSE) of the Fuzzy System and the Neural Network Prediction are provided,
+because the sample data has a column with the ``True'' \emph{CLPVariation}.
 
 \begin{table}[H]
     \centering
@@ -567,7 +567,7 @@ To aid in interpreting the \emph{MSE} results of the Fuzzy System (FS) and Neura
     \label{fig:mse_fs_nn}
 \end{figure}
 
-To help interpret the classification results, the following~\nameref{fig:conf_matrix_final} and~\cref{tab:scores_final} presents the results and precision, recall, and F1 score, respectively.
+To help interpret the classification results, the following~\nameref{fig:conf_matrix_final} and~\cref{tab:scores_final} presents the results and their precision, recall, and F1 score, respectively.
 
 \begin{figure}[H]
     \centering
