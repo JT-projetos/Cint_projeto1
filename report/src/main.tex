@@ -205,25 +205,27 @@ To achieve better results, we decided to add more terms to the linguistic variab
 
 
 \subsection{Generalized Bell}
+\subsubsection{Bell v9}
+\label{sec:bell_v9}
 We decided to experiment using a more generic Membership function, so we
 extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
 The Generalized Bell has parameters $a$, $b$ and $c$ that are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
-After extensive manual iteration the best performing model (\textbf{v9}) has the following linguistic variables and terms illustrated in the following~\cref{fig:fuzzy_sets_bellv9}.
+After extensive manual iteration the best performing model (\textbf{v9}) has the following linguistic variables and terms illustrated in the following~\cref{fig:bellv9_system_load,fig:bellv9_latency,fig:bellv9_clp}.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{../images/bell_v9/SystemLoad}
         \caption{SystemLoad}
-        \label{fig:bellv9_processor_load}
+        \label{fig:bellv9_system_load}
     \end{minipage}
     \hfill
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{../images/bell_v9/Latency}
         \caption{Latency}
-        \label{fig:bellv9_memory_usage}
+        \label{fig:bellv9_latency}
     \end{minipage}
     \hfill
     \begin{minipage}{0.32\textwidth}
@@ -232,10 +234,51 @@ After extensive manual iteration the best performing model (\textbf{v9}) has the
         \caption{CLP Variation}
         \label{fig:bellv9_clp}
     \end{minipage}
-    \label{fig:fuzzy_sets_bellv9}
+    %\caption{Fuzzy Sets Bell v9}
+    %\label{fig:fuzzy_sets_bellv9}
 \end{figure}
 
 This model obtained an \emph{MSE}$=0.0447$ on the expert dataset.
+
+\subsubsection{Bell Hypertuned}
+Using the \texttt{bell\_v9} model as a base, including its linguistic variables and rule base, we conducted a thorough hyperparameter tuning of the parameters $a$, $b$, and $c$ of the membership functions.  
+This procedure is explained in more detail in the section~\nameref{sec:hyper_tuning}.
+
+After 3 hours of hyperparameter tuning, the resulting \texttt{bell\_hyper} model, comprising a total of 6228 trials, achieved a final total MSE of $0.00749$ (using the 10 expert data points).  
+This corresponds to a six-fold improvement over the manually obtained \emph{MSE} of $0.04473$ for the \texttt{mamdani\_bell\_v9}.
+
+The best hyperparameters from this tuning process were saved as \texttt{hparams\_007.json}.
+The resulting linguistic variables are shown in the following~\cref{fig:bell_hyper_system_load,fig:bell_hyper_latency,fig:bell_hyper_clp}.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../../fuzzy/output/mamdani_bell_hyper/io_graphs/SystemLoad}
+        \caption{SystemLoad}
+        \label{fig:bell_hyper_system_load}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../../fuzzy/output/mamdani_bell_hyper/io_graphs/Latency}
+        \caption{Latency}
+        \label{fig:bell_hyper_latency}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../../fuzzy/output/mamdani_bell_hyper/io_graphs/CLP}
+        \caption{CLP Variation}
+        \label{fig:bell_hyper_clp}
+    \end{minipage}
+    %\label{fig:fuzzy_sets_bell_hyper}
+\end{figure}
+
+For the linguistic variable \emph{Latency} (\cref{fig:bell_hyper_latency}), we observe that for values close to $0$, it is considered \emph{medium}, then \emph{low}, and back to \emph{medium} again at around $x = 0.38$, which does not make sense.
+Additionally, for the linguistic variable \emph{CLP} (\cref{fig:bell_hyper_clp}), we observe that between \emph{maintain} and \emph{increase}, there is a large section where the membership value is $0$, which is undesirable for a real Fuzzy System.
+These problems are likely the result of overfitting and may also be due to the low number of points in the expert dataset.
+
 
 \subsection{Triangle Version Improved}
 
@@ -340,7 +383,7 @@ The system behaves as expected, increasing the \textit{CLP} when necessary and d
 \section{Hyperparameter Tuning}
 \label{sec:hyper_tuning}
 
-Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
+%Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
 However, we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
 To automate this process, we took the following steps:
 

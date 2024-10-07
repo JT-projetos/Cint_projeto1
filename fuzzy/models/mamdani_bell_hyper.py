@@ -9,7 +9,7 @@ if __name__ == '__main__':
     import os
     from fuzzy.visualization import *
 
-    save_path = '../output/mamdani_best'
+    save_path = '../output/mamdani_bell_hyper'
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)

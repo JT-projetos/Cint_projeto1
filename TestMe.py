@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from nn.models.simple_lightning import Net
 import torch
-from fuzzy.models.mamdani_best import FS
+from fuzzy.models.mamdani_bell_hyper import FS
 from nn.classification.nn_classify import classify
 
 def mse(y_true, y_pred):
