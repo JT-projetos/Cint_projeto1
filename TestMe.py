@@ -13,8 +13,8 @@ def mse(y_true, y_pred):
 
 
 SHOW_LATEX = False
-SHOW_BAR_PLOT = True
-SHOW_CONF_MATRIX = True
+SHOW_BAR_PLOT = False
+SHOW_CONF_MATRIX = False
 
 parser = argparse.ArgumentParser(
                     prog='TestMe -> Fuzzy & Neural Network CInt',
