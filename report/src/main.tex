@@ -210,7 +210,7 @@ To achieve better results, we decided to add more terms to the linguistic variab
 \label{sec:bell_v9}
 We decided to experiment using a more generic Membership function, so we
 extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
-The Generalized Bell has parameters $a$, $b$ and $c$ that are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
+The Generalized Bell has parameters $a$, $b$ and $c$ that are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.\\
 After extensive manual iteration the best performing model (\textbf{v9}) has the following linguistic variables and terms illustrated in the following~\cref{fig:bellv9_system_load,fig:bellv9_latency,fig:bellv9_clp}.
 
 \begin{figure}[H]
@@ -478,39 +478,112 @@ This code can be found in the \texttt{nn/models/simple\_lightning.py} file.
 \section{Training Data}
 
 To create the training data for the neural network, we began by generating synthetic data for the $12$ input features.
-This was done by sampling $100.000$ random uniformly distributed values for each feature.
-Next, the Fuzzy System was used to predict the CLPVariation, utilizing the best-performing Fuzzy System located in \texttt{fuzzy/models/mamdani\_best.py}.
-The results were then stored in a CSV file inside the \texttt{gen\_input} folder.
+This was done by sampling $10.000$ random uniformly distributed values for each feature.
+Next, the Fuzzy System was used to predict the CLPVariation, utilizing the best-performing Fuzzy System located in \texttt{fuzzy/models/mamdani\_triangle\_v4.py}.
+The results were then stored in a CSV file inside the \texttt{gen\_input} folder named \texttt{trianglev4\_uniform10000.csv}.
 This code can be found in the \texttt{fuzzy/generate\_data.py} file.
 The decision to use random uniform data, as opposed to, for example, a Gaussian distribution, was made to ensure a \textbf{balanced} dataset for training the neural network.
 The choice of the number of training data samples was also carefully considered.
 We followed the rule of thumb that ``a model will often need ten times more data than it has degrees of freedom'', where a degree of freedom refers to model parameters or input features.
 Our model has 449 trainable parameters and 12 input features, which means our training data should consist of more than $4610$ samples.
-We decided to generate a number of samples equal to an order of magnitude above 4610 rounded up, which results in 100,000 samples.
+We decided to generate a number of samples equal to an order of magnitude above 4610 rounded up, which results in $10,000$ samples.
 
 \section{Classification}
 
-To use the neural network as a classifier, we first defined the ground truth intervals as \([-1, 0.3[\) for \emph{Decrease}, \([0.3, 0.5[\) for \emph{Maintain}, and \([0.5, 1]\) for \emph{Increase}, based on the CLP linguistic variable intervals as shown in the figure below.
+To use the neural network as a classifier, we first defined the ground truth intervals as \([-1, -0.25[\) for \emph{Decrease}, \([-0.25, 0.25[\) for \emph{Maintain}, and \([0.25, 1]\) for \emph{Increase}, based on the CLP linguistic variable intervals as shown in~\cref{fig:triangle_v4_clp_repeated}.
 
-Using these intervals, we labeled the training, validation, and test data for the neural network.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{../../fuzzy/output/mamdani_triangular_v4/io_graphs/CLP}
+    \caption{Linguistic Variable \emph{CLP} for model \texttt{triangle\_v4}}
+    \label{fig:triangle_v4_clp_repeated}
+\end{figure}
+
+
+Using these intervals, we labeled the training, validation, and test data for the neural network using the model \texttt{triangle\_v4}.
 Next, we labeled the data again using the same intervals but with the results predicted by the neural network.
 The confusion matrix heatmap showing these results is \cref{fig:confusion_matrix_heatmap}.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{../images/classification/confusion_heatmap}
+\begin{minipage}{0.55\textwidth}
+\includegraphics[width=\textwidth]{../images/classification/confusion_heatmap}
 \caption{Confusion Matrix Heatmap}
 \label{fig:confusion_matrix_heatmap}
+\end{minipage}
+\qquad
+\begin{minipage}{0.4\textwidth}
+\begin{table}[H]
+    \centering
+    \caption{Classification  Precision, Recall, and F1-score}
+    \label{tab:classification_scores}
+    \include{classification_scores_table}
+\end{table}
+\end{minipage}
+
 \end{figure}
 
 To gain a better understanding of the neural networks performance, we calculated the Precision, Recall, and F1-score, which are shown in the table below.
 
+
+\newpage
+\part{Results}
+
+Utilizing the `TestMe.py` script on the sample data,the
+Fuzzy System Prediction, Neural Network Prediction, Fuzzy System Classification Label (NN ground truth), and Neural Network Classification Label
+are shown in the~\cref{tab:final_results}. \\
+Additionally, the Mean Squared Error (MSE) of the Fuzzy System and the Neural Network are provided.
+
 \begin{table}[H]
     \centering
-    \caption{}
-    \label{tab:classification_scores}
-    \include{classification_scores_table}
+    \caption{Results Table}
+    \label{tab:final_results}
+    \begin{tabular}{rrllrr}
+        \toprule
+        CLPVariation FS & CLPVariation NN & CLP label FS & CLP label NN & MSE FS & MSE NN \\
+        \midrule
+        0.790           & 0.744           & Increase     & Increase     & 0.000  & 0.001  \\
+        0.838           & 0.891           & Increase     & Increase     & 0.000  & 0.000  \\
+        0.748           & 0.623           & Increase     & Increase     & 0.000  & 0.003  \\
+        0.750           & 0.342           & Increase     & Increase     & 0.000  & 0.015  \\
+        0.518           & 0.646           & Increase     & Increase     & 0.000  & 0.002  \\
+        0.119           & 0.088           & Maintain     & Maintain     & 0.000  & 0.000  \\
+        -0.473          & -0.182          & Decrease     & Maintain     & 0.003  & 0.002  \\
+        -0.473          & -0.495          & Decrease     & Decrease     & 0.003  & 0.002  \\
+        -0.898          & -0.792          & Decrease     & Decrease     & 0.001  & 0.000  \\
+        -0.911          & -0.963          & Decrease     & Decrease     & 0.000  & 0.001  \\
+        \bottomrule
+    \end{tabular}
 \end{table}
+
+To aid in interpreting the \emph{MSE} results of the Fuzzy System (FS) and Neural Network (NN) predictions, the following \cref{fig:mse_fs_nn} is shown below.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{../images/final_results/mse}
+    \caption{\emph{MSE} of Fuzzy System and Neural Network Predictions}
+    \label{fig:mse_fs_nn}
+\end{figure}
+
+Classification
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.55\textwidth}
+    \includegraphics[width=\textwidth]{../images/final_results/conf_matrix}
+    \caption{Confusion Matrix Heatmap}
+    \label{fig:conf_matrix_final}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.4\textwidth}
+        \begin{table}[H]
+            \centering
+            \caption{Classification Precision, Recall and F1-Score}
+            \label{tab:scores_final}
+            \include{final_scores_table}
+        \end{table}
+    \end{minipage}
+\end{figure}
 
 
 \end{document}
