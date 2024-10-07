@@ -284,10 +284,10 @@ Additionally, for the linguistic variable \emph{CLP} (\cref{fig:bell_hyper_clp})
 These problems are likely the result of overfitting and may also be due to the low number of points in the expert dataset.
 
 
-\subsection{Triangle Version Improved}
+\subsection{Triangle Version Improved (triangle\_v4)}
 
 
-Since we believe the model from the previous section is overfitting and some membership functions do not seem logical, we decided to start again from the system with triangular membership functions presented in Section~\ref{sec:first_iterations}, we iteratively built a new system.
+Since we believe the model from the previous section is overfitting and some membership functions do not seem logical, we decided to start again from the system with triangular membership functions presented in Section~\ref{sec:first_iterations}, and we iteratively built a new system.
 
 
 
@@ -369,7 +369,7 @@ In Figure~\cref{fig:bandwidth_triangular_v4}, the terms and membership functions
 \end{figure}
 
 
-We evaluated the system using the 10 data points provided, this model achieved the lowest Mean Squared Error (MSE) of 0.00735.
+We evaluated the system using the 10 data points provided, this model (\texttt{triangle\_v4}) achieved the lowest Mean Squared Error (MSE) of 0.00735.
 In Figure~\ref{fig:MSE_triangle_v4.png}, a graph illustrates the contribution of each data point to the overall MSE. Notably, points 4, 6, 7, and 8 have the most significant contributions to the error; however, they remain below 0.0016.
 The system behaves as expected, increasing the \textit{CLP} when necessary and decreasing it at appropriate times, while taking into account the constraints of edge computing and the requirements for offloading processing to the cloud.
 
@@ -389,7 +389,7 @@ The system behaves as expected, increasing the \textit{CLP} when necessary and d
 \label{sec:hyper_tuning}
 
 %Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
-However, we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
+We found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
 To automate this process, we took the following steps:
 
 \begin{itemize}
@@ -412,13 +412,13 @@ The best hyperparameters from this tuning process were saved as \texttt{hparams\
 
 \section{Conclusion}
 
-Now we present a more precise examination of the best models: \texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4}.
+Now we present a more precise examination of the best models: \texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{triangle\_v4}.
 What follows is the evaluation using the MSE metric for the 10 sample data points, shown in the \vref{fig:mse_3best}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{../images/eval_models/mse_3best}
-\caption{MSE of the top 3 performing models (\texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4})}
+\caption{MSE of the top 3 performing models (\texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{triangle\_v4})}
 \label{fig:mse_3best}
 \end{figure}
 
@@ -427,13 +427,13 @@ In the next \cref{fig:mse_2best}, we compare only the best two models.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{../images/eval_models/mse_2best}
-\caption{MSE of the top 2 performing models (\texttt{bell\_hyper}, and \texttt{trianglev4})}
+\caption{MSE of the top 2 performing models (\texttt{bell\_hyper}, and \texttt{triangle\_v4})}
 \label{fig:mse_2best}
 \end{figure}
 
-We can observe that they appear to score similarly, with the total score of \texttt{trianglev4} being slightly better than \texttt{bell\_hyper} ($0.735 < 0.749$).
-However, the membership functions are drastically different (see FIGURE for \texttt{bell\_hyper} and \cref{fig:systemload_triangular_v4,fig:clp_triangular_v4,fig:latency_triangular_v4} for \texttt{trianglev4}).
-The membership functions of \texttt{trianglev4} are much more understandable and interpretable, whereas those of \texttt{bell\_hyper} seem to be a result of overfitting.
+We can observe that they appear to score similarly, with the total score of \texttt{triangle\_v4} being slightly better than \texttt{bell\_hyper} ($0.735 < 0.749$).
+However, the membership functions are drastically different (see FIGURE for \texttt{bell\_hyper} and \cref{fig:systemload_triangular_v4,fig:clp_triangular_v4,fig:latency_triangular_v4} for \texttt{triangle\_v4}).
+The membership functions of \texttt{triangle\_v4} are much more understandable and interpretable, whereas those of \texttt{bell\_hyper} seem to be a result of overfitting.
 \\
 This evaluation process was instrumental in improving our models and identifying potential problem areas.
 For instance, the model consistently underestimated the CLP for data points 3 and 4, this is shown in the table below.
