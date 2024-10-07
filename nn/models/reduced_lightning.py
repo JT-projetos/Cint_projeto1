@@ -8,6 +8,7 @@ import torch.nn.functional as F
 import torch.utils.data as data_utils
 import pandas as pd
 
+"""test_loss           0.03122357651591301"""
 
 class Net(L.LightningModule):
     def __init__(self):

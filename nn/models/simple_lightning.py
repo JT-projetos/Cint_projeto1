@@ -8,7 +8,6 @@ import torch.nn.functional as F
 import torch.utils.data as data_utils
 import pandas as pd
 
-
 class Net(L.LightningModule):
     def __init__(self):
         super().__init__()
