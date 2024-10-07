@@ -56,8 +56,8 @@ improving process)
 Before we begin defining different system structures with various linguistic variables, terms, and intervals, as well as membership functions, it is essential to establish metrics for evaluating these systems.
 By defining appropriate metrics, we can assess their performance objectively and determine which configurations yield the best results.
 
-To achieve this, we implemented the script \newline \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
-which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
+To achieve this, we implemented the script \texttt{eval\_models.py} (\texttt{fuzzy/eval\_models.py}),
+which utilizes a dictionary to compare all model predictions on 10 expert sample data points provided in \newline \texttt{CINTE24-25\_Proj1\_SampleData.csv}.
 Initially, the relative error metric, defined as:
 
 \begin{equation*}
@@ -92,11 +92,9 @@ Considering that a device with more than 85\% processor load or memory usage is 
 it became clear that this threshold would correspond to a specific term, labeled as ``critical''.
 The ranges for the other membership function terms were distributed between 0 and 1 based on what we deemed appropriate.
 We also decided to keep the terms associated with \textit{CLP} straightforward, using only three terms: ``decrease'', ``increase'', and ``maintain''.
-The values for the membership functions of these terms were distributed between -1 and 1.
+The values for the membership functions of these terms were distributed between -1 and 1. The \cref{fig:memory_usage,fig:processor_load,fig:clp} illustrate the membership functions graphs for these variables.
 
-The figures below illustrate the membership function graphs for these variables.
-
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minipage}{0.32\textwidth}
         \centering
@@ -119,7 +117,7 @@ The figures below illustrate the membership function graphs for these variables.
         \label{fig:clp}
     \end{minipage}
 \end{figure}
-
+\vspace{8mm}
 
 To design the system's rules, we created a truth table, which can be found in~\vref{tab:truthtable}.
 The logic behind the table was as follows: when both \textit{MemoryUsage} and \textit{ProcessorLoad} were either ``low'' or ``medium'', the \textit{CLP} would increase.
@@ -144,7 +142,7 @@ Finally, if any of these variables entered a ``critical'' state, the \textit{CLP
     \label{tab:truthtable}
 \end{table}
 
-\vspace{10mm}
+\vspace{8mm}
 
 To visualize the system's output, we generated 50 data points for \textit{MemoryUsage} and \textit{ProcessorLoad} ranging between 0 and 1.
 We then created an interactive 3D plot that showed the evolution of \textit{CLP} based on these two values, this can be seen in \cref{fig:3d_triangular}.
@@ -155,22 +153,23 @@ By combining these two variables, we simplify the model while still accurately r
 
 \begin{figure}[H]
     \centering
-\includegraphics[scale = 0.8]{../images/3d_triangular}
+\includegraphics[scale = 0.7]{../images/3d_triangular}
 \caption{Fuzzy CLP Inference}
 \label{fig:3d_triangular}
 \end{figure}
 
-\vspace{10mm}
+%\vspace{10mm}
 
 From the graph we also noticed that the \textit{CLP} only varies between -0.5 and 0.5, which is not the desired range; we aim for it to vary between -1 and 1.
 This limitation is due to the configurations of the membership functions for the terms ``increase'' and ``decrease'' of the \textit{CLP}.
 Additionally, two constant plateau regions are visible where the \textit{CLP} remains unchanged: when \textit{MemoryUsage} and \textit{ProcessorLoad} are between 0 and 0.6, and when they are between 0.7 and 0.85, which does not make sense in our context.
 Finally, in the area of the graph where \textit{CLP} is less than -0.2 and \textit{MemoryUsage}/\textit{ProcessorLoad} is greater than 0.6, there is a ``hump'' with no \textit{CLP} values, which is undesirable.
+\newline
 
 Subsequently, we explored the effect of switching the membership functions to a Gaussian distribution because they provide a smoother transition between membership grades.
 To make a direct comparison with the system we previously developed using triangular membership functions, we retained the same linguistic variables, the same terms for these variables, and the same rules as presented in~\cref{tab:truthtable}.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minipage}{0.45\textwidth}
         \centering
@@ -210,9 +209,12 @@ To achieve better results, we decided to add more terms to the linguistic variab
 \label{sec:bell_v9}
 We decided to experiment using a more generic Membership function, so we
 extended simpful's Base Membership Function class and created Bell\_MF [in fuzzy/models/bell\_mf.py].
-The Generalized Bell has parameters $a$, $b$ and $c$ that are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.\\
-After extensive manual iteration the best performing model (\textbf{v9}) has the following linguistic variables and terms illustrated in the following~\cref{fig:bellv9_system_load,fig:bellv9_latency,fig:bellv9_clp}.
-
+The Generalized Bell has parameters $a$, $b$ and $c$ that are responsible for the slope\footnote[1]{The slope of the function is influenced by both parameters $a$ and $b$, where $slope = \frac{a}{2b}$}, width, and center of the function, respectively.
+\newline
+\newline
+First, we decided to combine the variables \textit{ProcessorLoad} and \textit{MemoryUsage} into a single variable: \textit{SystemLoad}, which is defined as the maximum value between these two variables. We chose the maximum value because it allows us to capture the most critical resource constraint affecting system performance. By focusing on the highest load, the system can respond to the most demanding condition, ensuring that performance is not compromised under heavy usage. Then we added two more terms to the CLP variable (``increase\_significantly'' and ``decrease\_significantly'') to capture additional complexity in the model.
+\newline
+After extensive manual iteration the best performing model (\textbf{bell\_v9}) has the following linguistic variables and terms illustrated in the following~\cref{fig:bellv9_system_load,fig:bellv9_latency,fig:bellv9_clp}.
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.32\textwidth}
@@ -243,12 +245,11 @@ This model obtained an \emph{MSE}$=0.0447$ on the expert dataset.
 
 \subsubsection{Bell Hypertuned}
 \label{sec:bell_hyper}
-
-Using the \texttt{bell\_v9} model as a base, including its linguistic variables and rule base, we conducted a thorough hyperparameter tuning of the parameters $a$, $b$, and $c$ of the membership functions.  
+Using the \texttt{bell\_v9} model obtained in section \cref{sec:bell_v9} as a base, including its linguistic variables and rule base, we conducted a thorough hyperparameter tuning of the parameters $a$, $b$, and $c$ of the membership functions.
 This procedure is explained in more detail in the section~\nameref{sec:hyper_tuning}.
 
 After 3 hours of hyperparameter tuning, the resulting \texttt{bell\_hyper} model, comprising a total of 6228 trials, achieved a final total MSE of $0.00749$ (using the 10 expert data points).  
-This corresponds to a six-fold improvement over the manually obtained \emph{MSE} of $0.04473$ for the \texttt{mamdani\_bell\_v9}.
+This corresponds to a six-fold improvement over the manually obtained \emph{MSE} of $0.04473$ for the \texttt{bell\_v9}.
 
 The best hyperparameters from this tuning process were saved as \texttt{hparams\_007.json}.
 The resulting linguistic variables are shown in the following~\cref{fig:bell_hyper_system_load,fig:bell_hyper_latency,fig:bell_hyper_clp}.
@@ -283,10 +284,11 @@ Additionally, for the linguistic variable \emph{CLP} (\cref{fig:bell_hyper_clp})
 These problems are likely the result of overfitting and may also be due to the low number of points in the expert dataset.
 
 
-\subsection{Triangle Version Improved}
+\subsection{Triangle Version Improved (triangle\_v4)}
 
-Starting from the system with triangular membership functions presented in Section~\ref{sec:first_iterations}, we iteratively built a new system.
-First, we decided to combine the variables \textit{ProcessorLoad} and \textit{MemoryUsage} into a single variable: \textit{SystemLoad}, which is defined as the maximum value between these two variables. We chose the maximum value because it allows us to capture the most critical resource constraint affecting system performance. By focusing on the highest load, the system can respond to the most demanding condition, ensuring that performance is not compromised under heavy usage.
+
+Since we believe the model from the previous section is overfitting and some membership functions do not seem logical, we decided to start again from the system with triangular membership functions presented in Section~\ref{sec:first_iterations}, and we iteratively built a new system.
+
 
 
 We decided to assign the same terms we had initially used for the variables \textit{MemoryUsage}/\textit{ProcessorLoad} to the new variable \textit{SystemLoad}, namely: ``low'', ``medium'',``high'', and ``critical.'' As for the output variable, \textit{CLP}, we decided to add two new terms: ``increase\_significantly'' and ``decrease\_significantly''.
@@ -367,7 +369,7 @@ In Figure~\cref{fig:bandwidth_triangular_v4}, the terms and membership functions
 \end{figure}
 
 
-We evaluated the system using the 10 data points provided, this model achieved the lowest Mean Squared Error (MSE) of 0.00735.
+We evaluated the system using the 10 data points provided, this model (\texttt{triangle\_v4}) achieved the lowest Mean Squared Error (MSE) of 0.00735.
 In Figure~\ref{fig:MSE_triangle_v4.png}, a graph illustrates the contribution of each data point to the overall MSE. Notably, points 4, 6, 7, and 8 have the most significant contributions to the error; however, they remain below 0.0016.
 The system behaves as expected, increasing the \textit{CLP} when necessary and decreasing it at appropriate times, while taking into account the constraints of edge computing and the requirements for offloading processing to the cloud.
 
@@ -410,13 +412,13 @@ The script used can be found in \texttt{fuzzy/hyper\_tuning.py} with helper func
 
 \section{Conclusion}
 
-Now we present a more precise examination of the best models: \texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4}.
+Now we present a more precise examination of the best models: \texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{triangle\_v4}.
 What follows is the evaluation using the \emph{MSE} metric for the 10 sample data points, shown in the \vref{fig:mse_3best}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{../images/eval_models/mse_3best}
-\caption{\emph{MSE} of the top 3 performing models (\texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4})}
+\caption{\emph{MSE} of the top 3 performing models (\texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{triangle\_v4})}
 \label{fig:mse_3best}
 \end{figure}
 
@@ -425,13 +427,13 @@ In the next \cref{fig:mse_2best}, we compare only the best two models.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{../images/eval_models/mse_2best}
-\caption{\emph{MSE} of the top 2 performing models (\texttt{bell\_hyper}, and \texttt{trianglev4})}
+\caption{\emph{MSE} of the top 2 performing models (\texttt{bell\_hyper}, and \texttt{triangle\_v4})}
 \label{fig:mse_2best}
 \end{figure}
 
-We can observe that they appear to score similarly, with the total score of \texttt{trianglev4} being slightly better than \texttt{bell\_hyper} ($0.735 < 0.749$).
-However, the membership functions are drastically different (see \cref{fig:bell_hyper_system_load,fig:bell_hyper_latency,fig:bell_hyper_clp} for \texttt{bell\_hyper} and \cref{fig:systemload_triangular_v4,fig:clp_triangular_v4,fig:latency_triangular_v4} for \texttt{trianglev4}).
-The membership functions of \texttt{trianglev4} are much more understandable and interpretable, whereas those of \texttt{bell\_hyper} seem to be a result of overfitting.
+We can observe that they appear to score similarly, with the total score of \texttt{triangle\_v4} being slightly better than \texttt{bell\_hyper} ($0.735 < 0.749$).
+However, the membership functions are drastically different (see \cref{fig:bell_hyper_system_load,fig:bell_hyper_latency,fig:bell_hyper_clp} for \texttt{bell\_hyper} and \cref{fig:systemload_triangular_v4,fig:clp_triangular_v4,fig:latency_triangular_v4} for \texttt{triangle\_v4}).
+The membership functions of \texttt{triangle\_v4} are much more understandable and interpretable, whereas those of \texttt{bell\_hyper} seem to be a result of overfitting.
 \begin{comment}
 This evaluation process was instrumental in improving our models and identifying potential problem areas.
 For instance, the model consistently underestimated the CLP for data points 3 and 4, this is shown in the table below.
@@ -466,7 +468,7 @@ The best model, \texttt{mamdani\_best}, emerged as the result of extensive hyper
 
 \section{Architecture}
 
-To build the neural network, we decided to use a simple architecture: 3 layers, 12 input nodes, 32 nodes in the hidden layer, and 1 output node.
+To build the neural network, we decided to use a simple architecture: 3 layers (one input layer, one hidden layer and one output layer), 12 input nodes, 32 nodes in the hidden layer, and 1 output node.
 Since the output should be in the range \([-1, 1]\), we chose the \emph{Tanh} activation function, which produces values within this range.
 For the optimizer, we used Adam with a learning rate of $1 \times 10^{-3}$, leaving the rest of the parameters at their default values: $\epsilon = 1 \times 10^{-8}$, $\beta = (0.9, 0.999)$, and \texttt{weight\_decay} = 0.
 For the loss function, we chose MSE, allowing us to directly compare the results with those of the Fuzzy System.
