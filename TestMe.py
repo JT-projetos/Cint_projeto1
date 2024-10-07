@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from nn.models.simple_lightning import Net
 import torch
-from fuzzy.models.mamdani_bell_hyper import FS
+from fuzzy.models.mamdani_triangle_v4 import FS
 from nn.classification.generate_data import classify
 
 
@@ -13,7 +13,7 @@ def mse(y_true, y_pred):
 
 
 SHOW_LATEX = False
-SHOW_BAR_PLOT = False
+SHOW_BAR_PLOT = True
 SHOW_CONF_MATRIX = True
 
 parser = argparse.ArgumentParser(
@@ -68,7 +68,7 @@ df_result.to_csv('TestResult.csv', index=False)
 print(df_result.head(10))
 if SHOW_LATEX:
     print("Test Results")
-    print(df_result.to_latex(index=False, float_format='%.3f'))
+    print(df_result.to_latex(index=False, float_format='%.4f'))
 
 if SHOW_BAR_PLOT:
     from fuzzy.visualization import plot_model_scores
