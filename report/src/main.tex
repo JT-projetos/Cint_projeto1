@@ -18,7 +18,8 @@
 %\usepackage{nameref}
 
 \usepackage[symbol]{footmisc}
-
+\usepackage{comment}
+\usepackage{microtype}
 
 %% Custom commands
 \newcommand*\apos{\textsc{\char13}}
@@ -241,6 +242,8 @@ After extensive manual iteration the best performing model (\textbf{v9}) has the
 This model obtained an \emph{MSE}$=0.0447$ on the expert dataset.
 
 \subsubsection{Bell Hypertuned}
+\label{sec:bell_hyper}
+
 Using the \texttt{bell\_v9} model as a base, including its linguistic variables and rule base, we conducted a thorough hyperparameter tuning of the parameters $a$, $b$, and $c$ of the membership functions.  
 This procedure is explained in more detail in the section~\nameref{sec:hyper_tuning}.
 
@@ -384,13 +387,14 @@ The system behaves as expected, increasing the \textit{CLP} when necessary and d
 \label{sec:hyper_tuning}
 
 %Since we had manually iterated until a good model was reached, scoring 0.0447 in total MSE on the 10 sample data points, we considered the linguistic variables and rule base as fixed.
-However, we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
+This section explains in detail the methodology used for developing the \texttt{bell\_hyper} model (\cref{sec:bell_hyper}) from the membership functions and rule base of \texttt{bell\_v9} (\cref{sec:bell_v9}).
+The idea of using hyperparameter tuning arose when we found ourselves tirelessly fine-tuning the membership functions, such as the center, slope, and width in the case of the bell membership function.
 To automate this process, we took the following steps:
 
 \begin{itemize}
-    \item Create a \texttt{FuzzySystem} from a set of hyperparameters [\texttt{fuzzy/models/mamdani\_hparams.py}].
+    \item Create a \texttt{FuzzySystem} dynamically from a set of hyperparameters~[\texttt{fuzzy/models/mamdani\_hparams.py}].
     \item Define an objective function to minimize/maximize.
-          In our case, we used the total MSE of the 10 sample data points as the objective value to be minimized.
+          In our case, we used the total \emph{MSE} of the 10 sample data points as the objective value to be minimized.
     \item Sample several hyperparameter trials and find the best.
           This was done with the help of the Python framework \texttt{optuna}, which uses Bayesian Optimization to find optimal hyperparameters.
 \end{itemize}
@@ -399,21 +403,20 @@ A simpler approach would have been to use \texttt{RandomSearch} or \texttt{GridS
 However, we chose to leverage \texttt{optuna}\apos s search algorithm, Tree Parzen Estimation (TPE).
 In a nutshell, TPE builds an internal model that makes ``educated'' guesses about which hyperparameters to test and continuously updates that model.
 The search is then performed in a tree-like manner, and \texttt{optuna} can handle both continuous and categorical data.
-
-After 3 hours of hyperparameter tuning, the \texttt{mamdani\_bell\_v9} model, comprising a total of 6228 trials, achieved a final total MSE of $0.00749$.
-This corresponds to a six-fold improvement over the manually obtained $MSE$ of $0.04473$.
-The best hyperparameters from this tuning process were saved as \texttt{hparams\_007.json}.
-
+The script used can be found in \texttt{fuzzy/hyper\_tuning.py} with helper functions in \texttt{fuzzy/hparams\_helper.py}.
+%After 3 hours of hyperparameter tuning, the \texttt{mamdani\_bell\_v9} model, comprising a total of 6228 trials, achieved a final total MSE of $0.00749$.
+%This corresponds to a six-fold improvement over the manually obtained $MSE$ of $0.04473$.
+%The best hyperparameters from this tuning process were saved as \texttt{hparams\_007.json}.
 
 \section{Conclusion}
 
 Now we present a more precise examination of the best models: \texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4}.
-What follows is the evaluation using the MSE metric for the 10 sample data points, shown in the \vref{fig:mse_3best}.
+What follows is the evaluation using the \emph{MSE} metric for the 10 sample data points, shown in the \vref{fig:mse_3best}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{../images/eval_models/mse_3best}
-\caption{MSE of the top 3 performing models (\texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4})}
+\caption{\emph{MSE} of the top 3 performing models (\texttt{bellv9}, \texttt{bell\_hyper}, and \texttt{trianglev4})}
 \label{fig:mse_3best}
 \end{figure}
 
@@ -422,14 +425,14 @@ In the next \cref{fig:mse_2best}, we compare only the best two models.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{../images/eval_models/mse_2best}
-\caption{MSE of the top 2 performing models (\texttt{bell\_hyper}, and \texttt{trianglev4})}
+\caption{\emph{MSE} of the top 2 performing models (\texttt{bell\_hyper}, and \texttt{trianglev4})}
 \label{fig:mse_2best}
 \end{figure}
 
 We can observe that they appear to score similarly, with the total score of \texttt{trianglev4} being slightly better than \texttt{bell\_hyper} ($0.735 < 0.749$).
-However, the membership functions are drastically different (see FIGURE for \texttt{bell\_hyper} and \cref{fig:systemload_triangular_v4,fig:clp_triangular_v4,fig:latency_triangular_v4} for \texttt{trianglev4}).
+However, the membership functions are drastically different (see \cref{fig:bell_hyper_system_load,fig:bell_hyper_latency,fig:bell_hyper_clp} for \texttt{bell\_hyper} and \cref{fig:systemload_triangular_v4,fig:clp_triangular_v4,fig:latency_triangular_v4} for \texttt{trianglev4}).
 The membership functions of \texttt{trianglev4} are much more understandable and interpretable, whereas those of \texttt{bell\_hyper} seem to be a result of overfitting.
-\\
+\begin{comment}
 This evaluation process was instrumental in improving our models and identifying potential problem areas.
 For instance, the model consistently underestimated the CLP for data points 3 and 4, this is shown in the table below.
 
@@ -455,10 +458,10 @@ Many more iterations were tested but not preserved.
 Some of the deprecated models can still be found in the \texttt{fuzzy/models/deprecated} folder, along with their outputs in \texttt{fuzzy/output/deprecated}.
 
 The best model, \texttt{mamdani\_best}, emerged as the result of extensive hyperparameter tuning, which is discussed in detail in the~\nameref{sec:hyper_tuning} section.
+\end{comment}
 
 
-
-
+\newpage
 \part{Neural Networks}
 
 \section{Architecture}
@@ -468,7 +471,7 @@ Since the output should be in the range \([-1, 1]\), we chose the \emph{Tanh} ac
 For the optimizer, we used Adam with a learning rate of $1 \times 10^{-3}$, leaving the rest of the parameters at their default values: $\epsilon = 1 \times 10^{-8}$, $\beta = (0.9, 0.999)$, and \texttt{weight\_decay} = 0.
 For the loss function, we chose MSE, allowing us to directly compare the results with those of the Fuzzy System.
 
-We implemented the neural network using the PyTorch framework alongside \newline \texttt{pytorch\_lightning}.
+We implemented the neural network using the PyTorch framework alongside \texttt{pytorch\_lightning}.\\
 This made it easy to integrate TensorBoard for logging and visualization, apply Early Stopping to prevent unnecessary computation, and enable Model Checkpointing to save the best-performing model.
 This code can be found in the \texttt{nn/models/simple\_lightning.py} file.
 
