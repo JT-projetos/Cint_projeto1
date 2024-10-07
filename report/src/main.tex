@@ -547,19 +547,18 @@ because the sample data has a column with the ``True'' \emph{CLPVariation}.
         \toprule
         CLPVariation FS & CLPVariation NN & FS label & NN label & MSE FS & MSE NN \\
         \midrule
-        0.790           & 0.744           & Increase & Increase & 0.000  & 0.001  \\
-        0.838           & 0.891           & Increase & Increase & 0.000  & 0.000  \\
-        0.748           & 0.623           & Increase & Increase & 0.000  & 0.003  \\
-        0.750           & 0.342           & Increase & Increase & 0.000  & 0.015  \\
-        0.518           & 0.646           & Increase & Increase & 0.000  & 0.002  \\
-        0.119           & 0.088           & Maintain & Maintain & 0.000  & 0.000  \\
-        -0.473          & -0.182          & Decrease & Maintain & 0.003  & 0.002  \\
-        -0.473          & -0.495          & Decrease & Decrease & 0.003  & 0.002  \\
-        -0.898          & -0.792          & Decrease & Decrease & 0.001  & 0.000  \\
-        -0.911          & -0.963          & Decrease & Decrease & 0.000  & 0.001  \\
+        0.7676          & 0.7442          & Increase & Increase & 0.0007 & 0.0011 \\
+        0.8520          & 0.8911          & Increase & Increase & 0.0000 & 0.0002 \\
+        0.8606          & 0.6227          & Increase & Increase & 0.0004 & 0.0031 \\
+        0.8561          & 0.3420          & Increase & Increase & 0.0016 & 0.0151 \\
+        0.5667          & 0.6459          & Increase & Increase & 0.0004 & 0.0021 \\
+        -0.0000         & 0.0876          & Maintain & Maintain & 0.0014 & 0.0001 \\
+        -0.4205         & -0.1818         & Decrease & Maintain & 0.0012 & 0.0016 \\
+        -0.7677         & -0.4950         & Decrease & Decrease & 0.0014 & 0.0024 \\
+        -0.8641         & -0.7922         & Decrease & Decrease & 0.0002 & 0.0001 \\
+        -0.8673         & -0.9626         & Decrease & Decrease & 0.0000 & 0.0013 \\
         \bottomrule
-    \end{tabular}
-    \caption{Results Table}
+    \end{tabular}    \caption{Results Table}
     \label{tab:final_results}
 \end{table}
 
@@ -574,9 +573,9 @@ To aid in interpreting the \emph{MSE} results of the Fuzzy System (FS) and Neura
 \end{figure}
 
 We observe that the Fuzzy System (FS) generally performs better than the Neural Network (NN), as expected, since the FS was used to train the NN.
-The best possible outcome would be for the NN to perform exactly like the FS. \\
-If we ``normalize'' the NN MSE as such: $\overline{\text{MSE}}_{\text{NN}}=\text{MSE}_{\text{NN}} - \text{MSE}_{\text{FS}}$
-we obtain $\overline{MSE}_{\text{NN}}=0.02$ which is very close to the test loss obtained ($0.0279$).
+The best possible outcome would be for the NN to perform exactly like the FS because the error is propagated.
+If we ``normalize'' the NN MSE to try to remove the FS error contribution as such: $\overline{\text{MSE}}_{\text{NN}}=\text{MSE}_{\text{NN}} - \text{MSE}_{\text{FS}}$
+we obtain $\overline{MSE}_{\text{NN}}=0.02$ This is very close to the test loss obtained ($0.0279$), demonstrating that the Neural Network is performing as expected.
 
 \section{Classification Results}
 To help interpret the classification results, the following~\nameref{fig:conf_matrix_final} and~\cref{tab:scores_final} presents the results and their precision, recall, and F1 score, respectively.
