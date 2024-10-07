@@ -86,14 +86,15 @@ if SHOW_CONF_MATRIX:
     # Scale up the size of all text
     sns.set(font_scale=1.1)
 
+    labels=['Decrease', 'Maintain', 'Increase']
     ax = sns.heatmap(conf_matrix, annot=True, fmt='d', )
     # set x-axis label and ticks.
     ax.set_xlabel("Neural Network Label", fontsize=14, labelpad=20)
-    ax.xaxis.set_ticklabels(df['CLP_label_FS'].unique())
+    ax.xaxis.set_ticklabels(labels)
 
     # set y-axis label and ticks
     ax.set_ylabel("Fuzzy System Label", fontsize=14, labelpad=20)
-    ax.yaxis.set_ticklabels(df['CLP_label_FS'].unique())
+    ax.yaxis.set_ticklabels(labels)
 
     # set plot title
     ax.set_title("Confusion Matrix for Neural Network Classification", fontsize=14, pad=20)
