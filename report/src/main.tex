@@ -534,7 +534,7 @@ Utilizing the \texttt{TestMe.py} script on the sample data, results in the follo
 \begin{itemize}
     \item Fuzzy System Prediction
     \item Neural Network Prediction
-    \item Fuzzy System Classification Label (NN ground truth)
+    \item Fuzzy System Classification Label (used as NN ground truth)
     \item Neural Network Classification Label
 \end{itemize}
 These are shown in the~\cref{tab:final_results}. \\
@@ -562,8 +562,10 @@ because the sample data has a column with the ``True'' \emph{CLPVariation}.
     \label{tab:final_results}
 \end{table}
 
-\section{Regression Results}
-To aid in interpreting the \emph{MSE} results of the Fuzzy System (FS) and Neural Network (NN) predictions, the following \cref{fig:mse_fs_nn} is shown below.
+The following section will focus on analyzing the FS vs.\ NN MSE results and FS vs.\ NN Classification results.
+
+\section{FS vs.\ NN MSE Results}
+To aid in interpreting the \emph{MSE} results the following \cref{fig:mse_fs_nn} is shown below.
 
 \begin{figure}[H]
     \centering
@@ -577,7 +579,7 @@ The best possible outcome would be for the NN to perform exactly like the FS bec
 If we ``normalize'' the NN MSE to try to remove the FS error contribution as such: $\overline{\text{MSE}}_{\text{NN}}=\text{MSE}_{\text{NN}} - \text{MSE}_{\text{FS}}$
 we obtain $\overline{MSE}_{\text{NN}}=0.02$ This is very close to the test loss obtained ($0.0279$), demonstrating that the Neural Network is performing as expected.
 
-\section{Classification Results}
+\section{FS vs.\ NN Classification Results}
 To help interpret the classification results, the following~\nameref{fig:conf_matrix_final} and~\cref{tab:scores_final} presents the results and their precision, recall, and F1 score, respectively.
 
 \begin{figure}[H]
@@ -597,6 +599,20 @@ To help interpret the classification results, the following~\nameref{fig:conf_ma
         \end{table}
     \end{minipage}
 \end{figure}
+
+\begin{comment}
+We observe that the F1 score is highest for the \emph{Maintain} class, followed by \emph{Decrease} and \emph{Increase}. \\
+This suggests that future improvements should focus on the \emph{Increase} class, as it was the least performant. \\
+
+Analyzing the recall value for \emph{Decrease} in more detail, this corresponds to the inverse of the Type II error rate, meaning that the Neural Network would fail to classify the CLP as \emph{Decrease} when it should. \\
+
+Similarly, analyzing the precision value for \emph{Increase}, precision is related to the Type I error rate but in a more complex manner, as it also depends on the prior distribution of encountering a relevant vs.\ irrelevant item.
+This indicates that the Neural Network is more likely to classify the CLP as \emph{Increase} when it shouldn\apos t (a False Positive).
+\end{comment}
+
+The neural network performs perfectly for the \emph{Maintain} class, as indicated by the confusion matrix and a perfect F1-score of 1.00.
+The model performs well for the \emph{Decrease} class, with strong precision but slightly lower recall, suggesting it missed some \emph{Decrease} instances.
+The \emph{Increase} class has a high recall but low precision, meaning it correctly identifies all true instances of \emph{Increase} but also misclassifies other labels as \emph{Increase} too often.
 
 
 
