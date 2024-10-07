@@ -492,7 +492,7 @@ We decided to generate a number of samples equal to an order of magnitude above 
 
 \section{Classification}
 
-To use the neural network as a classifier, we first defined the ground truth intervals as \([-1, -0.25[\) for \emph{Decrease}, \([-0.25, 0.25[\) for \emph{Maintain}, and \([0.25, 1]\) for \emph{Increase}, based on the CLP linguistic variable intervals as shown in~\cref{fig:triangle_v4_clp_repeated}.
+To use the neural network as a classifier, we first defined the ground truth intervals as \([-1, -0.25]\) for \emph{Decrease}, \(]-0.25, 0.25[\) for \emph{Maintain}, and \(]0.25, 1]\) for \emph{Increase}, based on the CLP linguistic variable intervals as shown in~\cref{fig:triangle_v4_clp_repeated}.
 
 \begin{figure}[H]
     \centering
@@ -517,9 +517,9 @@ The confusion matrix heatmap showing these results is \cref{fig:confusion_matrix
 \begin{minipage}{0.4\textwidth}
 \begin{table}[H]
     \centering
+    \include{classification_scores_table}
     \caption{Classification  Precision, Recall, and F1-score}
     \label{tab:classification_scores}
-    \include{classification_scores_table}
 \end{table}
 \end{minipage}
 
@@ -538,8 +538,6 @@ Additionally, the Mean Squared Error (MSE) of the Fuzzy System and the Neural Ne
 
 \begin{table}[H]
     \centering
-    \caption{Results Table}
-    \label{tab:final_results}
     \begin{tabular}{rrllrr}
         \toprule
         CLPVariation FS & CLPVariation NN & CLP label FS & CLP label NN & MSE FS & MSE NN \\
@@ -556,6 +554,8 @@ Additionally, the Mean Squared Error (MSE) of the Fuzzy System and the Neural Ne
         -0.911          & -0.963          & Decrease     & Decrease     & 0.000  & 0.001  \\
         \bottomrule
     \end{tabular}
+    \caption{Results Table}
+    \label{tab:final_results}
 \end{table}
 
 To aid in interpreting the \emph{MSE} results of the Fuzzy System (FS) and Neural Network (NN) predictions, the following \cref{fig:mse_fs_nn} is shown below.
@@ -567,7 +567,7 @@ To aid in interpreting the \emph{MSE} results of the Fuzzy System (FS) and Neura
     \label{fig:mse_fs_nn}
 \end{figure}
 
-Classification
+To help interpret the classification results, the following~\nameref{fig:conf_matrix_final} and~\cref{tab:scores_final} presents the results and precision, recall, and F1 score, respectively.
 
 \begin{figure}[H]
     \centering
@@ -580,9 +580,9 @@ Classification
     \begin{minipage}{0.4\textwidth}
         \begin{table}[H]
             \centering
+            \include{final_scores_table}
             \caption{Classification Precision, Recall and F1-Score}
             \label{tab:scores_final}
-            \include{final_scores_table}
         \end{table}
     \end{minipage}
 \end{figure}
