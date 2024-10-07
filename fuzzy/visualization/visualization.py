@@ -133,6 +133,7 @@ def plot_model_scores(file_path_or_df: str | pd.DataFrame):
     #print(df)
     ax = sns.barplot(data=df, x='Datapoint', y='Relative Error', hue='Model')
     ax.set_ylabel('Mean Squared Error')
+    plt.tight_layout()
     plt.show()
 
 def plot_mse_scores(df):
