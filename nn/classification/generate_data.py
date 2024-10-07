@@ -3,18 +3,20 @@ import pandas as pd
 
 def classify(num) -> str:
     """Classify as {'Decrease', 'Increase', 'Maintain'} based on NN output (CLP)"""
-    if -1 <= num <= 0.3:
+    if -1 <= num <= -0.25:
         return 'Decrease'
-    elif 0.3 < num <= 0.5:
+    elif -0.25 < num <= 0.25:
         return 'Maintain'
-    elif 0.5 < num <= 1:
+    elif 0.25 < num <= 1:
         return 'Increase'
     else:
         raise ValueError("CLPVariation should be [-1, 1]")
 
 
-input_file = '../../gen_input/uniform100000.csv'
-output_file = '../../gen_input/uniform100000_class.csv'
+# input_file = '../../gen_input/bell_hyper_uniform100000.csv'
+# output_file = '../../gen_input/bell_hyper_uniform100000_class.csv'
+input_file = '../../gen_input/trianglev4_uniform10000.csv'
+output_file = '../../gen_input/trianglev4_uniform10000_class.csv'
 
 df = pd.read_csv(input_file, nrows=100000)
 

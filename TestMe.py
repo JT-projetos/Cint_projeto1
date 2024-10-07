@@ -1,17 +1,17 @@
 import argparse
+
+import numpy as np
 import pandas as pd
 from nn.models.simple_lightning import Net
 import torch
-import os
-import pickle
 from fuzzy.models.mamdani_best import FS
-
+from nn.classification.nn_classify import classify
 
 def mse(y_true, y_pred):
     return ((y_true - y_pred)**2)/len(y_true)
 
 
-SHOW_LATEX = False
+SHOW_LATEX = True
 SHOW_BAR_PLOT = True
 
 parser = argparse.ArgumentParser(
@@ -51,9 +51,9 @@ nn_results = model(torch.Tensor(df[list(required_columns)].values)).detach().num
 df_results = {
     'CLPVariation_FS': fs_results,
     'CLPVariation_NN': nn_results,
-    # TODO add NN Classification {increase, decrease, maintain}
 
-    # TODO? add NN classification groundtruth
+    'CLP_label_FS': np.array([classify(x) for x in fs_results]),
+    'CLP_label_NN': np.array([classify(x) for x in nn_results]),
 }
 
 if 'CLPVariation' in df.columns:

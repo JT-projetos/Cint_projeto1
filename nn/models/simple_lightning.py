@@ -63,7 +63,7 @@ if __name__ == '__main__':
     # -------------------
     # Step 2: Define data
     # -------------------
-    df = pd.read_csv('../../gen_input/uniform10000.csv')
+    df = pd.read_csv('../../gen_input/trianglev4_uniform10000.csv')
     #df = pd.read_csv('../../input/CINTE24-25_Proj1_SampleData.csv')
 
     train, test = train_test_split(df, test_size=0.2)

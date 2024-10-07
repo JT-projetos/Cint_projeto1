@@ -12,8 +12,8 @@ from generate_data import classify
 
 DO_LABELS = True
 
-input_file = '../../gen_input/uniform100000_class.csv'
-output_file = './uniform100000_class_performance.csv'
+input_file = '../../gen_input/trianglev4_uniform10000_class.csv'
+output_file = './trianglev4_uniform10000_class_performance.csv'
 required_columns = ('MemoryUsage', 'ProcessorLoad', 'InpNetThroughput', 'OutNetThroughput', 'OutBandwidth', 'Latency',
                     'V_MemoryUsage', 'V_ProcessorLoad', 'V_InpNetThroughput', 'V_OutNetThroughput', 'V_OutBandwidth', 'V_Latency')
 
@@ -22,7 +22,7 @@ if not os.path.exists(output_file) or DO_LABELS:
     df = pd.read_csv(input_file)
 
     # load NN model
-    model = Net.load_from_checkpoint("../final_model/simple-epoch=85-val_loss=0.02.ckpt")
+    model = Net.load_from_checkpoint("../final_model/trianglev4-epoch=172-val_loss=0.03.ckpt")
 
     # disable randomness, dropout, etc...
     model.eval()
