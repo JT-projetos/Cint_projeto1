@@ -500,11 +500,9 @@ These results indicate that the Neural Network has not overfitted and is general
 To use the neural network as a classifier, we first defined the ground truth intervals as \([-1, -0.25]\) for \emph{Decrease}, \(]-0.25, 0.25[\) for \emph{Maintain}, and \(]0.25, 1]\) for \emph{Increase}, based on the CLP linguistic variable intervals from the model \texttt{triangle\_v4}.\\
 Then, using these intervals, we labeled the training, validation, and test data.
 The classification results are shown in the following heatmap~(\cref{fig:confusion_matrix_heatmap}) and the Neural Network performance in the following~\cref{tab:classification_scores}.
-
 %Using these intervals of the model \texttt{triangle\_v4}, we labeled the training, validation, and test data for the neural network using .
 %Next, we labeled the data again using the same intervals but with the results predicted by the neural network.
 %The confusion matrix heatmap showing these results is \cref{fig:confusion_matrix_heatmap}.
-
 \begin{figure}[H]
 \centering
 \begin{minipage}{0.55\textwidth}
@@ -524,7 +522,7 @@ The classification results are shown in the following heatmap~(\cref{fig:confusi
 
 \end{figure}
 
-%To gain a better understanding of the neural networks performance, we calculated the Precision, Recall, and F1-score, which are shown in the table below.
+
 
 
 \newpage
