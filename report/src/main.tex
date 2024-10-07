@@ -468,7 +468,7 @@ The best model, \texttt{mamdani\_best}, emerged as the result of extensive hyper
 
 \section{Architecture}
 
-To build the neural network, we decided to use a simple architecture: 3 layers, 12 input nodes, 32 nodes in the hidden layer, and 1 output node.
+To build the neural network, we decided to use a simple architecture: 3 layers (one input layer, one hidden layer and one output layer), 12 input nodes, 32 nodes in the hidden layer, and 1 output node.
 Since the output should be in the range \([-1, 1]\), we chose the \emph{Tanh} activation function, which produces values within this range.
 For the optimizer, we used Adam with a learning rate of $1 \times 10^{-3}$, leaving the rest of the parameters at their default values: $\epsilon = 1 \times 10^{-8}$, $\beta = (0.9, 0.999)$, and \texttt{weight\_decay} = 0.
 For the loss function, we chose MSE, allowing us to directly compare the results with those of the Fuzzy System.
