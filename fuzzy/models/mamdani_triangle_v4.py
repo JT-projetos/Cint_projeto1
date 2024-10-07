@@ -65,7 +65,7 @@ if __name__ == '__main__':
     import pickle
     from fuzzy.visualization import *
 
-    save_path= '../output/mamdani_gaussian_v4'
+    save_path = '../output/mamdani_triangular_v4'
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)
@@ -73,5 +73,5 @@ if __name__ == '__main__':
     plot_inputs_outputs_fuzzy_system(FS, save_path)
     plot_memory_processor_clp(FS, save_path)
 
-    with open(f"{save_path}/model.pkl", "wb") as f:
-        pickle.dump(FS, f)
+    #with open(f"{save_path}/model.pkl", "wb") as f:
+    #    pickle.dump(FS, f)
