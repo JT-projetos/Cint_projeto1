@@ -490,7 +490,7 @@ We followed the rule of thumb that ``a model will often need ten times more data
 Our model has 449 trainable parameters and 12 input features, which means our training data should consist of more than $4610$ samples.
 We decided to generate a number of samples equal to an order of magnitude above 4610 rounded up, which results in $10,000$ samples.
 
-\section{Regression}
+\section{Evaluation}
 
 The trained Neural Network was trained for $172$ epochs, achieving a validation loss of $0.03$ and a test loss of $0.0279$. \\
 These results indicate that the Neural Network has not overfitted and is generalizing well.
@@ -523,6 +523,9 @@ The classification results are shown in the following heatmap~(\cref{fig:confusi
 \end{figure}
 
 
+From~\cref{fig:confusion_matrix_heatmap} we observe that the classifier handles \emph{Maintain} best, with high precision, recall, and F1-score.
+Performance for \emph{Decrease} is good but slightly weaker, as some instances are missed.
+\emph{Increase} is the most challenging label for the classifier, with lower precision, indicating it misclassifies other labels as \emph{Increase} too often, even though its recall is decent.
 
 
 \newpage
@@ -560,7 +563,7 @@ because the sample data has a column with the ``True'' \emph{CLPVariation}.
     \label{tab:final_results}
 \end{table}
 
-The following section will focus on analyzing the FS vs.\ NN MSE results and FS vs.\ NN Classification results.
+The following sections will focus on analyzing the FS vs.\ NN MSE results and FS vs.\ NN Classification results.
 
 \section{FS vs.\ NN MSE Results}
 To aid in interpreting the \emph{MSE} results the following \cref{fig:mse_fs_nn} is shown below.
